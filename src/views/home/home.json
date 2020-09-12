@@ -1,0 +1,9 @@
+{"data": {
+    "router": [
+      {
+        "path": "/error404",
+        "component": "()=>import('@/components/error_page/404.vue')",
+        "name":"error_404"
+      }
+    ]
+  }}
