@@ -28,10 +28,7 @@ export default new Router({
       name: 'login',
       component: login,
     },
-    {
-      path: '',
-      redirect: '/home'
-    },
+
     {
       path: '/',
       name: 'asetgeografis',
@@ -41,12 +38,12 @@ export default new Router({
       },
       component: home,
       children: [{
-          path: 'supervision',
-          name: 'supervision',
+          path: '/asetgeografis',
+          name: 'asetgeografis',
           meta: {
             title: '地理资产'
           },
-          component: supervision
+          component: asetgeografis
         },
         {
           path: '/watthourmeter',

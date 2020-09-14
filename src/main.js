@@ -4,7 +4,6 @@ import './css/base.css'
 import './css/style.css'
 import Vue from 'vue'
 import App from './App'
-import './config/rem.js'
 import router from './router'
 Vue.config.productionTip = true
 import axios from './js/axios_config.js';
