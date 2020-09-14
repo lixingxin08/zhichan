@@ -1,128 +1,65 @@
 <template>
   <div class="ismap">
     <div id="map-container" class="map"></div>
-    <a-table
-      :columns="columns"
-      :data-source="data"
-      class="maplist"
-      bordered
-      :customHeaderRow="headstyle"
-    >
-      <a slot="name" slot-scope="text">{{ text }}</a>
-    </a-table>
   </div>
 </template>
 
 <script>
 import AMap from "AMap";
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park, New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 2 Lake Park, London No. 2 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park, Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
-
 export default {
   name: "map.vue",
   data() {
-    return {
-      data,
-      columns: [
-        {
-          title: "警报时间",
-          dataIndex: "name",
-          key: "name",
-          className: "table_list",
-          scopedSlots: { customRender: "name111" },
-          customHeaderCell: this.headstyle,
-          width: 120,
-        },
-        {
-          title: "设备名称",
-          dataIndex: "age",
-          key: "age",
-          className: "table_list",
-          width: 88,
-          customHeaderCell: this.headstyle,
-        },
-        {
-          title: "所属区域",
-          dataIndex: "address",
-          key: "address 1",
-          ellipsis: true,
-          className: "table_list",
-          customHeaderCell: this.headstyle,
-          width: 88,
-        },
-        {
-          title: "警报类型",
-          dataIndex: "address",
-          key: "address 2",
-          ellipsis: true,
-          className: "table_list",
-          width: 88,
-          customHeaderCell: this.headstyle,
-        },
-        {
-          title: "警报内容",
-          dataIndex: "address",
-          key: "address 3",
-          ellipsis: true,
-          className: "table_list",
-          width: 88,
-          customHeaderCell: this.headstyle,
-        },
-      ],
-    };
+    return {};
   },
   mounted() {
+  if (navigator.geolocation) {
+   var n = navigator.geolocation.getCurrentPosition(function(res){
+       console.log(res,2222); // 需要的坐标地址就在res中
+   });
+} else {
+    alert('该浏览器不支持定位');
+}
     this.init();
   },
   methods: {
     init() {
+      let _that = this;
       const map = new AMap.Map("map-container", {
-        zoom: 11,
-        center: [116.397428, 39.90923],
-        viewMode: "3D",
+        zoom: 13,
+        center:'',
+        viewMode: "2D",
       });
-      map.plugin(["AMap.ToolBar", "AMap.MapType"], function () {
+      map.plugin(["AMap.ToolBar", "AMap.Geolocation"], function () {
         map.addControl(new AMap.ToolBar());
-        map.addControl(
-          new AMap.MapType({ showTraffic: false, showRoad: false },hide())
-        );
+    let    geolocation = new AMap.Geolocation({
+          enableHighAccuracy: true, //是否使用高精度定位，默认:true
+          timeout: 10000, //超过10秒后停止定位，默认：无穷大
+          maximumAge: 0, //定位结果缓存0毫秒，默认：0
+          convert: false, //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+          showButton: true, //显示定位按钮，默认：true
+          buttonPosition: "LB", //定位按钮停靠位置，默认：'LB'，左下角
+          buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
+          showCircle: true, //定位成功后用圆圈表示定位精度范围，默认：true
+          panToLocation: true, //定位成功后将定位到的位置作为地图中心点，默认：true
+          zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, "complete", _that.onComplete); //返回定位信息
+        AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
+
+           map.on('zoomchange', ()=>{
+              var iszoom = map.getZoom()
+              console.log(iszoom);
+           });
       });
     },
-    headstyle(record, rowIndex) {
-      return {
-        style: {
-          color: "#fff",
-          background: "#1890FF!important",
-          "font-size": "16px",
-          "text-align": "center",
-          "light-height": "100%",
-          "padding-left": "0",
-          "padding-right": "0",
-          "padding-top": "8px",
-          "padding-bottom": "7px",
-        },
-      };
+    onComplete(success) {
+      console.log(success);
+    },
+    onError(error) {
+      console.log(error);
     },
   },
 };
@@ -131,7 +68,7 @@ export default {
 <style scoped>
 .ismap {
   width: 1392px;
-  height: 8.6rem;
+  height: 560px;
   position: relative;
 }
 .map {

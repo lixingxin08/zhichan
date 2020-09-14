@@ -13,6 +13,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "xlsx": "^0.15.1",
+    "file-saver": "^2.0.2",
+    "script-loader": "^0.7.2",
     "ant-design-vue": "^1.6.2",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",

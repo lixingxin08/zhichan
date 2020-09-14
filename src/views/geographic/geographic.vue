@@ -1,31 +1,27 @@
 <template>
   <div class="supervisionhome">
-    <is-top></is-top>
     <div class="content flex_fs">
       <div class="changlist" @click="changelist()">切换列表</div>
       <is-left></is-left>
       <is-map v-show="listtype"></is-map>
-      <is-list v-show="!listtype"></is-list>
     </div>
   </div>
 </template>
 <script>
-import isTop from "./top/top";
-import isList from "./list/list";
 import isLeft from "./content/left";
 import isMap from "./content/map";
+import {Mixin1} from '../../utils/mixins'
 export default {
   name:"supervision",
+  mixins: [Mixin1],
   data() {
     return {
       listtype: true,
     };
   },
   components: {
-    isTop,
     isLeft,
     isMap,
-    isList
   },
   methods: {
     changelist(){
