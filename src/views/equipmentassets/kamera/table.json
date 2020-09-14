@@ -1,0 +1,59 @@
+{
+  "tableTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
+      "align": "center",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "摄像头名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "className"
+    },
+    {
+      "title": "摄像头编号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "classCode"
+    },
+    {
+      "title": "摄像头型号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "grade"
+    },
+    {
+      "title": "接入协议类型",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName"
+    },
+    {
+      "title": "路灯杆名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode"
+    },
+    {
+      "title": "摄像头状态",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode2"
+    },
+ 
+    {
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ]
+
+}

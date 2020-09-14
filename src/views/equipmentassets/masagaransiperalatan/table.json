@@ -1,0 +1,72 @@
+{
+  "tableTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
+      "align": "center",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "归属项目",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "className"
+    },
+    {
+      "title": "项目阶段",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "classCode"
+    },
+    {
+      "title": "设备类型",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "grade"
+    },
+
+
+    {
+      "title": "设备型号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode2"
+    },
+    {
+      "title": "总数量/启用数量",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName"
+    },
+    {
+      "title": "投运期始",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName1"
+    },
+    {
+      "title": "有效期始",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName2"
+    },
+    {
+      "title": "有效期止",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName3"
+    },
+    {
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ]
+
+}

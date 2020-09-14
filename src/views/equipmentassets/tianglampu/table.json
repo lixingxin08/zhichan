@@ -1,0 +1,64 @@
+{
+  "tableTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
+      "align": "center",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "路灯杆名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "className"
+    },
+    {
+      "title": "路灯杆编号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "classCode"
+    },
+    {
+      "title": "路灯杆状态",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "grade"
+    },
+    {
+      "title": "用途类型",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName"
+    },
+    {
+      "title": "监控箱名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode"
+    },
+    {
+      "title": "归属项目",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode2"
+    },
+    {
+      "title": "挂载设备数",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode"
+    },
+    {
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ]
+
+}

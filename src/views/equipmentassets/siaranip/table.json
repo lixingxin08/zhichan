@@ -1,0 +1,54 @@
+{
+  "tableTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
+      "align": "center",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "广播名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "className"
+    },
+    {
+      "title": "广播分机号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "classCode"
+    },
+    {
+      "title": "广播型号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "grade"
+    },
+    {
+      "title": "路灯杆名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName"
+    },
+   
+    {
+      "title": "广播状态",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode2"
+    },
+   
+    {
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ]
+
+}

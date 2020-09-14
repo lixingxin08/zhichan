@@ -36,21 +36,21 @@
         <a-menu-item key="tianglampu">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/tianglampu'>
-            <span>路灯杆信息</span>
+            <span>路灯杆</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="kontroler">
           <!-- <a-icon type="upload" /> -->
           <router-link to="/kontroler">
-            <span>控制器信息</span>
+            <span>路灯控制器</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="pengelompokan">
-          <!-- <a-icon type="upload" /> -->
+      <!--   <a-menu-item key="pengelompokan">
+          <a-icon type="upload" />
           <router-link to='/pengelompokan'>
             <span>分组管理</span>
           </router-link>
-        </a-menu-item>
+        </a-menu-item>-->
         <a-menu-item key="kamera">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/kamera'>
@@ -60,25 +60,20 @@
         <a-menu-item key="siaranip">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/siaranip'>
-            <span>IP广播信息</span>
+            <span>公共广播</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="panggilbantuan">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/panggilbantuan'>
-            <span>求助报警信息</span>
+            <span>求助报警</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="layarled">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/layarled'>
-            <span>LED发布屏信息</span>
-          </router-link>
-        </a-menu-item>
+
         <a-menu-item key="apinfo">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/apinfo'>
-            <span>AP信息</span>
+            <span>共享WIFI</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="lingkungan">
@@ -87,6 +82,12 @@
             <span>环境要素信息</span>
           </router-link>
         </a-menu-item>
+         <a-menu-item key="layarled">
+         <!--   <a-icon type="upload" /> -->
+           <router-link to='/layarled'>
+             <span>多媒体发布屏</span>
+           </router-link>
+         </a-menu-item>
         <a-menu-item key="masagaransiperalatan">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/masagaransiperalatan'>

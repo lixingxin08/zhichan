@@ -1,0 +1,54 @@
+{
+  "tableTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
+      "align": "center",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "环境要素名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "className"
+    },
+    {
+      "title": "环境要素编号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "classCode"
+    },
+    {
+      "title": "环境要素型号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "grade"
+    },
+
+
+    {
+      "title": "环境要素状态",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentCode2"
+    },
+    {
+      "title": "归属路灯杆",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "parentName"
+    },
+    {
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ]
+
+}
