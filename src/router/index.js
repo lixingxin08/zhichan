@@ -9,23 +9,32 @@ const watthourmeter = () => import('@/views/base/watthourmeter/watthourmeter') /
 const addwatthourmeter = () => import('@/views/base/watthourmeter/add/add') //基础配置 区域管理 新增
 const kotakpemantauan = () => import('@/views/equipmentassets/kotakpemantauan/kotakpemantauan') //监控箱信息
 const addkotakpemantauan = () => import('@/views/equipmentassets/kotakpemantauan/add/add') //监控箱信息 新增
+const seekotakpemantauan = () => import('@/views/equipmentassets/kotakpemantauan/see/see') //监控箱信息 预览
 const tianglampu = () => import('@/views/equipmentassets/tianglampu/tianglampu') //路灯杆信息
 const addtianglampu = () => import('@/views/equipmentassets/tianglampu/add/add') //路灯杆信息 新增
+const seetianglampu = () => import('@/views/equipmentassets/tianglampu/see/see') //路灯杆信息 预览
 const kontroler = () => import('@/views/equipmentassets/kontroler/kontroler') //控制器信息
 const addkontroler = () => import('@/views/equipmentassets/kontroler/add/add') //控制器信息 新增
+const seekontroler = () => import('@/views/equipmentassets/kontroler/see/see') //控制器信息 新增
 const pengelompokan = () => import('@/views/equipmentassets/pengelompokan/pengelompokan') //分组管理
 const kamera = () => import('@/views/equipmentassets/kamera/kamera') //摄像头信息
 const addkamera = () => import('@/views/equipmentassets/kamera/add/add') //摄像头信息 新增
+const seekamera = () => import('@/views/equipmentassets/kamera/see/see') //摄像头信息 预览
 const siaranip = () => import('@/views/equipmentassets/siaranip/siaranip') //ip广播信息
 const addsiaranip = () => import('@/views/equipmentassets/siaranip/add/add') //ip广播信息 新增
+const seesiaranip = () => import('@/views/equipmentassets/siaranip/see/see') //ip广播信息 预览
 const panggilbantuan = () => import('@/views/equipmentassets/panggilbantuan/panggilbantuan') //求助报警信息
 const addpanggilbantuan = () => import('@/views/equipmentassets/panggilbantuan/add/add') //求助报警信息 新增
-const layarled = () => import('@/views/equipmentassets/layarled/layarled') //发布屏信息
-const addlayarled = () => import('@/views/equipmentassets/layarled/add/add') //发布屏信息
+const seepanggilbantuan = () => import('@/views/equipmentassets/panggilbantuan/see/see') //求助报警信息 预览
 const apinfo = () => import('@/views/equipmentassets/apinfo/apinfo') //AP信息
 const addapinfo = () => import('@/views/equipmentassets/apinfo/add/add') //AP信息 新增
+const seeapinfo = () => import('@/views/equipmentassets/apinfo/see/see') //AP信息 新增
 const lingkungan = () => import('@/views/equipmentassets/lingkungan/lingkungan') //环境要素信息
 const addlingkungan = () => import('@/views/equipmentassets/lingkungan/add/add') //环境要素信息 新增
+const seelingkungan = () => import('@/views/equipmentassets/lingkungan/see/see') //环境要素信息 预览
+const layarled = () => import('@/views/equipmentassets/layarled/layarled') //发布屏信息
+const addlayarled = () => import('@/views/equipmentassets/layarled/add/add') //发布屏信息 新增
+const seelayarled = () => import('@/views/equipmentassets/layarled/see/see') //发布屏信息 预览
 const masagaransiperalatan = () => import('@/views/equipmentassets/masagaransiperalatan/masagaransiperalatan') //设备质保期止
 
 const error_404 = () => import('@/components/error_page/404.vue')
@@ -89,6 +98,14 @@ export default new Router({
           component: addkotakpemantauan,
         },
         {
+          path: '/seekotakpemantauan',
+          name: 'kotakpemantauan',
+          meta: {
+            title: '监控箱信息'
+          },
+          component: seekotakpemantauan,
+        },
+        {
           path: '/tianglampu',
           name: 'tianglampu',
           meta: {
@@ -105,6 +122,14 @@ export default new Router({
           component: addtianglampu,
         },
         {
+          path: '/seetianglampu',
+          name: 'tianglampu',
+          meta: {
+            title: '路灯杆信息'
+          },
+          component: seetianglampu,
+        },
+        {
           path: '/kontroler',
           name: 'kontroler',
           meta: {
@@ -119,6 +144,14 @@ export default new Router({
             title: '路灯控制器'
           },
           component: addkontroler,
+        },
+        {
+          path: '/seekontroler',
+          name: 'kontroler',
+          meta: {
+            title: '路灯控制器'
+          },
+          component: seekontroler,
         },
         {
           path: '/pengelompokan',
@@ -145,6 +178,14 @@ export default new Router({
           component: addkamera,
         },
         {
+          path: '/seekamera',
+          name: 'kamera',
+          meta: {
+            title: '摄像头信息'
+          },
+          component: seekamera,
+        },
+        {
           path: '/siaranip',
           name: 'siaranip',
           meta: {
@@ -159,6 +200,14 @@ export default new Router({
             title: '公共广播'
           },
           component: addsiaranip,
+        },
+        {
+          path: '/seesiaranip',
+          name: 'siaranip',
+          meta: {
+            title: '公共广播'
+          },
+          component: seesiaranip,
         },
         {
           path: '/panggilbantuan',
@@ -177,6 +226,14 @@ export default new Router({
           component: addpanggilbantuan,
         },
         {
+          path: '/seepanggilbantuan',
+          name: 'panggilbantuan',
+          meta: {
+            title: '求组报警'
+          },
+          component: seepanggilbantuan,
+        },
+        {
           path: '/layarled',
           name: 'layarled',
           meta: {
@@ -191,6 +248,14 @@ export default new Router({
             title: '多媒体发布屏'
           },
           component: addlayarled,
+        },
+        {
+          path: '/seelayarled',
+          name: 'layarled',
+          meta: {
+            title: '多媒体发布屏'
+          },
+          component:seelayarled,
         },
         {
           path: '/apinfo',
@@ -209,6 +274,14 @@ export default new Router({
           component: addapinfo,
         },
         {
+          path: '/seeapinfo',
+          name: 'apinfo',
+          meta: {
+            title: '共享WIFI'
+          },
+          component: seeapinfo,
+        },
+        {
           path: '/lingkungan',
           name: 'lingkungan',
           meta: {
@@ -223,6 +296,14 @@ export default new Router({
             title: '环境要素信息'
           },
           component: addlingkungan,
+        },
+        {
+          path: '/seelingkungan',
+          name: 'lingkungan',
+          meta: {
+            title: '环境要素信息'
+          },
+          component: seelingkungan,
         },
         {
           path: '/masagaransiperalatan',

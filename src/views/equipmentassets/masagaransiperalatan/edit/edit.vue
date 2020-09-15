@@ -16,16 +16,16 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">设备类型:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input" placeholder='线路名称' />
+          <a-input disabled v-model="config.input" placeholder='设备类型' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">设备型号:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input" placeholder='线路名称' />
+          <a-input disabled v-model="config.input" placeholder='设备型号' />
         </div>
       </div>
-  
+
 
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">备注信息:</div>

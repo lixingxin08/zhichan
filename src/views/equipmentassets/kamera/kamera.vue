@@ -22,7 +22,7 @@
 
 
         <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
-        <a-button @click='cleanTxt'>清除</a-button>
+        <a-button @click='cleanSearch'>清除</a-button>
       </div>
 
     </div>
@@ -51,7 +51,7 @@
     data() {
       return {
         tableTitle: tadata.tableTitle, //表格标题
-        tableData: [], //表格数据
+        tableData: [{}], //表格数据
         selectList: [{
           comboBoxId: '',
           comboBoxName: '全部'
@@ -82,7 +82,7 @@
       },
       /* 预览*/
       see() {
-
+        this.$router.push('/seekamera')
       },
       /* 获取表格数据*/
       getTableData() {
