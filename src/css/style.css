@@ -97,3 +97,27 @@ border-right: none!important;
     height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 20px;margin-right: 20px;
   }
   
+.confirm_btn {
+  width: 66px;
+  height: 32px;
+  background: #1890ff;
+  border: 1px solid #1890ff;
+  border-radius: 2px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+  line-height: 32px;
+  margin-right: 60px;
+  cursor: pointer;
+}
+
+.cancel_btn {
+  width: 66px;
+  height: 32px;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #dcdcdc;
+  text-align: center;
+  line-height: 32px;
+  cursor: pointer;
+}

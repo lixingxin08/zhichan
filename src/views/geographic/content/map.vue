@@ -48,7 +48,7 @@ export default {
         geolocation.getCurrentPosition();
         AMap.event.addListener(geolocation, "complete", _that.onComplete); //返回定位信息
         AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
-
+      //监听zoom
            map.on('zoomchange', ()=>{
               var iszoom = map.getZoom()
               console.log(iszoom);
