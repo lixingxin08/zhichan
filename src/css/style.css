@@ -36,7 +36,9 @@
 	display: flex;
 	flex-direction: column;
 }
-
+ .ant-table-thead>tr>th {
+  background-color: #F6FBFF!important;
+}
 .flexac {
 	align-items: center;
 }

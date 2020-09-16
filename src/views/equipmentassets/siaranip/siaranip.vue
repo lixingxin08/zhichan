@@ -16,7 +16,7 @@
         </a-select>
 
         <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
-        <a-button @click='cleanTxt'>清除</a-button>
+        <a-button @click='cleanSearch'>清除</a-button>
       </div>
 
     </div>
@@ -26,10 +26,10 @@
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
-                <div class="per-line"></div>
-                  <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
-                     <div class="per-line"></div>
+          <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
+          <div class="per-line"></div>
+          <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
+          <div class="per-line"></div>
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
@@ -45,7 +45,7 @@
     data() {
       return {
         tableTitle: tadata.tableTitle, //表格标题
-        tableData: [], //表格数据
+        tableData: [{}], //表格数据
         selectList: [{
           comboBoxId: '',
           comboBoxName: '全部'
@@ -70,8 +70,8 @@
         this.$router.push('/addsiaranip')
       },
       /* 预览*/
-      see(){
-
+      see() {
+        this.$router.push('/seesiaranip')
       },
       /* 获取表格数据*/
       getTableData() {

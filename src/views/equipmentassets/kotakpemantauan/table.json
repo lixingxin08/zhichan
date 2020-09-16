@@ -48,7 +48,7 @@
       "title": "挂载设备数",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode"
+      "dataIndex": "parentCode3"
     },
     {
       "title": "操作",

@@ -40,6 +40,7 @@ export default {
       isimg: require("../../assets/icon_tc_dw.png"),
       lng: [116.397428, 39.90923],
       position: "",
+      inttype: false,
       city: "",
     };
   },
@@ -54,6 +55,7 @@ export default {
   methods: {
     init() {
       let _that = this;
+      console.log(_that.lng, 222);
       const map = new AMap.Map("map-container", {
         zoom: 13,
         center: _that.lng,
@@ -91,7 +93,22 @@ export default {
         AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
         console.log(geolocation, 2222);
         // 调用定位
-        geolocation.getCurrentPosition();
+        if (_that.inttype == false) {
+          geolocation.getCurrentPosition();
+        } else {
+          if (_that.markertype == true) {
+            map.remove(_that.marker);
+          }
+          _that.marker = new AMap.Marker({
+            position: new AMap.LngLat(_that.lng[0], _that.lng[1]),
+            offset: new AMap.Pixel(-23, -54),
+            icon: _that.isimg, // 添加 Icon 图标 URL
+          });
+          _that.position = _that.lng[0] + "," + _that.lng[1];
+          _that.$message.success("当前定位为" + _that.position);
+          map.add(_that.marker);
+          _that.markertype == true;
+        }
       });
       map.on("click", function (params) {
         console.log(params, 112);
@@ -104,7 +121,7 @@ export default {
           offset: new AMap.Pixel(-23, -54),
           icon: _that.isimg, // 添加 Icon 图标 URL
         });
-        _that.$message.success("当前经纬度为" + _that.position);
+        _that.$message.success("当前定位为" + _that.position);
 
         map.add(_that.marker);
         _that.markertype = true;
@@ -132,6 +149,7 @@ export default {
           const lnglat = result.geocodes[0].location;
           _that.lng[1] = lnglat.lat;
           _that.lng[0] = lnglat.lng;
+          _that.inttype = true;
           this.init();
         } else {
           console.log(result);
