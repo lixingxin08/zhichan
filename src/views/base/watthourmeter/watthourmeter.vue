@@ -1,8 +1,9 @@
 <template>
-  <div class="flexcolumn">
-
-    <is-left-tree :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
-      @selectdata="getselectdata"></is-left-tree>
+  <div class="administrativedivision flex_fs">
+    <div class="isleft">
+      <is-left-tree :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
+        @selectdata="getselectdata"></is-left-tree>
+    </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
         <div class="flexrow flexac">
@@ -41,7 +42,18 @@
     },
     data() {
       return {
-        treedata: null,
+        treedata: [{
+          'children': [{
+            'id': "dddddd",
+            'name': 'dddddd'
+          }],
+          'id': "dddddd",
+          'name': 'dddddd'
+        }, {
+          'children': [],
+          'id': "dddddd",
+          'name': 'dddddd'
+        }],
         isselectdata: "",
         replaceFields: {
           title: "name",
@@ -53,14 +65,15 @@
         tableData: [{}],
         keyword: '',
         pagination: {
-          total: 0, //总条数
-          size: "default", //分页展示样式
-          current: 1, //当前选择页
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-        }
+          total: 0, //总页数
+          pageSize: 10, //每页中显示10条数据
+          showSizeChanger: true,
+          current: 1, //当前页
+          page: 1, //几页
+          size: "default",
+          pageSizeOptions: ["10", "20", "50", "100"], //每页中显示的数据
+          showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
+        },
       }
     },
     methods: {
@@ -113,7 +126,7 @@
       },
       /* 设置tree 数据*/
       setdata() {
-        for (let i = 0; i < this.data.length; i++) {//检测哪个item需要默认打开
+        for (let i = 0; i < this.data.length; i++) { //检测哪个item需要默认打开
           if (this.data[i].open == true) {
             this.defaultExpandedKeys.push(this.data[i].id);
           }
