@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const home = () => import('@/views/home/home')
-const login = () => import('@/views/login/login')
 const asetgeografis = () => import('@/views/geographic/geographic') //地理资产
 
 const watthourmeter = () => import('@/views/base/watthourmeter/watthourmeter') //基础配置 区域管理
@@ -42,11 +41,8 @@ const error_403 = () => import('@/components/error_page/403.vue')
 const error_500 = () => import('@/components/error_page/500.vue')
 Vue.use(Router)
 export default new Router({
-  routes: [{
-      path: '/login',
-      name: 'login',
-      component: login,
-    },
+  routes: [
+
 
     {
       path: '/',

@@ -12,19 +12,19 @@
       "title": "区划名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "areaName"
     },
     {
       "title": "区划等级",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "grade"
     },
     {
       "title": "上级区划",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "grade2"
     },
     {
       "title": "节点类型",

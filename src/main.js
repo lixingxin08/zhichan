@@ -10,8 +10,12 @@ import axios from './js/axios_config.js';
 import api from './js/api_config.js';
 Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
+import store from "./store";
+
+
+
 import 'ant-design-vue/dist/antd.css';
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker , Switch, Popconfirm, Checkbox, Form, Steps, InputNumber, Descriptions} from 'ant-design-vue';
+import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker , Switch, Popconfirm, Checkbox, Form, Steps, InputNumber,Upload,message,Descriptions} from 'ant-design-vue';
 Vue.use(Dropdown);
 Vue.use(Layout);
 Vue.use(Button);
@@ -30,6 +34,8 @@ Vue.use(Checkbox);
 Vue.use(Form);
 Vue.use(Steps);
 Vue.use(InputNumber);
+Vue.use(Upload);
+Vue.prototype.$message = message
 Vue.use(Descriptions)
 
 import md5 from 'js-md5';
@@ -102,6 +108,7 @@ instance.interceptors.response.use(
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

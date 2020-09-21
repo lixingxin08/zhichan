@@ -10,17 +10,30 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api': {//代理api
+        //target: "`",
+        target: "http://192.168.3.86:8093/assets", //代理接口
+        // target: "http://192.168.3.101/haiot-zuul/haiot-auth/", //代理接口
+        // target: "http://192.168.3.171:8092/authorization",
+        changeOrigin: true,//是否跨域
+        allowCredentials:true,
+        pathRewrite: {//重写路径
+          "^/api": ''//代理路径
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8093, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -38,10 +51,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../shouquan/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '../shouquan'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 
