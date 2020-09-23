@@ -48,7 +48,9 @@ table {
 a{
 	text-decoration: none;
 }
-
+.test{
+	display: grid;
+}
 input{
 	outline:none;
 	box-shadow: none;
