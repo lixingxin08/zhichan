@@ -17,7 +17,10 @@
             v-model="city"
           />
         </div>
-        <div class="edit_item_toast btn_blue mapbtn" @click="getLatLngLocation()">
+        <div
+          class="edit_item_toast btn_blue mapbtn"
+          @click="getLatLngLocation()"
+        >
           <a-icon type="environment"></a-icon>
           <span class="positiontext">地图定位</span>
         </div>
@@ -40,8 +43,8 @@ export default {
       isimg: require("../../assets/icon_tc_dw.png"),
       lng: [116.397428, 39.90923],
       position: "",
-      inttype: false,
       city: "",
+      map: "",
     };
   },
   created() {
@@ -56,13 +59,13 @@ export default {
     init() {
       let _that = this;
       console.log(_that.lng, 222);
-      const map = new AMap.Map("map-container", {
+      this.map = new AMap.Map("map-container", {
         zoom: 13,
-        center: _that.lng,
         viewMode: "2D",
+        resizeEnable: true,
       });
-      map.plugin(["AMap.ToolBar", "AMap.Geolocation"], function () {
-        map.addControl(new AMap.ToolBar());
+      _that.map.plugin(["AMap.ToolBar", "AMap.Geolocation"], function () {
+        _that.map.addControl(new AMap.ToolBar());
         const geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
           enableHighAccuracy: true,
@@ -84,47 +87,32 @@ export default {
           // 设置定位超时时间，默认：无穷大
           timeout: 10000,
         });
-
-        // 把定位插件加入地图实例
-        map.addControl(geolocation);
-
-        // 添加地图全局定位事件
-        AMap.event.addListener(geolocation, "complete", _that.onComplete); //返回定位信息
-        AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
-        console.log(geolocation, 2222);
-        // 调用定位
-        if (_that.inttype == false) {
-          geolocation.getCurrentPosition();
-        } else {
-          if (_that.markertype == true) {
-            map.remove(_that.marker);
-          }
-          _that.marker = new AMap.Marker({
-            position: new AMap.LngLat(_that.lng[0], _that.lng[1]),
-            offset: new AMap.Pixel(-23, -54),
-            icon: _that.isimg, // 添加 Icon 图标 URL
-          });
-          _that.position = _that.lng[0] + "," + _that.lng[1];
-          _that.$message.success("当前定位为" + _that.position);
-          map.add(_that.marker);
-          _that.markertype == true;
-        }
+        _that.map.addControl(geolocation);
       });
-      map.on("click", function (params) {
+      _that.map.on("click", function (params) {
         console.log(params, 112);
         if (_that.markertype == true) {
-          map.remove(_that.marker);
+          _that.map.remove(_that.marker);
         }
         _that.position = params.lnglat.lng + "," + params.lnglat.lat;
         _that.marker = new AMap.Marker({
           position: new AMap.LngLat(params.lnglat.lng, params.lnglat.lat),
-          offset: new AMap.Pixel(-23, -54),
+          offset: new AMap.Pixel(-63, -54),
           icon: _that.isimg, // 添加 Icon 图标 URL
+          size: new AMap.Size(80, 54),
+          imageSize: new AMap.Size(46, 54),
         });
         _that.$message.success("当前定位为" + _that.position);
 
-        map.add(_that.marker);
+        _that.map.add(_that.marker);
         _that.markertype = true;
+
+        let geocoder = new AMap.Geocoder({
+          radius: 1000, //范围，默认：500
+        });
+        geocoder.getAddress(_that.position, function (status, result) {
+          console.log(status, result, 666666454);
+        });
       });
     },
     confirm() {
@@ -137,22 +125,22 @@ export default {
       }
     },
     getLatLngLocation() {
+      let _that = this;
       if (this.city == "") {
         return this.$message.error("请先输入位置名称");
       }
-      this.inttype = false;
-      let _that = this;
-      let geocoder = new AMap.Geocoder();
-      geocoder.getLocation(_that.city, (status, result) => {
-        if (status === "complete" && result.geocodes.length) {
-          console.log(result);
-          const lnglat = result.geocodes[0].location;
-          _that.lng[1] = lnglat.lat;
-          _that.lng[0] = lnglat.lng;
-          _that.inttype = true;
-          this.init();
-        } else {
-          console.log(result);
+      var autoOptions = {
+        input: "searinp",
+      };
+      _that.map.plugin(["AMap.PlaceSearch", "AMap.AutoComplete"], function () {
+        var auto = new AMap.AutoComplete(autoOptions);
+        var placeSearch = new AMap.PlaceSearch({
+          map: _that.map,
+        }); //构造地点查询类
+        auto.on("select", select); //注册监听，当选中某条记录时会触发
+        function select(e) {
+          placeSearch.setCity(e.poi.adcode);
+          placeSearch.search(e.poi.name); //关键字查询查询
         }
       });
     },
@@ -234,5 +222,6 @@ export default {
 }
 .positiontext {
   margin-left: 1px;
+  cursor: pointer;
 }
 </style>

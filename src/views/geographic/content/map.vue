@@ -9,29 +9,39 @@ import AMap from "AMap";
 export default {
   name: "map.vue",
   data() {
-    return {};
+    return {
+      isimg: require("../../../assets/icon_tc_dw.png"),
+      lng: [116.397428,39.90923],
+      islat: 116.397428,
+      islng: 39.90923,
+      position: "",
+    };
   },
   mounted() {
-  if (navigator.geolocation) {
-   var n = navigator.geolocation.getCurrentPosition(function(res){
-       console.log(res,2222); // 需要的坐标地址就在res中
-   });
-} else {
-    alert('该浏览器不支持定位');
-}
+    let _that=this
+    if (navigator.geolocation) {
+      var n = navigator.geolocation.getCurrentPosition(function (res) {
+        console.log(res, 2222); // 需要的坐标地址就在res中
+        // _that.lng[0]=res.coords.longitude
+        // _that.lng[1]=res.coords.latitude
+      });
+    } else {
+      alert("该浏览器不支持定位");
+    }
     this.init();
   },
   methods: {
     init() {
       let _that = this;
+      console.log(this.lng,77777);
       const map = new AMap.Map("map-container", {
         zoom: 13,
-        center:'',
+        center:_that.lng,
         viewMode: "2D",
       });
       map.plugin(["AMap.ToolBar", "AMap.Geolocation"], function () {
         map.addControl(new AMap.ToolBar());
-    let    geolocation = new AMap.Geolocation({
+        let geolocation = new AMap.Geolocation({
           enableHighAccuracy: true, //是否使用高精度定位，默认:true
           timeout: 10000, //超过10秒后停止定位，默认：无穷大
           maximumAge: 0, //定位结果缓存0毫秒，默认：0
@@ -45,18 +55,26 @@ export default {
           zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
         });
         map.addControl(geolocation);
-        geolocation.getCurrentPosition();
-        AMap.event.addListener(geolocation, "complete", _that.onComplete); //返回定位信息
-        AMap.event.addListener(geolocation, "error", _that.onError); //返回定位出错信息
-      //监听zoom
-           map.on('zoomchange', ()=>{
-              var iszoom = map.getZoom()
-              console.log(iszoom);
-           });
+        //海量点
+          _that.islat += _that.islat
+          _that.islng += _that.islng 
+          let ismarker = new AMap.Marker({
+            position: new AMap.LngLat(_that.islat, _that.islng),
+            offset: new AMap.Pixel(-46, -54),
+            icon: _that.isimg, // 添加 Icon 图标 URL
+          });
+          map.add(ismarker);
+
+
+        //监听zoom
+        map.on("zoomchange", () => {
+          var iszoom = map.getZoom();
+          console.log(iszoom);
+        });
       });
     },
     onComplete(success) {
-      console.log(success);
+      console.log(success,'onError');
     },
     onError(error) {
       console.log(error);

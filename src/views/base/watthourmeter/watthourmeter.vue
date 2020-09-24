@@ -1,6 +1,5 @@
 <template>
   <div class="flexcolumn">
-
     <is-left-tree :treedata="treedata" :replaceFields="replaceFields" :defaultExpandedKeys="defaultExpandedKeys"
       @selectdata="getselectdata"></is-left-tree>
     <div class="content2">
@@ -73,6 +72,7 @@
       confirmDelete(item) {
 
       },
+      cleanTxt(){},
       handleTableChange(pagination) {
         this.pagination = pagination;
         this.getTableData()
