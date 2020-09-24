@@ -18,6 +18,9 @@
       <a-table :scroll="{  y: 625 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+        <div slot='nodeType' slot-scope="text, record,index">
+          {{record.nodeType==1?'授权':'自建'}}
+        </div>
         <template slot="operation" slot-scope="text, record">
           <div class="flexrow flexac flexjc">
 
@@ -111,45 +114,17 @@
           this.setdata();
           this.getselectdata(this.treedata[0])
         }
-
       },
 
-      /* 获取数据转换成tree数据结构 */
-      toTree(data) {
-        let result = [];
-        if (!Array.isArray(data)) {
-          return result;
-        }
-        data.forEach((item) => {
-          delete item.children;
-        });
-        let map = {};
-        data.forEach((item) => {
-          map[item.id] = item;
-        });
-        data.forEach((item) => {
-          let parent = map[item.pid];
-          if (parent) {
-            (parent.children || (parent.children = [])).push(item);
-          } else {
-            result.push(item);
-          }
-        });
-        return result;
-      },
       /* 设置tree 数据*/
       setdata() {
-        for (let i = 0; i < this.data.length; i++) { //检测哪个item需要默认打开
-          if (this.data[i].open == true) {
-            this.defaultExpandedKeys.push(this.data[i].id);
-          }
-        }
-        this.treedata = this.toTree(this.data);
+       this.defaultExpandedKeys=this.$utils.getTreeExpandedKeys(this.data)
+        this.treedata = this.$utils.toTree(this.data);
       },
       /* 点击Item事件*/
       getselectdata(val) {
         this.isselectdata = val;
-          this.getTableData()
+        this.getTableData()
       },
       cleanSearch() {
         this.keyword = ''

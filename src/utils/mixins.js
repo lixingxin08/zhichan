@@ -4,7 +4,6 @@ export const Mixin1 = {
         };
     },
     methods: {
-
         exportExcel(istHeader, isfilterVal, list, excelname) {
             // const tHeader = ['账本名称','日账单日期', '数据行', '支付总额','支付时间','状态']
             // const filterVal = ['name','createTime', 'userCount', 'payMoneyTotal', 'payTime','status']

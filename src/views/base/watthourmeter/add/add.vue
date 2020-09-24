@@ -28,10 +28,10 @@
         </div>
       </div>
       <div class="flexrow flexac edit_item_watt">
-        <div class="edit_item_title_watt">字典描述:</div>
+        <div class="edit_item_title_watt">备注:</div>
         <div style="position: relative;width: 667px;">
-          <a-textarea :maxLength='256' :rows="5" placeholder="字典描述" @change="onChangeConfig" v-model="remark" />
-          <div class="edit_number_watt">{{remarkLength}}/256</div>
+          <a-textarea :maxLength='250' :rows="5" placeholder="250字以内，格式不限制" @change="onChangeConfig" v-model="remark" />
+          <div class="edit_number_watt">{{config.remark}}/250</div>
         </div>
       </div>
     </div>

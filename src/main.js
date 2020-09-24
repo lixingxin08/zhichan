@@ -8,14 +8,40 @@ import router from './router'
 Vue.config.productionTip = true
 import axios from './js/axios_config.js';
 import api from './js/api_config.js';
+import utils from './utils/utils.js';
+import config from './utils/config.js'
 Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
+Vue.prototype.$utils = utils;
+Vue.prototype.$config=config
 import store from "./store";
 
 
 
 import 'ant-design-vue/dist/antd.css';
-import { Layout, Button, Icon, Select, Dropdown, Menu, Input, Tree, TreeSelect, Breadcrumb, Table , DatePicker , Switch, Popconfirm, Checkbox, Form, Steps, InputNumber,Upload,message,Descriptions} from 'ant-design-vue';
+import {
+  Layout,
+  Button,
+  Icon,
+  Select,
+  Dropdown,
+  Menu,
+  Input,
+  Tree,
+  TreeSelect,
+  Breadcrumb,
+  Table,
+  DatePicker,
+  Switch,
+  Popconfirm,
+  Checkbox,
+  Form,
+  Steps,
+  InputNumber,
+  Upload,
+  message,
+  Descriptions
+} from 'ant-design-vue';
 Vue.use(Dropdown);
 Vue.use(Layout);
 Vue.use(Button);
@@ -48,7 +74,9 @@ Vue.prototype.$md5 = md5
 
 
 // 拦截器
-let instance = axios.create({ timeout: 10000 });
+let instance = axios.create({
+  timeout: 10000
+});
 // instance.defaults.headers.common['Authorization'] = "Bearer " + getCookie("userToken");//携带cookie
 //instance.defaults.withCredentials = true;//让ajax携带cookie
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -80,7 +108,7 @@ instance.interceptors.response.use(
               redirect: router.currentRoute.fullPath
             }
           })
-          case 500:
+        case 500:
           // 返回 401 (未授权) 清除 token 并跳转到登录页面
 
           router.replace({
@@ -89,7 +117,7 @@ instance.interceptors.response.use(
               redirect: router.currentRoute.fullPath
             }
           })
-          case 403:
+        case 403:
           // 返回 401 (未授权) 清除 token 并跳转到登录页面
 
           router.replace({
@@ -109,6 +137,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

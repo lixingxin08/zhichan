@@ -18,25 +18,28 @@
       "title": "区划等级",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "levelType"
     },
     {
       "title": "上级区划",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade2"
+      "dataIndex": "parentName"
     },
     {
       "title": "节点类型",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "nodeType",
+      "scopedSlots": {
+        "customRender": "nodeType"
+      }
     },
     {
       "title": "子节点数",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode"
+      "dataIndex": "childTotal"
     },
 
     {
