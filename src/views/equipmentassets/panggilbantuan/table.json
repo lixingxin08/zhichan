@@ -12,32 +12,35 @@
       "title": "求助装置名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "求助装置分机",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "求组装置型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "modelName"
     },
     {
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "deviceLightPoleName"
     },
    
     {
       "title": "求助装置状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+      "dataIndex": "statusCode",
+	  "scopedSlots": {
+	    "customRender": "statusCode"
+	  }
     },
    
     {

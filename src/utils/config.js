@@ -9,13 +9,34 @@ const pagination = {
   "showTotal": (total) => `共有 ${total} 条数据`, //分页中显示总的数据
 }
 const statueList = [{
-  comboBoxId: 0,
+  comboBoxId: '0',
   comboBoxName: '禁用'
 }, {
-  comboBoxId: 1,
+  comboBoxId: '1',
   comboBoxName: '启用'
 }]
+const useTypeList = [{
+  comboBoxId: '0',
+  comboBoxName: '虚拟监控箱'
+}, {
+  comboBoxId: '1',
+  comboBoxName: '真实监控箱'
+}]
+const lineStatueList = [{
+            comboBoxId: '1',
+            comboBoxName: '备用'
+          },
+          {
+            comboBoxId: '2',
+            comboBoxName: '启用'
+          }, {
+            comboBoxId: '3',
+            comboBoxName: '损坏'
+          }
+        ]
 export default {
   pagination, //分页信息
-  statueList
+  statueList,//监控箱状态
+  useTypeList,//监控箱用途类型
+  lineStatueList//线路状态
 }

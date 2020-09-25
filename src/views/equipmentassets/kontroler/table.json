@@ -12,39 +12,42 @@
       "title": "控制器名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "控制器编号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "控制器型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "modelName"
     },
     {
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "deviceLightPoleName"
     },
     {
       "title": "线路名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode"
+      "dataIndex": "lineName"
     },
     {
       "title": "控制器状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+      "dataIndex": "statusCode",
+      "scopedSlots": {
+        "customRender": "statusCode"
+      }
     },
-   
+
     {
       "title": "操作",
       "align": "center",

@@ -3,13 +3,13 @@
     <a-steps style='width: 400px;margin: 0 auto;' :current="step" type="navigation" @change="onChangeStep">
       <a-step v-for="item in steps" :key="item.status" :title="item.title" />
     </a-steps>
-    <is-first v-if="step==0"></is-first>
-    <is-second v-if="step==1"></is-second>
+    <is-first ref='first' v-show="step==0" :deviceId='deviceId'></is-first>
+    <is-second v-show="step==1" ></is-second>
     <div class="flexrow flexjc" style="margin-top: 50px;">
-<a-button v-if='step!=0' @click='backStep'>上一步</a-button>
-<a-button type='primary' style='margin-left: 20px;margin-right: 20px;'>保存</a-button>
-<a-button type='primary' style='margin-right: 20px;'>保存并复制</a-button>
-<a-button>重置</a-button>
+      <a-button v-if='step!=0' @click='backStep'>上一步</a-button>
+      <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='save'>保存</a-button>
+      <a-button type='primary' style='margin-right: 20px;'>保存并复制</a-button>
+      <a-button @click='reset'>重置</a-button>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@
             status: 2
           },
         ],
-        config: {}
+        deviceId: ""
       }
     },
     methods: {
@@ -44,8 +44,26 @@
       onChangeStep(step) {
         this.step = step;
       },
-      backStep(){
-        this.onChangeStep(this.step-1)
+      /* 返回*/
+      backStep() {
+        this.onChangeStep(this.step - 1)
+      },
+      /* 保存*/
+      save(){
+        if(this.step==0){
+          this.$refs.first.submit()
+        }
+      },
+      saveAndCopy(){
+        if(this.step==0){
+          this.$refs.first.submitAndCopy()
+        }
+      },
+      /* 重置*/
+      reset(){
+       if(this.step==0){
+         this.$refs.first.reset()
+       }
       }
     }
   }

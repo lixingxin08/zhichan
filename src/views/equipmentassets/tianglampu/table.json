@@ -12,43 +12,43 @@
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "路灯杆编号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "路灯杆状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "statusCode  "
     },
     {
       "title": "用途类型",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "useType"
     },
     {
-      "title": "监控箱名称",
+      "title": "归属监控箱",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode"
+      "dataIndex": "deviceMonitorBoxName"
     },
     {
       "title": "归属项目",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+      "dataIndex": "projectName"
     },
     {
       "title": "挂载设备数",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode"
+      "dataIndex": "deviceTotal"
     },
     {
       "title": "操作",

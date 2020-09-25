@@ -4,25 +4,33 @@
       <div class="flexrow flexac">
         <div class='title_tx'>路灯杆名称/编号:</div>
         <div style="width: 200px;">
-          <a-input placeholder="请输入字典名称" v-model="keyword" />
+          <a-input placeholder="请输入路灯杆名称/编号" v-model="keyword" />
         </div>
 
-        <div class='title_tx' style="margin-left: 20px;">归属项目:</div>
-        <div style="width: 200px;">
-          <a-input placeholder="请输入归属项目" v-model="keyword2" />
-        </div>
-        <div class='title_tx' style="margin-left: 20px;">路灯杆状态:</div>
-        <a-select :value="stateSelect?stateSelect:'全部'" style="width: 200px;" @change="stateSelectChange">
-          <a-select-option :key='3' :value="3">
+        <div class='title_tx' style="margin-left: 20px;">线路名称:</div>
+        <a-select :value="lineId?lineId:'全部'" style="width: 200px;" @change="lineIdSelectChange">
+          <a-select-option key='' value="">
             全部
           </a-select-option>
-          <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxId">
+          <a-select-option v-for='(item,index) in lineList' :key='index' :value="item.comboBoxId">
+            {{item.comboBoxName}}
+          </a-select-option>
+        </a-select>
+        <div class='title_tx' style="margin-left: 20px;">路灯杆状态:</div>
+        <a-select :value="enableFlag?enableFlag:'全部'" style="width: 200px;" @change="stateSelectChange">
+          <a-select-option key='' value="">
+            全部
+          </a-select-option>
+          <a-select-option v-for='(item,index) in statusCodeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
         <div class='title_tx' style="margin-left: 20px;">用途类型:</div>
-        <a-select :value="streetSelect?streetSelect:'全部'" style="width: 200px;" @change="streetSelect">
-          <a-select-option v-for='(item,index) in selectList2' :key='index' :value="item.comboBoxId">
+        <a-select :value="useType?useType:'全部'" style="width: 200px;" @change="useTypeSelect">
+          <a-select-option key='' value="">
+            全部
+          </a-select-option>
+          <a-select-option v-for='(item,index) in useTypeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
@@ -37,10 +45,10 @@
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
-                <div class="per-line"></div>
-                  <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
-                     <div class="per-line"></div>
+          <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
+          <div class="per-line"></div>
+          <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
+          <div class="per-line"></div>
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
@@ -56,35 +64,72 @@
     data() {
       return {
         tableTitle: tadata.tableTitle, //表格标题
-        tableData: [{}], //表格数据
-         selectList: this.$config.statueList, //下拉选择  路灯杆状态
-        streetSelect: '', //监控箱选择
-        selectList2: [{ //下拉选择  用途类型
-          comboBoxId: '',
-          comboBoxName: '全部'
-        }],
-        stateSelect: '', //状态选择
+        tableData: [], //表格数据
+        enableFlag: '', //状态选择
+        statusCodeList: this.$config.statueList, //下拉选择  监控箱状态
+        useType: '', //用途类型
+        useTypeList: this.$config.useTypeList,
+        lineList: [],
+        lineId: [],
         keyword: '', //输入框 搜索条件 监控箱名称
-        keyword2: '', //输入框 搜索条件 归属i项目
-       pagination:this.$config.pagination,
+        projectName: '', //输入框 搜索条件 归属i项目
+        pagination: this.$config.pagination,
       }
     },
     methods: {
       /* 编辑 新增*/
       edit(item) {
-        this.$router.push('/addtianglampu')
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+          },
+          path: '/addtianglampu'
+        })
       },
       /* 预览*/
-      see(){
-  this.$router.push('/seetianglampu')
+      see() {
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+          },
+          path: '/seetianglampu'
+        })
       },
       /* 获取表格数据*/
-      getTableData() {
-
+      async getTableData() {
+        this.tableData = []
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        let param = {
+          useType: this.useType,
+          enableFlag: this.enableFlag,
+          keyword: this.keyword,
+          lineName: this.lineId,
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize
+        }
+        let res = this.$http.post(this.$api.devicelightpolepage, param)
+        if (res.data.resultCode == 10000) {
+          if (res.data.data) {
+            this.tableData = res.data.data.list
+            if (this.pagination.current == 1)
+              this.pagination.total = res.data.data.length
+          }
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
       /* 确认选择*/
-      confirmDelete(item) {
-
+      async confirmDelete(item) {
+        let param = {
+          deviceId: item.deviceId
+        }
+        let res = this.$http.post(this.$api.devicelightpoleremove, param)
+        if (res.data.resultCode == 10000) {
+          this.getTableData()
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
       /* 分页选择*/
       handleTableChange(pagination) {
@@ -93,17 +138,20 @@
       },
       /* 状态选择*/
       stateSelectChange(e) {
-        this.stateSelect = e
+        this.enableFlag = e
       },
-      /* 监控箱选择*/
-      streetSelectChange(e) {
-        this.streetSelect = e
+      lineIdSelectChange(e) {
+        this.lineId = e
+      },
+      /* 用途选择*/
+      useTypeSelect(e) {
+        this.useType = e
       },
       cleanSearch() {
         this.keyword = ''
-        this.keyword2 = ''
-        this.stateSelect = ''
-        this.streetSelect = ''
+        this.projectName = ''
+        this.enableFlag = ''
+        this.useType = ''
         this.getTableData()
       }
 

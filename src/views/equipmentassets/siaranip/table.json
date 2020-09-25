@@ -12,32 +12,35 @@
       "title": "广播名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "广播分机号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "广播型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "modelName"
     },
     {
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "deviceLightPoleName"
     },
    
     {
       "title": "广播状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+      "dataIndex": "statusCode",
+	  "scopedSlots": {
+	    "customRender": "statusCode"
+	  }
     },
    
     {

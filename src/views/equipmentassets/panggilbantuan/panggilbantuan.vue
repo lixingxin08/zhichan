@@ -24,6 +24,9 @@
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+      <div slot='statusCode' slot-scope="text, record">
+        {{record.statusCode==1?'启用':'备用'}}
+      </div>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
 

@@ -9,8 +9,11 @@
 
 
         <div class='title_tx' style="margin-left: 20px;">控制器状态:</div>
-        <a-select :value="controlSelect?controlSelect:'全部'" style="width: 200px;" @change="stateSelectChange">
-          <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxId">
+        <a-select :value="statusCode?statusCode:'全部'" style="width: 200px;" @change="stateSelectChange">
+          <a-select-option key='' value="">
+            全部
+          </a-select-option>
+          <a-select-option v-for='(item,index) in statusCodeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
@@ -24,6 +27,9 @@
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+      <div slot='statusCode' slot-scope="text, record">
+        {{record.statusCode==1?'启用':'备用'}}
+      </div>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
@@ -46,18 +52,10 @@
       return {
         tableTitle: tadata.tableTitle, //表格标题
         tableData: [{}], //表格数据
-        selectList: [{
-          comboBoxId: '',
-          comboBoxName: '全部'
-        }], //下拉选择  路灯杆状态
-        controlSelect: '', //监控箱选择
-        selectList2: [{ //下拉选择  用途类型
-          comboBoxId: '',
-          comboBoxName: '全部'
-        }],
-        stateSelect: '', //状态选择
+        statusCode: '', //状态选择
+        statusCodeList: this.$config.statueList, //状态List
         keyword: '', //输入框 搜索条件 名称
-         pagination:this.$config.pagination
+        pagination: this.$config.pagination
       }
     },
     methods: {
@@ -82,18 +80,14 @@
         this.pagination = pagination;
         this.getTableData()
       },
-      /* 状态选择*/
-      stateSelectChange(e) {
-        this.stateSelect = e
-      },
+
       /* 监控箱选择*/
-      controlSelectChange(e) {
-        this.controlSelect = e
+      stateSelectChange(e) {
+        this.statusCode = e
       },
       cleanSearch() {
         this.keyword = ''
-        this.stateSelect = ''
-        this.controlSelect = ''
+        this.statusCode = ''
         this.getTableData()
       }
 

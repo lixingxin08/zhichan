@@ -1,7 +1,7 @@
 <template>
-  <div class="flexcolumn">
-    <a-button type='primary' style='width: 108px;margin: 20px;'@click="edit({})">+ 新增线路</a-button>
-    <a-table :scroll="{  y: 700 }" style='width: 80%;margin-left: 20px;' :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="false"
+  <div class="flexcolumn " style='width: 60vw;margin: 0 auto;'>
+    <a-button type='primary' style='width: 108px;margin-top: 20px;margin-bottom: 20px;'@click="edit({})">+ 新增线路</a-button>
+    <a-table :scroll="{  y: 700 }"  :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="false"
      >
       <template slot="index" slot-scope="text, record,index">{{(index+1)}}</template>
       <template slot="operation" slot-scope="text, record">
@@ -14,6 +14,7 @@
         </div>
       </template>
     </a-table>
+
     <is-edit ref='edit' v-show="isShowEdit" @callback='editCallBack'></is-edit>
   </div>
 </template>
