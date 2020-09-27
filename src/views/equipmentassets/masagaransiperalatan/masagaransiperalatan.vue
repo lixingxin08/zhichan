@@ -42,7 +42,7 @@
     data() {
       return {
         tableTitle: tadata.tableTitle, //表格标题
-        tableData: [], //表格数据
+        tableData:tadata.list, //表格数据
         keyword: '', //输入框 搜索条件 名称
         keyword1: '',
         keyword2: '',
