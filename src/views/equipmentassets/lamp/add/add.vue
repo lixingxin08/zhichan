@@ -22,7 +22,7 @@
         </a-select>
       </div> -->
       <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>控制器型号:</div>
+        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具型号:</div>
         <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="stateSelectChange">
           <a-select-option v-for='(item,index) in typeSelectList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
@@ -30,44 +30,34 @@
         </a-select>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>控制器名称:</div>
-        <div class="edit_item_input">
-          <a-input v-model="config.input" :maxLength='50' placeholder='50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
-        </div>
-      </div>
-      <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>控制器编号:</div>
-        <div class="edit_item_input">
-          <a-input v-model="config.input" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
-        </div>
-      </div>
-  <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>控制灯具:</div>
-        <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="kontrolerSelectChange">
-          <a-select-option v-for='(item,index) in kontrolerList' :key='index' :value="item.comboBoxId">
+        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具类型:</div>
+        <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="stateSelectChange">
+          <a-select-option v-for='(item,index) in typeSelectList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
       </div>
+      <div class="flexrow flexac edit_item_ko_first">
+        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具名称:</div>
+        <div class="edit_item_input">
+          <a-input v-model="config.input" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
+        </div>
+      </div>
+      <div class="flexrow flexac edit_item_ko_first">
+        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具编号:</div>
+        <div class="edit_item_input">
+          <a-input v-model="config.input" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
+        </div>
+      </div>
+
 
       <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>控制器状态:</div>
+        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具状态:</div>
         <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="stateSelectChange">
           <a-select-option v-for='(item,index) in stageSelectList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
-      </div>
-
-      <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first">通讯模组号(IMEI):</div>
-         <a-input-number class="edit_item_input" v-model="config.input" :maxLength='15'  placeholder='15位，数字' />
-      </div>
-      <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first">物联数据卡(ICCID):</div>
-
-          <a-input-number class="edit_item_input" v-model="config.input" :maxLength='20' placeholder='20位，数字' />
-
       </div>
 
       <div class="flexrow flexac edit_item_ko_first">
@@ -90,10 +80,9 @@
   export default {
     data() {
       return {
-        brandSelectList: [], //路灯杆品牌
         typeSelectList: [], //路灯杆型号
         kontrolerList:[],//灯具list
-        stateSelectList: [], //路灯杆状态
+        stateSelectList: this.$config.statueList, //路灯杆状态
         useSelectList: [], //用图类型
         ascSelectList: [], //归属线路
         remarkLength: 0,

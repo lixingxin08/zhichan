@@ -7,65 +7,76 @@
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
         <div class="flexrow flexac">
-          <div class='title_tx'>区划名称:</div>
-          <a-input placeholder="请输入区划名称" v-model="keyword" />
+          <div class='title_tx'>灯具名称/编号:</div>
+          <div style="width: 200px;">
+            <a-input placeholder="请输入灯具名称/编号" v-model="keyword" />
+          </div>
+
+
+          <div class='title_tx' style="margin-left: 20px;">灯具状态:</div>
+          <a-select :value="statusCode?statusCode:'全部'" style="width: 200px;" @change="stateSelectChange">
+            <a-select-option key='' value="">
+              全部
+            </a-select-option>
+            <a-select-option v-for='(item,index) in statusCodeList' :key='index' :value="item.comboBoxId">
+              {{item.comboBoxName}}
+            </a-select-option>
+          </a-select>
 
           <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
           <a-button @click='cleanSearch'>清除</a-button>
         </div>
+
       </div>
-      <a-button  class='base_add88_btn' type='primary' @click='edit({})'>  <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
-      <a-table :scroll="{  y: 625 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
+      <a-button class='base_add88_btn' type='primary' @click='edit({})'>   <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
+      <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
-        <div slot='nodeType' slot-scope="text, record,index">
-          {{record.nodeType==0?'授权':'自建'}}
-        </div>
         <template slot="operation" slot-scope="text, record">
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
-            <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 20px;margin-right: 20px;"></div>
+            <div class="per-line"></div>
+            <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
+            <div class="per-line"></div>
             <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
-              <a href="#" v-if="record.childTotal<=0&&record.deviceTotal<=0" style='color: #FF0000;font-size: 12px;'>删除</a>
-              <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
+              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
           </div>
         </template>
       </a-table>
     </div>
   </div>
-
 </template>
-<!-- 基础配置  区域管理-->
+<!-- 路灯杆信息-->
 <script>
   import tadata from './table.json'
   export default {
-
     data() {
       return {
-        treedata: [],
-        showTree: false, //
+        showTree: false, //展示树
         isselectdata: "", //选中的左边树item
         defaultExpandedKeys: [], //默认展开
         defaultSelectedKeys: [], //默认选中
-        tableTitle: tadata.tableTitle, //表格title
+        tableTitle: tadata.tableTitle, //表格标题
         tableData: [], //表格数据
-        keyword: '', //搜索条件
-        pagination: this.$config.pagination,
+        statusCode: '', //状态选择
+        statusCodeList: this.$config.statueList, //下拉选择状态
+        keyword: '', //输入框 搜索条件 监控箱名称
+        projectName: '', //输入框 搜索条件 归属i项目
+        pagination: this.$config.pagination
       }
     },
     created() {
       this.gettree()
     },
     methods: {
-      /* 编辑删除*/
+      /* 编辑 新增*/
       edit(item) {
-        this.$router.push({
-          path: '/addwatthourmeter',
-          query: {
-            areaId: item.areaId
-          }
-        });
+        this.$router.push('/addlamp')
+      },
+      /* 预览*/
+      see() {
+        this.$router.push('/seelamp')
       },
       /* 获取表格数据*/
       async getTableData() {
@@ -74,11 +85,13 @@
         this.tableData = []
         let param = {
           keyword: this.keyword,
+          projectName: this.projectName,
+          statusCode: this.statusCode,
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize,
           parentId: this.isselectdata.id
         }
-        let res = await this.$http.post(this.$api.areaspage, param)
+        let res = await this.$http.post(this.$api.devicemonitorboxpage, param)
         if (res.data.resultCode == 10000) {
           if (res.data.data) {
             this.tableData = res.data.data.list
@@ -89,35 +102,34 @@
           this.$message.error(res.data.resultMsg)
         }
       },
+      /* 确认选择*/
       async confirmDelete(item) {
         let param = {
-          areaId: item.areaId
+          deviceId: item.deviceId
         }
-        let res = await this.$http.post(this.$api.areasremove, param)
+        let res = await this.$http.post(this.$api.devicemonitorboxremove, param)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
-          this.gettree()
+          this.getTableData()
         } else {
           this.$message.error(res.data.resultMsg)
         }
       },
-      cleanTxt(){},
+      /* 分页选择*/
       handleTableChange(pagination) {
         this.pagination = pagination;
         this.getTableData()
       },
+      /* 状态选择*/
+      stateSelectChange(e) {
+        this.statusCode = e
+      },
+
       //树接口
       async gettree() {
         let res = await this.$http.post(this.$api.areastree, {});
         if (res.data.resultCode == 10000) {
           this.setdata(res.data.data);
-          if (localStorage.getItem('watthour')) {
-            this.getselectdata(JSON.parse(localStorage.getItem('watthour')));
-            this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('watthour')).id);
-          } else {
-            this.getselectdata(this.treedata[0])
-            this.defaultSelectedKeys.push(this.treedata[0].id);
-          }
         }
       },
 
@@ -126,20 +138,31 @@
         this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
         this.treedata = this.$utils.toTree(data);
         this.showTree = true
+        if (localStorage.getItem('kotakpe')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('kotakpe')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('kotakpe')).id);
+        } else {
+          this.getselectdata(this.treedata[0])
+          this.defaultSelectedKeys.push(this.treedata[0].id);
+        }
       },
       /* 点击Item事件*/
       getselectdata(val) {
         if (!val)
           return
-        localStorage.setItem('watthour', JSON.stringify(val))
+        localStorage.setItem('kotakpe', JSON.stringify(val))
         this.isselectdata = val;
         this.getTableData()
       },
-      /* 清除搜索条件*/
+
       cleanSearch() {
         this.keyword = ''
+        this.projectName = ''
+        this.statusCode = ''
+        this.serviceType = ''
         this.getTableData()
-      },
+      }
+
     }
   }
 </script>

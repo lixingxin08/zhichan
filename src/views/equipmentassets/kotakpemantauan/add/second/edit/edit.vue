@@ -43,18 +43,7 @@
         param:{
 paramType:1
         },
-        selectList: [{
-            comboBoxId: '1',
-            comboBoxName: '备用'
-          },
-          {
-            comboBoxId: '2',
-            comboBoxName: '启用'
-          }, {
-            comboBoxId: '3',
-            comboBoxName: '损坏'
-          }
-        ]
+        selectList: this.$config.lineStatueList
       }
     },
 

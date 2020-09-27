@@ -16,8 +16,8 @@ Vue.prototype.$utils = utils;
 Vue.prototype.$config=config
 import store from "./store";
 
-
-
+ import isLeftTree from './components/tree/tree.vue'
+Vue.component("isLeftTree", isLeftTree);
 import 'ant-design-vue/dist/antd.css';
 import {
   Layout,

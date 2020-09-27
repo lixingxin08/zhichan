@@ -1,28 +1,41 @@
 <template>
+  <div class="administrativedivision flex_fs">
+    <div class="isleft">
+      <is-left-tree v-if="showTree" :treedata="treedata" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
+        :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
+    </div>
   <div class="content2">
     <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>路灯杆名称/编号:</div>
         <div style="width: 200px;">
-          <a-input placeholder="请输入字典名称" v-model="keyword" />
+          <a-input placeholder="请输入路灯杆名称/编号" v-model="keyword" />
         </div>
 
-        <div class='title_tx' style="margin-left: 20px;">归属项目:</div>
-        <div style="width: 200px;">
-          <a-input placeholder="请输入归属项目" v-model="keyword2" />
-        </div>
-        <div class='title_tx' style="margin-left: 20px;">路灯杆状态:</div>
-        <a-select :value="stateSelect?stateSelect:'全部'" style="width: 200px;" @change="stateSelectChange">
-          <a-select-option :key='3' :value="3">
+        <div class='title_tx' style="margin-left: 20px;">线路名称:</div>
+        <a-select :value="lineId?lineId:'全部'" style="width: 200px;" @change="lineIdSelectChange">
+          <a-select-option key='' value="">
             全部
           </a-select-option>
-          <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxId">
+          <a-select-option v-for='(item,index) in lineList' :key='index' :value="item.comboBoxId">
+            {{item.comboBoxName}}
+          </a-select-option>
+        </a-select>
+        <div class='title_tx' style="margin-left: 20px;">路灯杆状态:</div>
+        <a-select :value="enableFlag?enableFlag:'全部'" style="width: 200px;" @change="stateSelectChange">
+          <a-select-option key='' value="">
+            全部
+          </a-select-option>
+          <a-select-option v-for='(item,index) in statusCodeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
         <div class='title_tx' style="margin-left: 20px;">用途类型:</div>
-        <a-select :value="streetSelect?streetSelect:'全部'" style="width: 200px;" @change="streetSelect">
-          <a-select-option v-for='(item,index) in selectList2' :key='index' :value="item.comboBoxId">
+        <a-select :value="useType?useType:'全部'" style="width: 200px;" @change="useTypeSelect">
+          <a-select-option key='' value="">
+            全部
+          </a-select-option>
+          <a-select-option v-for='(item,index) in useTypeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
@@ -31,22 +44,23 @@
       </div>
 
     </div>
-    <a-button style='width: 66px;margin-bottom: 20px;' type='primary' @click='edit({})'>新增</a-button>
+    <a-button  class='base_add88_btn' type='primary' @click='edit({})'> <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
-           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
-                <div class="per-line"></div>
-                  <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
-                     <div class="per-line"></div>
+          <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
+          <div class="per-line"></div>
+          <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
+          <div class="per-line"></div>
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>
         </div>
       </template>
     </a-table>
+  </div>
   </div>
 </template>
 <!-- 路灯杆信息-->
@@ -55,36 +69,80 @@
   export default {
     data() {
       return {
+        showTree: false, //展示树
+        isselectdata: "", //选中的左边树item
+        defaultExpandedKeys: [], //默认展开
+        defaultSelectedKeys: [], //默认选中
         tableTitle: tadata.tableTitle, //表格标题
-        tableData: [{}], //表格数据
-         selectList: this.$config.statueList, //下拉选择  路灯杆状态
-        streetSelect: '', //监控箱选择
-        selectList2: [{ //下拉选择  用途类型
-          comboBoxId: '',
-          comboBoxName: '全部'
-        }],
-        stateSelect: '', //状态选择
+        tableData: [], //表格数据
+        enableFlag: '', //状态选择
+        statusCodeList: this.$config.statueList, //下拉选择  监控箱状态
+        useType: '', //用途类型
+        useTypeList: this.$config.useTypeList,
+        lineList: [],
+        lineId: [],
         keyword: '', //输入框 搜索条件 监控箱名称
-        keyword2: '', //输入框 搜索条件 归属i项目
-       pagination:this.$config.pagination,
+        projectName: '', //输入框 搜索条件 归属i项目
+        pagination: this.$config.pagination,
       }
+    },
+    created() {
+          this.gettree()
     },
     methods: {
       /* 编辑 新增*/
       edit(item) {
-        this.$router.push('/addtianglampu')
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+          },
+          path: '/addtianglampu'
+        })
       },
       /* 预览*/
-      see(){
-  this.$router.push('/seetianglampu')
+      see() {
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+          },
+          path: '/seetianglampu'
+        })
       },
       /* 获取表格数据*/
-      getTableData() {
-
+      async getTableData() {
+        this.tableData = []
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        let param = {
+          useType: this.useType,
+          enableFlag: this.enableFlag,
+          keyword: this.keyword,
+          lineName: this.lineId,
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize
+        }
+        let res = this.$http.post(this.$api.devicelightpolepage, param)
+        if (res.data.resultCode == 10000) {
+          if (res.data.data) {
+            this.tableData = res.data.data.list
+            if (this.pagination.current == 1)
+              this.pagination.total = res.data.data.length
+          }
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
       /* 确认选择*/
-      confirmDelete(item) {
-
+      async confirmDelete(item) {
+        let param = {
+          deviceId: item.deviceId
+        }
+        let res = this.$http.post(this.$api.devicelightpoleremove, param)
+        if (res.data.resultCode == 10000) {
+          this.getTableData()
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
       /* 分页选择*/
       handleTableChange(pagination) {
@@ -93,17 +151,49 @@
       },
       /* 状态选择*/
       stateSelectChange(e) {
-        this.stateSelect = e
+        this.enableFlag = e
       },
-      /* 监控箱选择*/
-      streetSelectChange(e) {
-        this.streetSelect = e
+      lineIdSelectChange(e) {
+        this.lineId = e
+      },
+      /* 用途选择*/
+      useTypeSelect(e) {
+        this.useType = e
+      },
+      //树接口
+      async gettree() {
+        let res = await this.$http.post(this.$api.devicelightpoletree, {});
+        if (res.data.resultCode == 10000) {
+          this.setdata(res.data.data);
+        }
+      },
+
+      /* 设置tree 数据*/
+      setdata(data) {
+        this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
+        this.treedata = this.$utils.toTree(data);
+        this.showTree = true
+        if (localStorage.getItem('tianglampu')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('tianglampu')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('tianglampu')).id);
+        } else {
+          this.getselectdata(this.treedata[0])
+          this.defaultSelectedKeys.push(this.treedata[0].id);
+        }
+      },
+      /* 点击Item事件*/
+      getselectdata(val) {
+        if (!val)
+          return
+        localStorage.setItem('tianglampu', JSON.stringify(val))
+        this.isselectdata = val;
+        this.getTableData()
       },
       cleanSearch() {
         this.keyword = ''
-        this.keyword2 = ''
-        this.stateSelect = ''
-        this.streetSelect = ''
+        this.projectName = ''
+        this.enableFlag = ''
+        this.useType = ''
         this.getTableData()
       }
 

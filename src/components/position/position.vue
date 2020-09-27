@@ -64,7 +64,7 @@ export default {
         viewMode: "2D",
         resizeEnable: true,
       });
-      _that.map.plugin(["AMap.ToolBar", "AMap.Geolocation"], function () {
+      _that.map.plugin(["AMap.ToolBar", "AMap.Geolocation", 'AMap.Geocoder'], function () {
         _that.map.addControl(new AMap.ToolBar());
         const geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
@@ -89,6 +89,7 @@ export default {
         });
         _that.map.addControl(geolocation);
       });
+      
       _that.map.on("click", function (params) {
         console.log(params, 112);
         if (_that.markertype == true) {
@@ -106,13 +107,8 @@ export default {
 
         _that.map.add(_that.marker);
         _that.markertype = true;
-
-        let geocoder = new AMap.Geocoder({
-          radius: 1000, //范围，默认：500
-        });
-        geocoder.getAddress(_that.position, function (status, result) {
-          console.log(status, result, 666666454);
-        });
+        let lnglat=[params.lnglat.lng,params.lnglat.lat]
+       _that.getaddress(lnglat)
       });
     },
     confirm() {
@@ -124,6 +120,27 @@ export default {
         this.$emit("isvisible", this.visible);
       }
     },
+    getaddress: function(lnglat) {
+				AMap.plugin('AMap.Geocoder', function() {
+					var geocoder = new AMap.Geocoder({
+						// city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
+						city: '010'
+					})
+					geocoder.getAddress(lnglat, function(status, result) {
+       
+						if (status === 'complete' && result.info === 'OK') {
+							// self.formattedAddress=result.regeocode.formattedAddress
+              // result为对应的地理位置详细信息
+              this.$emit("address",result.regeocode.formattedAddress);     
+						}
+					})
+				})
+			},
+
+
+
+
+
     getLatLngLocation() {
       let _that = this;
       if (this.city == "") {

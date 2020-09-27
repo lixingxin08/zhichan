@@ -9,60 +9,78 @@
         "customRender": "index"
       }
     }, {
-      "title": "路灯杆名称",
+      "title": "5G基站名称",
       "align": "center",
       "ellipsis": true,
       "dataIndex": "deviceName"
     },
     {
-      "title": "路灯杆编号",
+      "title": "5G基站编号",
       "align": "center",
       "ellipsis": true,
       "dataIndex": "deviceCode"
     },
     {
-      "title": "路灯杆型号",
+      "title": "5G基站型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceModel"
+      "dataIndex": "modelName "
     },
-  
     {
-      "title": "用途类型",
+      "title": "运营商",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "statusCode "
+    },
+    {
+      "title": "归属路灯杆",
       "align": "center",
       "ellipsis": true,
       "dataIndex": "useType"
     },
+ 
     {
-      "title": "归属线路",
+      "title": "5G基站状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "lineName"
-    },
-
-    {
-      "title": "归属监控箱",
-      "align": "center",
-      "ellipsis": true,
-      "dataIndex": "deviceMonitorBoxName"
+      "dataIndex": "statueCode"
     },
     {
-      "title": "归属项目",
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ],
+  "tableLineTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "projectName"
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "线路名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "className"
     },
     {
-      "title": "路灯杆状态",
+      "title": "线路状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "statusCode  "
+      "dataIndex": "classCode"
     },
     {
-      "title": "挂载设备数",
+      "title": "备注信息",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceTotal"
+      "dataIndex": "gradeddd"
     },
     {
       "title": "操作",
@@ -74,5 +92,4 @@
       }
     }
   ]
-
 }

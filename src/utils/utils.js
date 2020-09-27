@@ -19,6 +19,12 @@ export default {
     }
     return true;
   },
+
+  isChinese16 :function (temp){
+      var re=/[^\u4E00-\u9FA5]{2,16}$/gi;
+      if (re.test(temp)) return false ;
+      return true ;
+  },
   //校验中文字符
   vify_cn: function(phone) {
     let myreg = /^[\u4e00-\u9fa5]+$/gi;
@@ -63,6 +69,13 @@ export default {
     }
   },
   toTree: function(data) {
+
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].nodeType == 0) {
+        data[i].disabled = true;
+      }
+    }
+
     let result = [];
     if (!Array.isArray(data)) {
       return result;
@@ -86,8 +99,8 @@ export default {
   },
   getTreeExpandedKeys: function(data) {
     let defaultExpandedKeys = []
-    for (let i = 0; i <data.length; i++) {
-      if (data[i].open == true) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].open) {
         defaultExpandedKeys.push(data[i].id);
       }
     }

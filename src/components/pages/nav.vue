@@ -39,22 +39,29 @@
             <span>路灯杆</span>
           </router-link>
         </a-menu-item>
+    
+        <a-menu-item key="lamp">
+        
+          <router-link to='/lamp'>
+            <span>灯具</span>
+          </router-link>
+        </a-menu-item>
         <a-menu-item key="kontroler">
           <!-- <a-icon type="upload" /> -->
           <router-link to="/kontroler">
-            <span>路灯控制器</span>
+            <span>终端控制器</span>
           </router-link>
         </a-menu-item>
-      <!--   <a-menu-item key="pengelompokan">
-          <a-icon type="upload" />
-          <router-link to='/pengelompokan'>
-            <span>分组管理</span>
-          </router-link>
-        </a-menu-item>-->
         <a-menu-item key="kamera">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/kamera'>
-            <span>摄像头信息</span>
+            <span>监控摄像头</span>
+          </router-link>
+        </a-menu-item>
+        <a-menu-item key="basestation">
+          <!-- <a-icon type="upload" /> -->
+          <router-link to='/basestation'>
+            <span>5G基站</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="siaranip">
@@ -79,7 +86,7 @@
         <a-menu-item key="lingkungan">
           <!-- <a-icon type="upload" /> -->
           <router-link to='/lingkungan'>
-            <span>环境要素信息</span>
+            <span>环境传感器</span>
           </router-link>
         </a-menu-item>
          <a-menu-item key="layarled">

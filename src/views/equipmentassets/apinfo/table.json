@@ -12,32 +12,35 @@
       "title": "WIFI名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "WIFI编号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "WIFI型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "modelName"
     },
     {
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "deviceLightPoleName"
     },
    
     {
       "title": "WIFI状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+      "dataIndex": "statusCode",
+	  "scopedSlots": {
+	    "customRender": "statusCode"
+	  }
     },
    
     {

@@ -26,10 +26,13 @@
       </div>
 
     </div>
-    <a-button style='width: 66px;margin-bottom: 20px;' type='primary' @click='edit({})'>新增</a-button>
+    <a-button  class='base_add88_btn' type='primary' @click='edit({})'> <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+      <div slot='statusCode' slot-scope="text, record">
+        {{record.statusCode==1?'启用':'备用'}}
+      </div>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
