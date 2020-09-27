@@ -12,14 +12,17 @@
           <a-input placeholder="请输入归属项目" v-model="keyword2" />
         </div>
         <div class='title_tx' style="margin-left: 20px;">路灯杆状态:</div>
-        <a-select :value="streetSelect?streetSelect:'全部'" style="width: 200px;" @change="stateSelectChange">
+        <a-select :value="stateSelect?stateSelect:'全部'" style="width: 200px;" @change="stateSelectChange">
+          <a-select-option :key='3' :value="3">
+            全部
+          </a-select-option>
           <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
         <div class='title_tx' style="margin-left: 20px;">用途类型:</div>
-        <a-select :value="stateSelect?stateSelect:'全部'" style="width: 200px;" @change="streetSelect">
-          <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxId">
+        <a-select :value="streetSelect?streetSelect:'全部'" style="width: 200px;" @change="streetSelect">
+          <a-select-option v-for='(item,index) in selectList2' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
@@ -54,10 +57,7 @@
       return {
         tableTitle: tadata.tableTitle, //表格标题
         tableData: [{}], //表格数据
-        selectList: [{
-          comboBoxId: '',
-          comboBoxName: '全部'
-        }], //下拉选择  路灯杆状态
+         selectList: this.$config.statueList, //下拉选择  路灯杆状态
         streetSelect: '', //监控箱选择
         selectList2: [{ //下拉选择  用途类型
           comboBoxId: '',
@@ -66,15 +66,7 @@
         stateSelect: '', //状态选择
         keyword: '', //输入框 搜索条件 监控箱名称
         keyword2: '', //输入框 搜索条件 归属i项目
-        pagination: {
-          total: 0, //总条数
-          size: "default", //分页展示样式
-          current: 1, //当前选择页
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-        }
+       pagination:this.$config.pagination,
       }
     },
     methods: {

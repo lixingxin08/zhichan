@@ -53,21 +53,13 @@
 
         stateSelect: '', //状态选择
         keyword: '', //输入框 搜索条件 名称
-        pagination: {
-          total: 0, //总条数
-          size: "default", //分页展示样式
-          current: 1, //当前选择页
-          pageSize: 20, // 默认每页显示数量
-          showSizeChanger: true, // 显示可改变每页数量
-          pageSizeOptions: ['10', '20', '30', '40'], // 每页数量选项
-          showQuickJumper: true,
-        }
+        pagination:this.$config.pagination,
       }
     },
     methods: {
       /* 编辑 新增*/
       edit(item) {
-        this.$router.push('/addapinfo')
+       this.$router.push('/addapinfo')
       },
       /* 预览*/
       see() {

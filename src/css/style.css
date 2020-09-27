@@ -1,125 +1,147 @@
-#bg{
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(to bottom, #00001e, #000737, #001f7f, #002daf);
+#bg {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, #00001e, #000737, #001f7f, #002daf);
 }
-#cbox{
-    width: 80%;
-    margin: 0 auto;
+
+#cbox {
+  width: 80%;
+  margin: 0 auto;
 }
-.flex_f{
-    display: flex;
-    justify-content: start;
-    align-items: center;
+
+.flex_f {
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
-.flex_fs{
-    display: flex;
-    justify-content: start;
-    align-items: flex-start;
+
+.flex_fs {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
 }
-.flex_a{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+
+.flex_a {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
-.flex_b{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.flex_b {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
 .flexrow {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .flexcolumn {
-	display: flex;
-	flex-direction: column;
-}
- .ant-table-thead>tr>th {
-  background-color: #F6FBFF!important;
-}
-.flexac {
-	align-items: center;
-}
-.content2{
   display: flex;
   flex-direction: column;
-  background-color: #FFFFFF;
-justify-content: flex-start;
-	padding: 20px;
 }
+
+.ant-table-thead>tr>th {
+  background-color: #F6FBFF !important;
+}
+
+.flexac {
+  align-items: center;
+}
+
+.content2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
 .flexjc {
-	justify-content: center;
-	justify-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.isleft {
+  min-width: 240px;
+  height: 100%;
+  height: 90vh;
+  padding: 20px;
+  background-color: #fff;
+  overflow: scroll;
+  box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.16);
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #1890FF;
+}
+
+::-webkit-scrollbar-track {
+  //¹ìµÀ²¿·Ö
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #ededed;
+  border-radius: 10px;
 }
 
 .flexsb {
-	justify-content: space-between;
+  justify-content: space-between;
 }
-.table_list{
-    background-color: #fff!important;
-    color: #666666;
+
+.table_list {
+  background-color: #fff !important;
+  color: #666666;
 }
-.islist .ant-table-selection-column{
-border-right: none!important;
+
+.islist .ant-table-selection-column {
+  border-right: none !important;
 }
+
 /* .ant-table-thead > tr > th {
     white-space: nowrap !important;
     background: #1890FF !important;
     color: #fff!important;
     border-bottom: 1px solid #e8e8e8!important;
   } */
-.children_content{
+.children_content {
   padding: 20px;
 }
-  .ps_ab {
-    z-index: 9;
-    position: absolute;
-    color: rgba(51, 51, 51, 1);
-    font-family: Microsoft YaHei;
-    font-weight: 400;
-    line-height: 14px;
-  }
 
-  .ps_flex {
-    width: 800px;
-    position: fixed;
-    left: 30%;
-    padding: 40px;
-    top: 20%;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 16px rgba(87, 174, 255, 1);
-  }
- .dialog_title {
-    font-size: 24px;
-    opacity: 1;
-  }
-  .per-line{
-    height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 20px;margin-right: 20px;
-  }
-  
-.confirm_btn {
-  width: 66px;
-  height: 32px;
-  background: #1890ff;
-  border: 1px solid #1890ff;
-  border-radius: 2px;
-  font-size: 14px;
-  color: #fff;
-  text-align: center;
-  line-height: 32px;
-  margin-right: 60px;
-  cursor: pointer;
+.ps_ab {
+  z-index: 9;
+  position: absolute;
+  color: rgba(51, 51, 51, 1);
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  line-height: 14px;
 }
 
-.cancel_btn {
-  width: 66px;
-  height: 32px;
-  font-size: 14px;
-  color: #333;
-  border: 1px solid #dcdcdc;
-  text-align: center;
-  line-height: 32px;
-  cursor: pointer;
+.ps_flex {
+  width: 800px;
+  position: fixed;
+  left: 30%;
+  padding: 40px;
+  top: 20%;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 16px rgba(87, 174, 255, 1);
+}
+
+.dialog_title {
+  font-size: 24px;
+  opacity: 1;
+}
+
+.per-line {
+  height: 20px;
+  width: 1px;
+  background-color: #e5e5e5;
+  margin-left: 20px;
+  margin-right: 20px;
 }

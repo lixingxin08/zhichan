@@ -11,7 +11,7 @@
         :replaceFields="replaceFields"
         :default-expanded-keys="defaultExpandedKeys"
       >
-        <a-icon slot="icon" type="carry-out" />
+       <a-icon slot="switcherIcon" type="caret-down" />
       </a-tree>
     </div>
   </div>

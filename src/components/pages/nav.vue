@@ -1,5 +1,5 @@
 <template>
-  <a-layout-sider v-model="iscollapsed" :trigger="null" collapsible collapsedWidth="0">
+  <a-layout-sider v-model="iscollapsed"  class="scroller-nav" :trigger="null" collapsible collapsedWidth="0">
     <div class="logo_box flex_a" >
        <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
     </div>
@@ -125,5 +125,17 @@
   }
   .nav_title{
     margin-left: 10px;
+  }
+
+  .scroller-nav {
+    color: #fff;
+    height: 100vh;
+    overflow: scroll;
+
+    max-height: 1009px;
+  }
+
+  .scroller-nav::-webkit-scrollbar {
+    display: none;
   }
 </style>

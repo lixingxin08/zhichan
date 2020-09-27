@@ -12,43 +12,43 @@
       "title": "监控箱名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "监控箱编号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "监控箱型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "modelName "
     },
     {
       "title": "监控箱状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "statusCode "
     },
     {
       "title": "用途类型",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode"
+      "dataIndex": "useType"
     },
     {
       "title": "归属项目",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+      "dataIndex": "projectName"
     },
     {
       "title": "挂载设备数",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode3"
+      "dataIndex": "deviceTotal"
     },
     {
       "title": "操作",

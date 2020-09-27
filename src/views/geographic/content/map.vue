@@ -60,7 +60,7 @@ export default {
           _that.islng += _that.islng 
           let ismarker = new AMap.Marker({
             position: new AMap.LngLat(_that.islat, _that.islng),
-            offset: new AMap.Pixel(-46, -54),
+            offset: new AMap.Pixel(-23, -54),
             icon: _that.isimg, // 添加 Icon 图标 URL
           });
           map.add(ismarker);
