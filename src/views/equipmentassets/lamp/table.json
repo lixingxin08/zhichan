@@ -1,0 +1,106 @@
+{
+  "tableTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
+      "align": "center",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "灯具名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "deviceName"
+    },
+    {
+      "title": "灯具编号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "deviceCode"
+    },
+    {
+      "title": "灯具型号",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "modelName "
+    },
+    {
+      "title": "灯具类型",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "statusCode "
+    },
+    {
+      "title": "归属路灯杆",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "useType"
+    },
+    {
+      "title": "归属线路",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "projectName"
+    },
+    {
+      "title": "控制器名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "deviceTotal"
+    },
+    {
+      "title": "灯具状态",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "statueCode"
+    },
+    {
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ],
+  "tableLineTitle": [{
+      "title": "序号",
+      "width": "80px",
+      "dataIndex": "index",
+      "align": "center",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "index"
+      }
+    }, {
+      "title": "线路名称",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "className"
+    },
+    {
+      "title": "线路状态",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "classCode"
+    },
+    {
+      "title": "备注信息",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "gradeddd"
+    },
+    {
+      "title": "操作",
+      "align": "center",
+      "width": "220px",
+      "ellipsis": true,
+      "scopedSlots": {
+        "customRender": "operation"
+      }
+    }
+  ]
+}

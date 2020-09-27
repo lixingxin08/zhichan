@@ -23,7 +23,7 @@
       </div>
 
     </div>
-    <a-button style='width: 66px;margin-bottom: 20px;' type='primary' @click='edit({})'>新增</a-button>
+    <a-button  class='base_add88_btn' type='primary' @click='edit({})'> <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
@@ -34,8 +34,8 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
           <div class="per-line"></div>
-          <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
-          <div class="per-line"></div>
+   <!--       <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
+          <div class="per-line"></div> -->
           <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
             <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
           </a-popconfirm>

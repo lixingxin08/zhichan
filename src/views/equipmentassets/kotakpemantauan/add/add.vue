@@ -3,12 +3,12 @@
     <a-steps style='width: 400px;margin: 0 auto;' :current="step" type="navigation" @change="onChangeStep">
       <a-step v-for="item in steps" :key="item.status" :title="item.title" />
     </a-steps>
-    <is-first ref='first' v-show="step==0" :deviceId='deviceId'></is-first>
-    <is-second v-show="step==1" ></is-second>
+    <is-first ref='first' v-show="step==0" :deviceId='deviceId' @callback='submitCallBack'></is-first>
+    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode'></is-second>
     <div class="flexrow flexjc" style="margin-top: 50px;">
       <a-button v-if='step!=0' @click='backStep'>上一步</a-button>
       <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='save'>保存</a-button>
-      <a-button type='primary' style='margin-right: 20px;'>保存并复制</a-button>
+      <a-button type='primary' style='margin-right: 20px;' @click='submitNext'>下一步</a-button>
       <a-button @click='reset'>重置</a-button>
     </div>
   </div>
@@ -34,36 +34,62 @@
             status: 2
           },
         ],
-        deviceId: ""
+        deviceId: "",
+        deviceCode: ""
+      }
+    },
+    created() {
+      this.deviceId = this.$route.query.deviceId
+      if (this.deviceId) {
+        this.getDetail()
       }
     },
     methods: {
-      onChangeConfig(e) { //修改字典描述
-        this.remarkLength = this.config.remark.length
-      },
+      /* 切换视图*/
       onChangeStep(step) {
+        if (step == 1 && !this.$refs.first.getMontiorStatue()) {
+          return
+        }
+        if (step == 1) {
+          this.$refs.first.submit()
+          return
+        }
         this.step = step;
+      },
+      submitCallBack(data) {
+        if (data.resultCode == 10000) {
+          this.step = 1
+          this.deviceCode = data.deviceCode
+          this.$refs.second.getLineData()
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
       /* 返回*/
       backStep() {
         this.onChangeStep(this.step - 1)
       },
       /* 保存*/
-      save(){
-        if(this.step==0){
+      save() {
+        if (this.step == 0) {
           this.$refs.first.submit()
         }
       },
-      saveAndCopy(){
-        if(this.step==0){
+
+      /* 下一步*/
+      submitNext() {
+        if (this.step == 0) {
           this.$refs.first.submitAndCopy()
         }
       },
+      getDetail() {
+        this.$refs.first.getDetail()
+      },
       /* 重置*/
-      reset(){
-       if(this.step==0){
-         this.$refs.first.reset()
-       }
+      reset() {
+        if (this.step == 0) {
+          this.$refs.first.reset()
+        }
       }
     }
   }

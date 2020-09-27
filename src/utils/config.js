@@ -31,7 +31,7 @@ const lineStatueList = [{
             comboBoxName: '启用'
           }, {
             comboBoxId: '3',
-            comboBoxName: '损坏'
+            comboBoxName: '已报废'
           }
         ]
 export default {

@@ -1,14 +1,14 @@
 <template>
   <div class="content2">
     <div style="margin: 0 auto;">
-      <div class="flexrow flexac edit_item_ko_first">
+      <!-- <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>路灯杆品牌:</div>
         <a-select :value="config.deviceBrandId?config.deviceBrandId:'请选择'" style="width: 667px;" @change="brandSelectChange">
           <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
-      </div>
+      </div> -->
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>路灯杆型号:</div>
         <a-select :value="config.deviceModelId?config.deviceModelId:'请选择'" style="width: 667px;" @change="modelSelectChange">
@@ -20,7 +20,7 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>路灯杆名称:</div>
         <div class="edit_item_input">
-          <a-input v-model="config.deviceName" :maxLength='50' placeholder='50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
+          <a-input v-model="config.deviceName" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
@@ -49,7 +49,7 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属监控箱:</div>
         <div class="edit_item_input">
-          <a-input v-model="config.input" disabled placeholder='50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' :maxLength='50' />
+          <a-input v-model="config.input" disabled placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' :maxLength='30' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
@@ -124,10 +124,10 @@
     },
     methods: {
       async submit() {
-        if (!this.config.deviceBrandId) {
-          this.$message.warning('请选择路灯杆品牌')
-          return
-        }
+        // if (!this.config.deviceBrandId) {
+        //   this.$message.warning('请选择路灯杆品牌')
+        //   return
+        // }
         if (!this.config.deviceModelId) {
           this.$message.warning('请选择路灯杆型号')
           return

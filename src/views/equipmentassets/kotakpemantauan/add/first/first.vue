@@ -1,7 +1,7 @@
 <template>
   <div class="content2">
     <div style="margin: 0 auto;">
-    <!--  <div class="flexrow flexac edit_item_ko_first">
+      <!--  <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>监控箱品牌:</div>
         <a-select :value="config.deviceBrandId?config.deviceBrandId:'请选择'" style="width: 667px;" @change="brandSelectChange">
           <a-select-option v-for='(item,index) in brandList' :key='index' :value="item.comboBoxId">
@@ -12,8 +12,8 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>监控箱型号:</div>
         <a-select :value="config.deviceModelId?config.deviceModelId:'请选择'" style="width: 667px;" @change="modelSelectChange">
-          <a-select-option v-for='(item,index) in modeList' :key='index' :value="item.comboBoxId">
-            {{item.comboBoxName}}
+          <a-select-option v-for='(item,index) in modeList' :key='index' :value="item.modelId">
+            {{item.modelName}}
           </a-select-option>
         </a-select>
       </div>
@@ -48,13 +48,13 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">通讯模组号IMEI:</div>
 
-          <a-input-number style='width: 667px;' v-model="config.imei" placeholder='15位，数字' :max='999999999999999' />
+        <a-input-number style='width: 667px;' v-model="config.imei" placeholder='15位，数字' :max='999999999999999' />
 
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">物联数据卡(ICCID):</div>
 
-          <a-input-number style='width: 667px;' v-model="config.iccid" placeholder='20位，数字' :max='99999999999999999999' />
+        <a-input-number style='width: 667px;' v-model="config.iccid" placeholder='20位，数字' :max='9999999999999999999' />
 
       </div>
       <div class="flexrow flexac edit_item_ko_first">
@@ -88,7 +88,7 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">备注信息:</div>
         <div style="position: relative;width: 667px;">
-          <a-textarea :maxLength='256' :rows="5" placeholder="字典描述" v-model="config.remark" />
+          <a-textarea :maxLength='256' :rows="5" placeholder="请输入备注信息" v-model="config.remark" />
           <div class="edit_number_ko_first">{{config.remark.length}}/256</div>
         </div>
       </div>
@@ -106,7 +106,7 @@
         isCopy: false,
         brandList: [], //监控箱品牌
         modeList: [], //监控箱型号
-        stageCodeList: this.$config.statueList, //监控箱状态
+        stageCodeList: this.$config.lineStatueList, //监控箱状态
         useTypeList: this.$config.useTypeList, //用途类型
         projectList: [], //归属项目
         phaseList: [], //阶段项目
@@ -121,6 +121,9 @@
         }
       }
     },
+    created() {
+      this.getModeList()
+    },
     methods: {
       /* 提交*/
       async submit() {
@@ -128,40 +131,42 @@
         //   this.$message.warning('请选择监控箱品牌')
         //   return
         // }
-        if (!this.config.deviceModelId) {
-          this.$message.warning('请选择监控箱型号')
-          return
-        }
-        if (!this.$utils.vify_cn50(this.config.deviceName)) {
-          this.$message.warning('请填写监控箱名称')
-          return
-        }
-        if (!this.$utils.vify_cn50(this.config.deviceCode)) {
-          this.$message.warning('请填写监控箱编号')
-          return
-        }
-        if (!this.config.statusCode) {
-          this.$message.warning('请选择监控箱状态')
-          return
-        }
-        if (!this.config.useType) {
-          this.$message.warning('请选择监控箱用途类型')
-          return
-        }
-        if (!this.config.projectId) {
-          this.$message.warning('请选择归属项目')
+        if (!this.getMontiorStatue()) {
           return
         }
         let res = await this.$http.post(this.$api.devicemonitorboxform, this.config)
-        if (res.data.resultCode == 10000) {
-          if (this.isCopy) {
 
-          }
-          this.$route.go(-1)
-          this.$emit('callBack')
-        } else {
-          this.$message.error(res.data.resultMsg)
+        //this.$route.go(-1)
+        this.$emit('callBack', res.data)
+
+      },
+
+      getMontiorStatue() {
+        if (!this.config.deviceModelId) {
+          this.$message.warning('请选择监控箱型号')
+          return false
         }
+        if (!this.$utils.vify_cn50(this.config.deviceName)) {
+          this.$message.warning('请填写监控箱名称')
+          return false
+        }
+        if (!this.$utils.vify_cn50(this.config.deviceCode)) {
+          this.$message.warning('请填写监控箱编号')
+          return false
+        }
+        if (!this.config.statusCode) {
+          this.$message.warning('请选择监控箱状态')
+          return false
+        }
+        if (!this.config.useType) {
+          this.$message.warning('请选择监控箱用途类型')
+          return false
+        }
+        if (!this.config.projectId) {
+          this.$message.warning('请选择归属项目')
+          return false
+        }
+        return true
       },
       submitAndCopy() {
         this.isCopy = true
@@ -182,7 +187,26 @@
           }
         }
       },
-      getDetail(){},
+      async getDetail() {
+        let param = {
+          deviceId: this.deviceId
+        }
+        let res = await this.$http.post(this.$api.devicemonitorboxdetail, param)
+        if (res.data.resultCode == 10000) {
+          this.config = res.data.data
+        }
+      },
+      async getModeList() {
+        this.modeList = []
+        let res = await this.$http.post(this.$api.devicemonitorboxgetmodel, {})
+        if (res.data.resultCode == 10000) {
+          this.modeList = res.data.data
+        }
+        let res2 = await this.$http.post(this.$api.devicemonitorboxproject, {})
+        if (res2.data.resultCode == 10000) {
+          this.projectList = res2.data.data
+        }
+      },
       /* 监控箱状态 */
       stateSelectChange(e) {
         this.config.statusCode = e
@@ -200,8 +224,21 @@
         this.config.useType = e
       },
       /* 监控箱归属项目*/
-      projectSelectChange(e) {
+       projectSelectChange(e) {
         this.config.projectId = e
+        this.getProjectPhase()
+      },
+      /* 获取项目阶段列表*/
+     async getProjectPhase() {
+        this.config.phaseId = ''
+        this.phaseList = []
+        let param = {
+          projectId: this.config.projectId
+        }
+        let res = await this.$http.post(this.$api.devicemonitorboxprojectphase, param)
+        if (res.data.resultCode == 10000) {
+          this.phaseList = res.data.data
+        }
       },
       /* 项目阶段*/
       phaseSelectChange(e) {

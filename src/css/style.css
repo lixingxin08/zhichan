@@ -14,7 +14,10 @@
   justify-content: start;
   align-items: center;
 }
-
+.base_add88_btn{
+	width: 88px;
+  margin-bottom: 20px;
+}
 .flex_fs {
   display: flex;
   justify-content: start;

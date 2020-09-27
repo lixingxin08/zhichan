@@ -12,13 +12,19 @@ const seekotakpemantauan = () => import('@/views/equipmentassets/kotakpemantauan
 const tianglampu = () => import('@/views/equipmentassets/tianglampu/tianglampu') //路灯杆信息
 const addtianglampu = () => import('@/views/equipmentassets/tianglampu/add/add') //路灯杆信息 新增
 const seetianglampu = () => import('@/views/equipmentassets/tianglampu/see/see') //路灯杆信息 预览
-const kontroler = () => import('@/views/equipmentassets/kontroler/kontroler') //控制器信息
-const addkontroler = () => import('@/views/equipmentassets/kontroler/add/add') //控制器信息 新增
-const seekontroler = () => import('@/views/equipmentassets/kontroler/see/see') //控制器信息 新增
+const lamp = () => import('@/views/equipmentassets/lamp/lamp') //灯具信息
+const addlamp = () => import('@/views/equipmentassets/lamp/add/add') //灯具信息 新增
+const seelamp = () => import('@/views/equipmentassets/lamp/see/see') //灯具信息 预览
+const kontroler = () => import('@/views/equipmentassets/kontroler/kontroler') //终端控制器信息
+const addkontroler = () => import('@/views/equipmentassets/kontroler/add/add') //终端控制器信息 新增
+const seekontroler = () => import('@/views/equipmentassets/kontroler/see/see') //终端控制器信息 新增
 const pengelompokan = () => import('@/views/equipmentassets/pengelompokan/pengelompokan') //分组管理
 const kamera = () => import('@/views/equipmentassets/kamera/kamera') //摄像头信息
 const addkamera = () => import('@/views/equipmentassets/kamera/add/add') //摄像头信息 新增
 const seekamera = () => import('@/views/equipmentassets/kamera/see/see') //摄像头信息 预览
+const basestation = () => import('@/views/equipmentassets/basestation/basestation') //摄像头信息
+const addbasestation = () => import('@/views/equipmentassets/basestation/add/add') //摄像头信息 新增
+const seebasestation = () => import('@/views/equipmentassets/basestation/see/see') //摄像头信息 预览
 const siaranip = () => import('@/views/equipmentassets/siaranip/siaranip') //ip广播信息
 const addsiaranip = () => import('@/views/equipmentassets/siaranip/add/add') //ip广播信息 新增
 const seesiaranip = () => import('@/views/equipmentassets/siaranip/see/see') //ip广播信息 预览
@@ -125,11 +131,36 @@ export default new Router({
           },
           component: seetianglampu,
         },
+        
+        {
+          path: '/lamp',
+          name: 'lamp',
+          meta: {
+            title: '灯具信息'
+          },
+          component: lamp,
+        },
+        {
+          path: '/addlamp',
+          name: 'lamp',
+          meta: {
+            title: '灯具信息'
+          },
+          component: addlamp,
+        },
+        {
+          path: '/seelamp',
+          name: 'lamp',
+          meta: {
+            title: '灯具信息'
+          },
+          component: seelamp,
+        },
         {
           path: '/kontroler',
           name: 'kontroler',
           meta: {
-            title: '路灯控制器'
+            title: '终端控制器'
           },
           component: kontroler,
         },
@@ -181,6 +212,31 @@ export default new Router({
           },
           component: seekamera,
         },
+        {
+          path: '/basestation',
+          name: 'basestation',
+          meta: {
+            title: '5G基站'
+          },
+          component: basestation,
+        },
+        {
+          path: '/addbasestation',
+          name: 'basestation',
+          meta: {
+            title: '5G基站'
+          },
+          component: addbasestation,
+        },
+        {
+          path: '/seebasestation',
+          name: 'basestation',
+          meta: {
+            title: '5G基站'
+          },
+          component: seebasestation,
+        },
+        
         {
           path: '/siaranip',
           name: 'siaranip',

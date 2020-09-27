@@ -1,4 +1,9 @@
 <template>
+  <div class="administrativedivision flex_fs">
+    <div class="isleft">
+      <is-left-tree v-if="showTree" :treedata="treedata" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
+        :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
+    </div>
   <div class="content2">
     <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
@@ -39,7 +44,7 @@
       </div>
 
     </div>
-    <a-button style='width: 66px;margin-bottom: 20px;' type='primary' @click='edit({})'>新增</a-button>
+    <a-button  class='base_add88_btn' type='primary' @click='edit({})'> <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
@@ -56,6 +61,7 @@
       </template>
     </a-table>
   </div>
+  </div>
 </template>
 <!-- 路灯杆信息-->
 <script>
@@ -63,6 +69,10 @@
   export default {
     data() {
       return {
+        showTree: false, //展示树
+        isselectdata: "", //选中的左边树item
+        defaultExpandedKeys: [], //默认展开
+        defaultSelectedKeys: [], //默认选中
         tableTitle: tadata.tableTitle, //表格标题
         tableData: [], //表格数据
         enableFlag: '', //状态选择
@@ -75,6 +85,9 @@
         projectName: '', //输入框 搜索条件 归属i项目
         pagination: this.$config.pagination,
       }
+    },
+    created() {
+          this.gettree()
     },
     methods: {
       /* 编辑 新增*/
@@ -146,6 +159,35 @@
       /* 用途选择*/
       useTypeSelect(e) {
         this.useType = e
+      },
+      //树接口
+      async gettree() {
+        let res = await this.$http.post(this.$api.devicelightpoletree, {});
+        if (res.data.resultCode == 10000) {
+          this.setdata(res.data.data);
+        }
+      },
+
+      /* 设置tree 数据*/
+      setdata(data) {
+        this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
+        this.treedata = this.$utils.toTree(data);
+        this.showTree = true
+        if (localStorage.getItem('tianglampu')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('tianglampu')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('tianglampu')).id);
+        } else {
+          this.getselectdata(this.treedata[0])
+          this.defaultSelectedKeys.push(this.treedata[0].id);
+        }
+      },
+      /* 点击Item事件*/
+      getselectdata(val) {
+        if (!val)
+          return
+        localStorage.setItem('tianglampu', JSON.stringify(val))
+        this.isselectdata = val;
+        this.getTableData()
       },
       cleanSearch() {
         this.keyword = ''

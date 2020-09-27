@@ -26,18 +26,30 @@
       "ellipsis": true,
       "dataIndex": "modelName"
     },
+	{
+	  "title": "归属路灯杆",
+	  "align": "center",
+	  "ellipsis": true,
+	  "dataIndex": "modelName"
+	},
+   {
+      "title": "归属线路",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "lineName"
+    },  {
+      "title": "关联灯具数",
+      "align": "center",
+      "ellipsis": true,
+      "dataIndex": "modelName"
+    },
     {
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
       "dataIndex": "deviceLightPoleName"
     },
-    {
-      "title": "线路名称",
-      "align": "center",
-      "ellipsis": true,
-      "dataIndex": "lineName"
-    },
+ 
     {
       "title": "控制器状态",
       "align": "center",
