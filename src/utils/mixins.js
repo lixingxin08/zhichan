@@ -23,3 +23,21 @@ export const Mixin1 = {
         },
     }
 };
+
+export const Mixin2 = {
+    data() {
+        return {
+        };
+    },
+    methods: {
+        async getdata(url,param) {
+            let res = await this.$http.post(this.$api.areastree, {});
+            if (res.data.resultCode == 10000) {
+                return  data=res.data.data
+            }else{
+                this.$message.success(res.data.resultMsg);
+            }
+            
+          },
+    }
+};

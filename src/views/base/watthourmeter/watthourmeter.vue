@@ -101,6 +101,7 @@
           this.$message.error(res.data.resultMsg)
         }
       },
+      cleanTxt(){},
       handleTableChange(pagination) {
         this.pagination = pagination;
         this.getTableData()

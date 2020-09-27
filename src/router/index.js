@@ -31,9 +31,9 @@ const seesiaranip = () => import('@/views/equipmentassets/siaranip/see/see') //i
 const panggilbantuan = () => import('@/views/equipmentassets/panggilbantuan/panggilbantuan') //求助报警信息
 const addpanggilbantuan = () => import('@/views/equipmentassets/panggilbantuan/add/add') //求助报警信息 新增
 const seepanggilbantuan = () => import('@/views/equipmentassets/panggilbantuan/see/see') //求助报警信息 预览
-const apinfo = () => import('@/views/equipmentassets/apinfo/apinfo') //AP信息
-const addapinfo = () => import('@/views/equipmentassets/apinfo/add/add') //AP信息 新增
-const seeapinfo = () => import('@/views/equipmentassets/apinfo/see/see') //AP信息 新增
+const apinfo = () => import('@/views/equipmentassets/apinfo/apinfo') //共享WIFI
+const addapinfo = () => import('@/views/equipmentassets/apinfo/add/add') //共享WIFI 新增
+const seeapinfo = () => import('@/views/equipmentassets/apinfo/see/see') //共享WIFI 新增
 const lingkungan = () => import('@/views/equipmentassets/lingkungan/lingkungan') //环境要素信息
 const addlingkungan = () => import('@/views/equipmentassets/lingkungan/add/add') //环境要素信息 新增
 const seelingkungan = () => import('@/views/equipmentassets/lingkungan/see/see') //环境要素信息 预览

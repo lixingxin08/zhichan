@@ -11,6 +11,7 @@
 </template>
 <script>
 import isLeft from "./content/left";
+// import isMap from "./content/map";
 import isMap from "../../components/position/position";
  
 import {Mixin1} from '../../utils/mixins'

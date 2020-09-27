@@ -51,10 +51,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../shouquan/index.html'),
+    index: path.resolve(__dirname, '../capital/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../shouquan'),
+    assetsRoot: path.resolve(__dirname, '../capital'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 
