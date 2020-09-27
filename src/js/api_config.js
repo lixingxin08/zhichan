@@ -16,7 +16,11 @@ export default {
   devicemonitorboxtree: base.baseUrl1 + `/device/monitor-box/tree`, //监控箱树接口
   devicemonitorboxgetmodel: base.baseUrl2 + `/auth/customer-model/box/combobox`, //监控箱型号列表
   devicemonitorboxproject: base.baseUrl2 + `/customer/project/combobox`, //监控箱归属项目列表
-  devicemonitorboxprojectphase: base.baseUrl2 + `/customer/projectPhase/combobox`,//归属项目阶段列表
+  devicemonitorboxprojectphase: base.baseUrl2 + `/customer/projectPhase/combobox`, //归属项目阶段列表
+  devicemonitorboxline: base.baseUrl1 + ` /device/monitor-box/line/listByBoxCode`, //监控箱线路列表 根据deviceCode
+  devicemonitorboxlinebyid: base.baseUrl1 + `/device/monitor-box/line/list`, //监控箱线路列表 根据deviceid
+  devicemonitorboxlineremove: base.baseUrl1 + `/device/monitor-box/line/remove`, //监控箱线路列表删除接口
+  devicemonitorboxlinefrom: base.baseUrl1 + `/device/monitor-box/line/from`, //监控箱线路列表表单接口
 
   devicelightpoleform: base.baseUrl1 + `/device/lightpole/form`, //路灯杆 表单接口
   devicelightpoledetail: base.baseUrl1 + `/device/lightpole/detail`, //路灯杆 详情接口

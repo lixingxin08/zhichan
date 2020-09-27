@@ -85,7 +85,13 @@
     methods: {
       /* 编辑 新增*/
       edit(item) {
-        this.$router.push('/addkotakpemantauan')
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+            areaId:this.isselectdata.id
+          },
+          path: '/addkotakpemantauan'
+        })
       },
       /* 预览*/
       see() {

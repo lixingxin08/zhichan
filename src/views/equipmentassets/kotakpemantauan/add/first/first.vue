@@ -11,7 +11,7 @@
       </div> -->
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>监控箱型号:</div>
-        <a-select :value="config.deviceModelId?config.deviceModelId:'请选择'" style="width: 667px;" @change="modelSelectChange">
+        <a-select :value="config.modelId?config.modelId:'请选择'" style="width: 667px;" @change="modelSelectChange">
           <a-select-option v-for='(item,index) in modeList' :key='index' :value="item.modelId">
             {{item.modelName}}
           </a-select-option>
@@ -100,6 +100,7 @@
   export default {
     props: {
       deviceId: String,
+      areaId:String
     },
     data() {
       return {
@@ -112,7 +113,7 @@
         phaseList: [], //阶段项目
         config: {
           deviceBrandId: '', //监控箱品牌
-          deviceModelId: '', //监控箱型号
+          modelId: '', //监控箱型号
           statusCode: '', //监控箱状态
           useType: '', //用途类型
           projectId: '', //归属项目
@@ -134,15 +135,21 @@
         if (!this.getMontiorStatue()) {
           return
         }
+        this.config.latitude='12'
+        this.config.longitude='12'
+        this.config.areaId=this.areaId
+        this.config.address='32423423'
         let res = await this.$http.post(this.$api.devicemonitorboxform, this.config)
 
         //this.$route.go(-1)
-        this.$emit('callBack', res.data)
+
+
+        this.$emit('callback', res.data)
 
       },
 
       getMontiorStatue() {
-        if (!this.config.deviceModelId) {
+        if (!this.config.modelId) {
           this.$message.warning('请选择监控箱型号')
           return false
         }
@@ -211,13 +218,10 @@
       stateSelectChange(e) {
         this.config.statusCode = e
       },
-      /* 监控箱品牌选择*/
-      brandSelectChange(e) {
-        this.config.deviceBrandId = e
-      },
+
       /* 监控箱型号选择*/
       modelSelectChange(e) {
-        this.config.deviceModelId = e
+        this.config.modelId = e
       },
       /* 监控箱用途类型*/
       useTypeSelectChange(e) {

@@ -3,8 +3,8 @@
     <a-steps style='width: 400px;margin: 0 auto;' :current="step" type="navigation" @change="onChangeStep">
       <a-step v-for="item in steps" :key="item.status" :title="item.title" />
     </a-steps>
-    <is-first ref='first' v-show="step==0" :deviceId='deviceId' @callback='submitCallBack'></is-first>
-    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode'></is-second>
+    <is-first ref='first' v-show="step==0" :deviceId='deviceId' :areaId='areaId' @callback='submitCallBack'></is-first>
+    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode'  :deviceId='deviceId'></is-second>
     <div class="flexrow flexjc" style="margin-top: 50px;">
       <a-button v-if='step!=0' @click='backStep'>上一步</a-button>
       <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='save'>保存</a-button>
@@ -35,11 +35,13 @@
           },
         ],
         deviceId: "",
-        deviceCode: ""
+        deviceCode: "",
+        areaId:''
       }
     },
     created() {
       this.deviceId = this.$route.query.deviceId
+      this.areaId = this.$route.query.areaId
       if (this.deviceId) {
         this.getDetail()
       }
@@ -62,7 +64,7 @@
           this.deviceCode = data.deviceCode
           this.$refs.second.getLineData()
         } else {
-          this.$message.error(res.data.resultMsg)
+          this.$message.error(data.resultMsg)
         }
       },
       /* 返回*/
