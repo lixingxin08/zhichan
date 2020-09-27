@@ -61,20 +61,5 @@ export default {
   
   position: relative;
 }
-.changlist {
-  width: 88px;
-  height: 32px;
-  line-height: 32px;
-  background: rgba(24, 144, 255, 1);
-  border: 1px solid rgba(24, 144, 255, 1);
-  box-shadow: 0px 0px 6px rgba(24, 144, 255, 1);
-  color: #fff;
-  opacity: 1;
-  border-radius: 4px;
-  position: absolute;
-  top:20px;
-  left: 20px;
-  z-index: 2;
-  cursor: pointer;
-}
+
 </style>

@@ -1,5 +1,6 @@
 <template>
-  <div class="content2">
+  <div class="content2" >
+      <is-map :visible="visible" @positon='positon' @isvisible='isvisible' @address='address'></is-map>
     <div style="margin: 0 auto;">
       <!--  <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>监控箱品牌:</div>
@@ -78,6 +79,8 @@
         <div class="edit_item_input">
           <a-input disabled :value="config.longitude?(config.longitude+','+config.latitude):'请选择位置'" placeholder='请选择位置' />
         </div>
+
+        <a-button class="map-btn" type='primary' @click="showMap()">地图定位</a-button>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">位置地址:</div>
@@ -93,18 +96,24 @@
         </div>
       </div>
     </div>
+  
   </div>
 </template>
 
 <script>
+  import isMap from '../../../../../components/position/position.vue'
   export default {
+    components: {
+      isMap
+    },
     props: {
       deviceId: String,
-      areaId:String
+      areaId: String
     },
     data() {
       return {
         isCopy: false,
+        visible: false,
         brandList: [], //监控箱品牌
         modeList: [], //监控箱型号
         stageCodeList: this.$config.lineStatueList, //监控箱状态
@@ -135,17 +144,9 @@
         if (!this.getMontiorStatue()) {
           return
         }
-        this.config.latitude='12'
-        this.config.longitude='12'
-        this.config.areaId=this.areaId
-        this.config.address='32423423'
+        this.config.areaId = this.areaId
         let res = await this.$http.post(this.$api.devicemonitorboxform, this.config)
-
-        //this.$route.go(-1)
-
-
         this.$emit('callback', res.data)
-
       },
 
       getMontiorStatue() {
@@ -218,7 +219,20 @@
       stateSelectChange(e) {
         this.config.statusCode = e
       },
-
+      showMap() {
+        this.visible = true
+      },
+      /* 选中监控箱经纬度*/
+      positon(e) {
+        console.log(e)
+      },
+      isvisible(b) {
+        this.visible = !b
+      },
+      /* 选中监控箱详细地址*/
+      address(e) {
+        this.config.address = e
+      },
       /* 监控箱型号选择*/
       modelSelectChange(e) {
         this.config.modelId = e
@@ -228,12 +242,12 @@
         this.config.useType = e
       },
       /* 监控箱归属项目*/
-       projectSelectChange(e) {
+      projectSelectChange(e) {
         this.config.projectId = e
         this.getProjectPhase()
       },
       /* 获取项目阶段列表*/
-     async getProjectPhase() {
+      async getProjectPhase() {
         this.config.phaseId = ''
         this.phaseList = []
         let param = {
@@ -276,7 +290,9 @@
     font-size: 14px;
     color: #999999;
   }
-
+.map-btn{
+  margin-left: 20px;
+}
   .edit_item_input {
     width: 667px;
   }

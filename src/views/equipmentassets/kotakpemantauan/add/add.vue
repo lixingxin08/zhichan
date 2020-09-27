@@ -1,5 +1,5 @@
 <template>
-  <div class="content2">
+  <div class="content2" style="position: relative;">
     <a-steps style='width: 400px;margin: 0 auto;' :current="step" type="navigation" @change="onChangeStep">
       <a-step v-for="item in steps" :key="item.status" :title="item.title" />
     </a-steps>
