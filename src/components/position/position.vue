@@ -121,6 +121,7 @@ export default {
       }
     },
     getaddress: function(lnglat) {
+      let _that=this
 				AMap.plugin('AMap.Geocoder', function() {
 					var geocoder = new AMap.Geocoder({
 						// city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
@@ -131,7 +132,7 @@ export default {
 						if (status === 'complete' && result.info === 'OK') {
 							// self.formattedAddress=result.regeocode.formattedAddress
               // result为对应的地理位置详细信息
-              this.$emit("address",result.regeocode.formattedAddress);     
+              _that.$emit("address",result.regeocode.formattedAddress);     
 						}
 					})
 				})
@@ -182,7 +183,6 @@ export default {
   height: 810px;
   position: relative;
   left: 0;
-
   border-radius: 8px;
   box-shadow: 0px 0px 20px 0px #ccc;
   background-color: #fff;
