@@ -14,8 +14,6 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 Vue.prototype.$utils = utils;
 Vue.prototype.$config=config
-import store from "./store";
-
  import isLeftTree from './components/tree/tree.vue'
 Vue.component("isLeftTree", isLeftTree);
 import 'ant-design-vue/dist/antd.css';
@@ -136,7 +134,6 @@ instance.interceptors.response.use(
 new Vue({
   el: '#app',
   router,
-  store,
   components: {
     App
   },
