@@ -55,6 +55,7 @@
       }
     },
     created() {
+      console.log(this.$api.areastree,898989899);
       this.gettree()
     },
     methods: {

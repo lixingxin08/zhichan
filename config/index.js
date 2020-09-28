@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '/api': {//代理api
         //target: "`",
-        target: "http://192.168.3.83:8092/authorization", //代理接口
+        target: "http://192.168.3.83:8092/asset", //代理接口
         // target: "http://192.168.3.101/haiot-zuul/haiot-auth", //代理接口
         // target: "http://192.168.3.171:8092/authorization",
         changeOrigin: true,//是否跨域
@@ -51,10 +51,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../shouquan/index.html'),
+    index: path.resolve(__dirname, '../capital/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../shouquan'),
+    assetsRoot: path.resolve(__dirname, '../capital'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 

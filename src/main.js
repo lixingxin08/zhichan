@@ -71,67 +71,125 @@ Vue.prototype.$md5 = md5
 // Vue.config.devtools = isDebug_mode
 // Vue.config.productionTip = isDebug_mode
 
-
-
-// 拦截器
-let instance = axios.create({
-  timeout: 10000
-});
-// instance.defaults.headers.common['Authorization'] = "Bearer " + getCookie("userToken");//携带cookie
-//instance.defaults.withCredentials = true;//让ajax携带cookie
-instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-instance.interceptors.request.use(
-  config => {
-    // if (sessionStorage.getItem('token')) { // 若存在token，则每个Http Header都加上token
-    //   config.headers.Authorization = `token ${sessionStorage.getItem('token')}`
-    // }
-     config.headers.common['token'] = 'eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMjkwNjI1NzAwLCJ0b2tlbklkIjoiN2VmOGQwZTE4ZTA4NGYxZjgxNDRjNDQwOWI2ZDM3ODUiLCJ1c2VySWQiOiIxZDc2ZDhmZjU4ZWU0MjNiYTYxZWYyZWFmYjkzNTU5MyJ9.kUwLMOl1nKDMZcrPO4--JvTiCl2y75KUe6blZvEdIws'
-    return config;
+window.addEventListener(
+  "message",
+  function (e) {
+    if (e.data.type !== "webpackOk") {
+      if (e.data.accountId == "" || e.data.accountId == undefined) {
+      } else {
+        localStorage.setItem("usermsg", JSON.stringify(e.data), 10000000000000);
+      }
+    }
   },
-  err => {
-    return Promise.reject(err);
-  })
+  false
+);
 
 // http response 拦截器
-instance.interceptors.response.use(
+axios.create({
+  timeout: 5000
+})
+
+axios.interceptors.request.use(
+  config => {
+    // 每次发送请求之前判断vuex中是否存在token
+    let token = ""
+    if (window.location.host.indexOf("localhost") >= 0) {
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMjk0MTc1MjEzLCJ0b2tlbklkIjoiMTI4ZTczZDU1ZmY3NDBjYzhiN2I4MWQxMDExYjI0NjYiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.GDQUeFbQ7-M0KiJTzsoOYdNSdMGWFfXXoaJA9_Wpmd0"
+    
+    } else {
+      token = JSON.parse(localStorage.getItem('usermsg')).token || ""
+    }
+    config.headers.common['token'] = token
+    return config;
+  },
+  error => {
+    return Promise.error(error);
+  }
+)
+let backnum = 0
+axios.interceptors.response.use(
   response => {
+    backnum++
+    let aa = JSON.parse(localStorage.getItem('usermsg'))
+    aa.token = response.headers.token
+    let thisurl = window.location.href.split('/#')
+    let bb = thisurl[0].split('/authorization')
+    localStorage.setItem('usermsg', JSON.stringify(aa))
+    if (response.data.resultMsg == "执行成功，但没有获取到数据") {
+      response.data.data=[]
+      response.data.data.list=[]
+
+    }
+    if (response.data.resultCode == "20100") {
+      message.error("令牌错误，请重新登录",5)
+      if (backnum >= 2) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20101") {
+      message.error("未登录，请先登录",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.code == "20102") {
+      message.error("你的账号已在其他地方登录，请重新登录",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20103") {
+      message.error("登录已过期，请重新登录！",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20104") {
+      message.error("登录已失效，请重新登录！",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+    if (response.data.resultCode == "20105") {
+      message.error("登录已失效，请重新登录！",5)
+      if (backnum >= 3) {
+        window.location.href = bb[0]
+      }
+    }
+
     return response;
   },
   error => {
     if (error.response) {
+      console.log(error, 'errorerrorerrorerror');
+      console.log(error.response, 'errorerrorerrorerror');
       switch (error.response.status) {
         case 404:
-          // 返回 401 (未授权) 清除 token 并跳转到登录页面
-
           router.replace({
-            path: 'error404',
-            query: {
-              redirect: router.currentRoute.fullPath
-            }
+            path: '/error404',
+          })
+        case 504:
+          router.replace({
+            path: '/error504',
           })
         case 500:
-          // 返回 401 (未授权) 清除 token 并跳转到登录页面
-
           router.replace({
-            path: 'error500',
-            query: {
-              redirect: router.currentRoute.fullPath
-            }
+            path: '/error500',
+          })
+        case 504:
+          router.replace({
+            path: '/error504',
           })
         case 403:
-          // 返回 401 (未授权) 清除 token 并跳转到登录页面
-
           router.replace({
-            path: 'error403',
-            query: {
-              redirect: router.currentRoute.fullPath
-            }
+            path: '/error403',
           })
       }
     }
-    return Promise.reject(error.response.data) // 返回接口返回的错误信息
+    return Promise.reject(error.response.data)
   }
 )
+
 
 /* eslint-disable no-new */
 new Vue({

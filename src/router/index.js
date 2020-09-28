@@ -51,8 +51,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'asetgeografis',
-      redirect: '/asetgeografis',
+      name: 'watthourmeter',
+      redirect: '/watthourmeter',
       meta: {
         title: '首页'
       },
