@@ -12,8 +12,8 @@
             <a-input placeholder="请输入字典名称" v-model="keyword" />
           </div>
           <div class='title_tx' style="margin-left: 20px;">接入协议类型:</div>
-          <a-select :value="streetSelect?streetSelect:'全部'" style="width: 200px;" @change="stateSelectChange">
-            <a-select-option v-for='(item,index) in selectList' :key='index' :value="item.comboBoxId">
+          <a-select :value="protocolType?protocolType:'全部'" style="width: 200px;" @change="protocolTypeChange">
+            <a-select-option v-for='(item,index) in protocolTypeList' :key='index' :value="item.comboBoxId">
               {{item.comboBoxName}}
             </a-select-option>
           </a-select>
@@ -23,9 +23,6 @@
               {{item.comboBoxName}}
             </a-select-option>
           </a-select>
-
-
-
           <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
           <a-button @click='cleanSearch'>清除</a-button>
         </div>
@@ -66,8 +63,8 @@
         defaultSelectedKeys: [], //默认选中
         tableTitle: tadata.tableTitle, //表格标题
         tableData: [{}], //表格数据
-        agreementList: [], //下拉选择  路灯杆状态
-        agreement: '', //
+        protocolTypeList: [], //下拉选择  路灯杆状态
+        protocolType: '', //
         stautsCodeList: [],
         statusCode: '', //状态选择
         keyword: '', //输入框 搜索条件 监控箱名称
@@ -78,19 +75,58 @@
     methods: {
       /* 编辑 新增*/
       edit(item) {
-        this.$router.push('/addkamera')
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+          },
+          path: '/addkamera'
+        })
       },
       /* 预览*/
       see() {
-        this.$router.push('/seekamera')
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId
+          },
+          path: '/seekamera'
+        })
       },
       /* 获取表格数据*/
-      getTableData() {
-
+     async getTableData() {
+        if (!this.isselectdata) return
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        this.tableData = []
+        let param = {
+          protocolType: this.protocolType,
+          statusCode: this.statusCode,
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize,
+          deviceId: this.isselectdata.id
+        }
+        let res = await this.$http.post(this.$api.devicecamerapage, param)
+        if (res.data.resultCode == 10000) {
+          if (res.data.data) {
+            this.tableData = res.data.data.list
+            if (this.pagination.current == 1)
+              this.pagination.total = res.data.data.length
+          }
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
       /* 确认选择*/
       async confirmDelete(item) {
-
+        let param = {
+          deviceId: item.deviceId
+        }
+        let res = await this.$http.post(this.$api.devicecameraremove, param)
+        if (res.data.resultCode == 10000) {
+          this.getTableData()
+          this.$message.success(res.data.resultMsg)
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
       /* 分页选择*/
       handleTableChange(pagination) {
@@ -102,14 +138,17 @@
         this.statusCode = e
       },
 
+      protocolTypeChange(e) {
+        this.protocolType = e
+      },
       cleanSearch() {
         this.keyword = ''
         this.keyword2 = ''
-        this.stateSelect = ''
-        this.streetSelect = ''
+        this.statusCode = -1
+        this.protocolType = ''
         this.getTableData()
       },
- //树接口
+      //树接口
       async gettree() {
         let res = await this.$http.post(this.$api.devicelightpoletree, {});
         if (res.data.resultCode == 10000) {
@@ -122,9 +161,9 @@
         this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
         this.treedata = this.$utils.toTree(data);
         this.showTree = true
-        if (localStorage.getItem('kontroler')) {
-          this.getselectdata(JSON.parse(localStorage.getItem('kontroler')));
-          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('kontroler')).id);
+        if (localStorage.getItem('kamera')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('kamera')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('kamera')).id);
         } else {
           this.getselectdata(this.treedata[0])
           this.defaultSelectedKeys.push(this.treedata[0].id);
@@ -134,7 +173,7 @@
       getselectdata(val) {
         if (!val)
           return
-        localStorage.setItem('kontroler', JSON.stringify(val))
+        localStorage.setItem('kamera', JSON.stringify(val))
         this.isselectdata = val;
         this.getTableData()
       },

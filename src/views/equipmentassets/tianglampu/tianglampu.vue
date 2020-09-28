@@ -135,9 +135,9 @@
           this.pagination.total = 0
         let param = {
           useType: this.useType == -1 ? '' : this.useType,
-          enableFlag: this.enableFlag == -1 ? '' : this.enableFlag,
+          statusCode: this.enableFlag == -1 ? '' : this.enableFlag,
           keyword: this.keyword,
-          lineName: this.lineId,
+          lineId: this.lineId,
           deviceId: this.isselectdata.id,
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize

@@ -1,8 +1,8 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-      <is-left-tree v-if="showTree" :treedata="treedata" :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
-        :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
+      <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' :defaultExpandedKeys="defaultExpandedKeys"
+        @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
     </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
@@ -57,6 +57,7 @@
     data() {
       return {
         showTree: false, //展示树
+        treedata: [],
         isselectdata: "", //选中的左边树item
         defaultExpandedKeys: [], //默认展开
         defaultSelectedKeys: [], //默认选中
@@ -146,8 +147,9 @@
       },
       //树接口
       async gettree() {
-        let res = await this.$http.post(this.$api.devicelightpoletree, {});
+        let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
         if (res.data.resultCode == 10000) {
+          this.treeData = res.data.data
           this.setdata(res.data.data);
         }
       },
@@ -171,7 +173,31 @@
           return
         localStorage.setItem('kontroler', JSON.stringify(val))
         this.isselectdata = val;
-        this.getTableData()
+        if (this.isselectdata.nodeType == 'AREA')
+          this.getTableData()
+      },
+
+      onLoadData(treeNode) {
+        return new Promise(async resolve => {
+          if (treeNode.dataRef.children) {
+            resolve();
+            return;
+          }
+          if (treeNode.dataRef.nodeType != 'ECB') {
+            resolve();
+            return
+          }
+          let param = {
+            deviceId: treeNode.dataRef.id
+          }
+          let res = await this.$http.post(this.$api.devicelightpoletree, param)
+          if (res.data.resultCode == 10000) {
+            if (res.data.data)
+              treeNode.dataRef.children = res.data.data
+          }
+          this.treedata = [...this.treedata];
+          resolve();
+        });
       },
     }
   }

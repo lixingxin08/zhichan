@@ -2,41 +2,36 @@
   <div class="content2">
     <div class="flexrow des-title">摄像头信息</div>
     <a-descriptions size='small' bordered>
-      <a-descriptions-item label="摄像头品牌">
-        Cloud Database
+    
+      <a-descriptions-item label="摄像头型号" >
+        {{config.modelName}}
       </a-descriptions-item>
-      <a-descriptions-item label="摄像头型号" :span="2">
-        Prepaid
+      <a-descriptions-item label="摄像头类型" :span="2">
+        {{config.typeCodeName}}
       </a-descriptions-item>
-      <a-descriptions-item label="摄像头类型">
-        YES
+      <a-descriptions-item label="接入协议类型"  >
+         {{config.protocolTypeName}}
       </a-descriptions-item>
-      <a-descriptions-item label="接入协议类型"  :span="2">
-        2018-04-24 18:00:00
+      <a-descriptions-item label="摄像头名称" :span="2">
+       {{config.deviceName}}
       </a-descriptions-item>
-      <a-descriptions-item label="摄像头名称" >
-        2019-04-24 18:00:00
+      <a-descriptions-item label="摄像头编号"  >
+       {{config.deviceName}}
       </a-descriptions-item>
-      <a-descriptions-item label="摄像头编号"  :span="2">
-        2019-04-24 18:00:00
+      <a-descriptions-item label="设备通道数" :span="2">
+         {{config.deviceName}}
       </a-descriptions-item>
-      <a-descriptions-item label="设备通道数" >
-        2019-04-24 18:00:00
+      <a-descriptions-item label="激活通道数"  >
+         {{config.deviceName}}
       </a-descriptions-item>
-      <a-descriptions-item label="激活通道数"  :span="2">
-        2019-04-24 18:00:00
+      <a-descriptions-item label="摄像头状态":span="2" >
+         {{config.deviceName}}
       </a-descriptions-item>
-      <a-descriptions-item label="摄像头状态" >
-        2019-04-24 18:00:00
-      </a-descriptions-item>
-      <a-descriptions-item label="路灯杆名称"  :span="2">
+      <a-descriptions-item label="路灯杆名称"  >
 
       </a-descriptions-item>
-      <a-descriptions-item label="线路名称" >
+      <a-descriptions-item label="线路名称" :span="2">
         2019-04-24 18:00:00
-      </a-descriptions-item>
-      <a-descriptions-item label=""  :span="2">
-
       </a-descriptions-item>
     </a-descriptions>
     <div class="flexrow des-title" style="margin-top: 30px;">产品规格</div>
