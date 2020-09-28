@@ -217,6 +217,7 @@
             this.config.address=''
             this.config.lineTotal=0
           }
+		  this.$utils.cleanTree()
           this.getProjectPhase()
           this.$emit('callbackDeviceCode', this.config.deviceCode)
         }

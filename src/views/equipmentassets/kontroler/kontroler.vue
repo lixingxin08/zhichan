@@ -26,24 +26,27 @@
         </div>
 
       </div>
-      <a-button class='base_add88_btn' type='primary' @click='edit({})'>
+      <a-button v-if="isselectdata.nodeType == 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>
         <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
-        <div slot='statusCode' slot-scope="text, record">
-          {{record.statusCode==1?'启用':'备用'}}
+
+        <div slot='statusCode' slot-scope="text, record,index">
+          {{record.statusCode==0?'备用':(record.statusCode==1?'启用':'已报废')}}
         </div>
+        <div slot='parentName'>{{isselectdata.name}}</div>
+         <div slot='lineName'>{{isselectdata.parendName}}</div>
         <template slot="operation" slot-scope="text, record">
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
             <div class="per-line"></div>
             <!--       <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
           <div class="per-line"></div> -->
-            <a-popconfirm title="确定删除" v-if='record.deviceTotal<=0' ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+            <a-popconfirm title="确定删除"  ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
-            <a href="#" v-else style='color: #FF0000;font-size: 12px;'>删除</a>
+          <!--  <a href="#" v-else style='color: #CCCCCC;font-size: 12px;'>删除</a> -->
           </div>
         </template>
       </a-table>
@@ -103,6 +106,7 @@
           statusCode: this.statusCode == -1 ? '' : this.statusCode,
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize,
+          keyword:this.keyword,
           lightpoleId: this.isselectdata.id
         }
         let res = await this.$http.post(this.$api.devicepolecontrollerpage, param)
@@ -147,21 +151,32 @@
       },
       //树接口
       async gettree() {
-        let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
-        if (res.data.resultCode == 10000) {
-          this.treeData = res.data.data
-          this.setdata(res.data.data);
+        this.treedata = this.$utils.getlightTreeData()
+        if (!this.treedata) {
+          let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
+          if (res.data.resultCode == 10000) {
+            this.setdata(res.data.data);
+          }
+        } else {
+          this.defaultExpandedKeys = this.$utils.getLightExpangKey()
+          this.setSelectKey()
+          this.showTree = true
         }
       },
 
       /* 设置tree 数据*/
       setdata(data) {
         this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
+        this.$utils.setLightExpandKey(this.defaultExpandedKeys)
         this.treedata = this.$utils.toTree(data);
+        this.setSelectKey()
         this.showTree = true
-        if (localStorage.getItem('kontroler')) {
-          this.getselectdata(JSON.parse(localStorage.getItem('kontroler')));
-          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('kontroler')).id);
+      },
+      /* 设置选中item*/
+      setSelectKey() {
+        if (this.$utils.getLightSelectKey()) {
+          this.getselectdata(this.$utils.getLightSelectKey());
+          this.defaultSelectedKeys.push(this.$utils.getLightSelectKey().id);
         } else {
           this.getselectdata(this.treedata[0])
           this.defaultSelectedKeys.push(this.treedata[0].id);
@@ -171,10 +186,11 @@
       getselectdata(val) {
         if (!val)
           return
-        localStorage.setItem('kontroler', JSON.stringify(val))
+        this.$utils.setLightSelectKey(val)
         this.isselectdata = val;
-        if (this.isselectdata.nodeType == 'AREA')
-          this.getTableData()
+        this.tableData=[]
+         if (this.isselectdata.nodeType == 'GLP')
+         this.getTableData()
       },
 
       onLoadData(treeNode) {
@@ -183,7 +199,7 @@
             resolve();
             return;
           }
-          if (treeNode.dataRef.nodeType != 'ECB') {
+          if (treeNode.dataRef.nodeType != 'ECB' && treeNode.dataRef.nodeType != 'LINE') {
             resolve();
             return
           }
@@ -192,10 +208,14 @@
           }
           let res = await this.$http.post(this.$api.devicelightpoletree, param)
           if (res.data.resultCode == 10000) {
-            if (res.data.data)
-              treeNode.dataRef.children = res.data.data
+            let childTree = this.$utils.toTree(res.data.data)
+            if(childTree[0]!=null){
+            if (childTree[0].pid == treeNode.dataRef.id)
+              treeNode.dataRef.children = childTree
+              }
           }
           this.treedata = [...this.treedata];
+          this.$utils.setlightTreeData(this.treedata)
           resolve();
         });
       },

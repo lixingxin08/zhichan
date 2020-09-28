@@ -175,6 +175,7 @@
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.$router.go(-1)
+           this.$utils.cleanTree()
         } else {
           this.$message.error(res.data.resultMsg)
         }

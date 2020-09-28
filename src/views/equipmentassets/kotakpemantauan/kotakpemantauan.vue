@@ -156,6 +156,7 @@
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.getTableData()
+           this.$utils.cleanTree()
         } else {
           this.$message.error(res.data.resultMsg)
         }
