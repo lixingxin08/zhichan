@@ -115,7 +115,7 @@ export default {
       if (this.position == "") {
         return this.$message.error("请选择地图位置");
       } else {
-        this.visible = false;
+        //this.visible = false;
         this.$emit("positon", this.position);
         this.$emit("isvisible", this.visible);
       }
@@ -164,7 +164,7 @@ export default {
     },
     cancel() {
       this.position = "";
-      this.visible = false;
+     // this.visible = false;
       this.$emit("isvisible", this.visible);
       this.$emit("positon", this.position);
     },

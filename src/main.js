@@ -38,7 +38,8 @@ import {
   InputNumber,
   Upload,
   message,
-  Descriptions
+  Descriptions,
+  Radio
 } from 'ant-design-vue';
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -59,6 +60,7 @@ Vue.use(Form);
 Vue.use(Steps);
 Vue.use(InputNumber);
 Vue.use(Upload);
+Vue.use(Radio);
 Vue.prototype.$message = message
 Vue.use(Descriptions)
 
@@ -83,6 +85,7 @@ instance.interceptors.request.use(
     // if (sessionStorage.getItem('token')) { // 若存在token，则每个Http Header都加上token
     //   config.headers.Authorization = `token ${sessionStorage.getItem('token')}`
     // }
+     config.headers.common['token'] = 'eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMjkwNjI1NzAwLCJ0b2tlbklkIjoiN2VmOGQwZTE4ZTA4NGYxZjgxNDRjNDQwOWI2ZDM3ODUiLCJ1c2VySWQiOiIxZDc2ZDhmZjU4ZWU0MjNiYTYxZWYyZWFmYjkzNTU5MyJ9.kUwLMOl1nKDMZcrPO4--JvTiCl2y75KUe6blZvEdIws'
     return config;
   },
   err => {

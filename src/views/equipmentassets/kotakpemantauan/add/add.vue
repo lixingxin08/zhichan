@@ -1,14 +1,15 @@
 <template>
-  <div class="content2">
+  <div class="content2" style="position: relative;">
     <a-steps style='width: 400px;margin: 0 auto;' :current="step" type="navigation" @change="onChangeStep">
       <a-step v-for="item in steps" :key="item.status" :title="item.title" />
     </a-steps>
-    <is-first ref='first' v-show="step==0" :deviceId='deviceId' :areaId='areaId' @callback='submitCallBack'></is-first>
-    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode'  :deviceId='deviceId'></is-second>
-    <div class="flexrow flexjc" style="margin-top: 50px;">
-      <a-button v-if='step!=0' @click='backStep'>上一步</a-button>
+    <is-first ref='first' v-show="step==0" :deviceId='deviceId' :areaId='areaId' :copy='copy' @callback='submitCallBack'
+      @callbackDeviceCode='callbackDeviceCode'></is-first>
+    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode' :deviceId='deviceId'></is-second>
+    <div v-if='step!=1' class="flexrow flexjc" style="margin-top: 50px;">
+
       <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='save'>保存</a-button>
-      <a-button type='primary' style='margin-right: 20px;' @click='submitNext'>下一步</a-button>
+      <a-button  type='primary' style='margin-right: 20px;' @click='submitNext'>保存并下一步</a-button>
       <a-button @click='reset'>重置</a-button>
     </div>
   </div>
@@ -34,17 +35,17 @@
             status: 2
           },
         ],
+        saveAndNext: false,
         deviceId: "",
         deviceCode: "",
-        areaId:''
+        areaId: '',
+        copy:false
       }
     },
     created() {
       this.deviceId = this.$route.query.deviceId
       this.areaId = this.$route.query.areaId
-      if (this.deviceId) {
-        this.getDetail()
-      }
+      this.copy=this.$route.query.copy=='true'
     },
     methods: {
       /* 切换视图*/
@@ -52,17 +53,24 @@
         if (step == 1 && !this.$refs.first.getMontiorStatue()) {
           return
         }
-        if (step == 1) {
-          this.$refs.first.submit()
+        if (step == 1&&!this.deviceCode) {
+
           return
+        }else{
+            this.$refs.second.getLineData()
         }
         this.step = step;
       },
       submitCallBack(data) {
         if (data.resultCode == 10000) {
-          this.step = 1
-          this.deviceCode = data.deviceCode
-          this.$refs.second.getLineData()
+          //this.step = 1
+          //this.deviceCode = data.deviceCode
+          if (this.saveAndNext) {
+            this.saveAndNext = false
+            this.step = 1
+            this.$refs.second.getLineData()
+          }
+            this.$message.success(data.resultMsg)
         } else {
           this.$message.error(data.resultMsg)
         }
@@ -77,16 +85,18 @@
           this.$refs.first.submit()
         }
       },
-
+      callbackDeviceCode(e) {
+        console.log(e)
+        this.deviceCode = e
+      },
       /* 下一步*/
       submitNext() {
+        this.saveAndNext = true
         if (this.step == 0) {
-          this.$refs.first.submitAndCopy()
+          this.$refs.first.submit()
         }
       },
-      getDetail() {
-        this.$refs.first.getDetail()
-      },
+
       /* 重置*/
       reset() {
         if (this.step == 0) {

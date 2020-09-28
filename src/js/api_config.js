@@ -17,16 +17,17 @@ export default {
   devicemonitorboxgetmodel: base.baseUrl2 + `/auth/customer-model/box/combobox`, //监控箱型号列表
   devicemonitorboxproject: base.baseUrl2 + `/customer/project/combobox`, //监控箱归属项目列表
   devicemonitorboxprojectphase: base.baseUrl2 + `/customer/projectPhase/combobox`, //归属项目阶段列表
-  devicemonitorboxline: base.baseUrl1 + ` /device/monitor-box/line/listByBoxCode`, //监控箱线路列表 根据deviceCode
+  devicemonitorboxline: base.baseUrl1 + `/device/monitor-box/line/listByBoxCode`, //监控箱线路列表 根据deviceCode
   devicemonitorboxlinebyid: base.baseUrl1 + `/device/monitor-box/line/list`, //监控箱线路列表 根据deviceid
   devicemonitorboxlineremove: base.baseUrl1 + `/device/monitor-box/line/remove`, //监控箱线路列表删除接口
-  devicemonitorboxlinefrom: base.baseUrl1 + `/device/monitor-box/line/from`, //监控箱线路列表表单接口
+  devicemonitorboxlinefrom: base.baseUrl1 + `/device/monitor-box/line/form`, //监控箱线路列表表单接口
 
   devicelightpoleform: base.baseUrl1 + `/device/lightpole/form`, //路灯杆 表单接口
   devicelightpoledetail: base.baseUrl1 + `/device/lightpole/detail`, //路灯杆 详情接口
   devicelightpoleremove: base.baseUrl1 + `/device/lightpole/remove`, //路灯杆 移除接口
   devicelightpolepage: base.baseUrl1 + `/device/lightpole/page`, //路灯杆 分页接口
   devicelightpoletree: base.baseUrl1 + `/device/lightpole/tree`, //路灯杆 树接口
+  devicelightboxgetmodel: base.baseUrl2 + `/auth/customer-model/pole/combobox`, //路灯杆型号列表
 
   devicepolecontrollerform: base.baseUrl1 + `/device/pole-controller/form`, //路灯控制器 表单接口
   devicepolecontrollerdetail: base.baseUrl1 + `/device/pole-controller/detail`, //路灯控制器 详情接口
@@ -35,20 +36,19 @@ export default {
   devicepolecontrollertree: base.baseUrl1 + `/device/pole-controller/tree`, //路灯控制器 树接口
 
   devicecameraform: base.baseUrl1 + `/device/camera/form`, //摄像头   表单接口
-  devicecameradetail: base.baseUrl1 + `/device/camera/detail`, //摄像头 表单接口
-  devicecameraremove: base.baseUrl1 + `/device/camera/remove`, //摄像头 表单接口
-  devicecamerapage: base.baseUrl1 + `/device/camera/page`, //摄像头 表单接口
-
-  devicedevicebodyform: base.baseUrl1 + `/device/device-body/form`, //广播 报警 wifi 环境 多媒体发布屏表单接口
-  devicedevicebodydetail: base.baseUrl1 + `/device/device-body/detail`, //广播 报警 wifi 环境 多媒体发布屏 表单接口
-  devicedevicebodyremove: base.baseUrl1 + `/device/device-body/remove`, //广播 报警 wifi 环境 多媒体发布屏 表单接口
-  devicedevicebodypage: base.baseUrl1 + `/device/device-body/page`, //广播 报警 wifi 环境 多媒体发布屏 表单接口
+  devicecameradetail: base.baseUrl1 + `/device/camera/detail`, //摄像头 详情接口
+  devicecameraremove: base.baseUrl1 + `/device/camera/remove`, //摄像头 删除接口
+  devicecamerapage: base.baseUrl1 + `/device/camera/page`, //摄像头 分页接口
 
   deviceguaranteeform: base.baseUrl1 + `/device/guarantee/form`, //质保期表单
   deviceguaranteedetail: base.baseUrl1 + `/device/guarantee/detail`, //质保期详情
   deviceguaranteepage: base.baseUrl1 + `/device/guarantee/page`, //质保期分页
 
+  parampage:  base.baseUrl2 + `/device/ModelParameter/list`, //授权设备运行参数==产品规格
 
-
+  devicepolecontrollerpage :base.baseUrl1+`/device/pole-controller/page`,//控制器分页
+  devicepolecontrollerremove :base.baseUrl1+`/device/pole-controller/remove`,//控制器删除接口
+  devicepolecontrollerform :base.baseUrl1+`/device/pole-controller/form`,//控制器表单接口
+  devicepolecontrollerdetail :base.baseUrl1+`/device/pole-controller/detail`,//控制器详情接口
 
 }

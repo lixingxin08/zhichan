@@ -1,5 +1,6 @@
 <template>
   <div class="content2">
+        <is-map :visible="visible" @positon='positon' @isvisible='isvisible' @address='address'></is-map>
     <div style="margin: 0 auto;">
       <div class="flexrow flexac edit_item_watt">
         <div class="edit_item_title_watt">上级区域</div>
@@ -24,8 +25,9 @@
       <div class="flexrow flexac edit_item_watt">
         <div class="edit_item_title_watt"><span style="color: #FF0000;">*</span>地图位置</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.address" />
+          <a-input disabled :value="config.longitude?(config.longitude+','+config.latitude):'请选择位置'" placeholder='请选择位置' />
         </div>
+                <a-button class="map-btn" type='primary' @click="showMap()">地图定位</a-button>
       </div>
       <div class="flexrow flexac edit_item_watt">
         <div class="edit_item_title_watt">备注:</div>
@@ -43,10 +45,15 @@
 </template>
 
 <script>
+ import isMap from '../../../../components/position/position.vue'
   export default {
+    components: {
+      isMap
+    },
     data() {
       return {
         areaId: '',
+        visible:false,
         parentArea: {},
         config: {
           remark: ''
@@ -66,8 +73,6 @@
           this.$message.warning('区划名称格式错误')
           return
         }
-        this.config.longitude='1111'
-        this.config.latitude='1111'
         if (!this.config.longitude) {
           this.$message.warning('请选择位置')
           return
@@ -93,6 +98,21 @@
           this.$message.error(res.data.resultMsg)
           this.$router.go(-1)
         }
+      },
+      showMap() {
+        this.visible = true
+      },
+      /* 选中监控箱经纬度*/
+      positon(e) {
+        this.config.longitude = e.split(',')[0]
+        this.config.latitude = e.split(',')[1]
+      },
+      isvisible(b) {
+        this.visible = !b
+      },
+      /* 选中监控箱详细地址*/
+      address(e) {
+        //this.config.address = e
       },
       reset() {
         if (this.areaId) {

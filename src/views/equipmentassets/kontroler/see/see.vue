@@ -1,51 +1,38 @@
 <template>
   <div class="content2">
-    <div class="flexrow des-title">路灯杆信息</div>
+    <div class="flexrow des-title">控制器信息</div>
     <a-descriptions size='small' bordered>
-      <a-descriptions-item label="控制器品牌">
-        Cloud Database
+
+      <a-descriptions-item label="控制器型号">
+        {{config.modelName}}
       </a-descriptions-item>
-      <a-descriptions-item label="控制器型号" :span="2">
-        Prepaid
+      <a-descriptions-item label="控制器名称" :span="2">
+        {{config.deviceName}}
       </a-descriptions-item>
-      <a-descriptions-item label="控制器名称">
-        YES
+      <a-descriptions-item label="控制器编号">
+        {{config.deviceCode}}
       </a-descriptions-item>
-      <a-descriptions-item label="控制器编号"  :span="2">
-        2018-04-24 18:00:00
+      <a-descriptions-item label="控制器状态" :span="2">
+        {{config.statusCode==0?'备用':(config.statusCode==1?'启用':'报废')}}
       </a-descriptions-item>
-      <a-descriptions-item label="控制器状态" >
-        2019-04-24 18:00:00
+      <a-descriptions-item label="路灯杆名称">
+        {{lightpole.name}}
       </a-descriptions-item>
-      <a-descriptions-item label="路灯杆名称"  :span="2">
-        2019-04-24 18:00:00
+      <a-descriptions-item label="线路名称" :span="2">
+        {{config.lineName}}
       </a-descriptions-item>
-      <a-descriptions-item label="线路名称" >
-        2019-04-24 18:00:00
+      <a-descriptions-item label="通讯模组号(IMEI)">
+        {{config.imei}}
       </a-descriptions-item>
-      <a-descriptions-item label="通讯模组号(IMEI)"  :span="2">
-        2019-04-24 18:00:00
-      </a-descriptions-item>
-      <a-descriptions-item label="物联数据卡(ICCID)" >
-        2019-04-24 18:00:00
-      </a-descriptions-item>
-      <a-descriptions-item label=""  :span="2">
-        
+      <a-descriptions-item label="物联数据卡(ICCID)" :span="2">
+        {{config.iccid}}
       </a-descriptions-item>
     </a-descriptions>
-    <div class="flexrow des-title" style="margin-top: 30px;">产品规格</div>
-    <a-descriptions size='small' bordered>
-      <a-descriptions-item label="运行内存(RAM)">
-        Cloud Database
-      </a-descriptions-item>
-      <a-descriptions-item label="内存大小" :span="2">
-        Prepaid
-      </a-descriptions-item>
-      <a-descriptions-item label="3G/4G频段(选配)">
-        YES
-      </a-descriptions-item>
-
-
+    <div v-if="productSpecificationsList.length>0" class="flexrow des-title" style="margin-top: 30px;">产品规格</div>
+    <a-descriptions-item v-for='(item,index) in productSpecificationsList' :key='index' :label="item.parameterName"
+      :span="index%2!=0?1:2">
+      {{item.parameterValue?item.parameterValue:'未知'}}
+    </a-descriptions-item>
     </a-descriptions>
   </div>
 </template>
@@ -54,9 +41,44 @@
   export default {
     data() {
       return {
-        config: {}
+        deviceId: '',
+        productSpecificationsList: [], //产品规格详情列表
+        config: {},
+        lightpole: {}
       }
     },
+    created() {
+      this.deviceId = this.$route.query.deviceId
+      this.lightpole = JSON.parse(localStorage.getItem('lamp'))
+      if (this.deviceId) {
+        this.getDetail()
+      }
+    },
+    methods: {
+      async getDetail() {
+        let param = {
+          deviceId: this.deviceId
+        }
+        let res = await this.$http.post(this.$api.devicelightpoledetail, param)
+        if (res.data.resultCode == 10000) {
+          this.config = res.data.data
+          this.getProductSpecifications()
+        }
+      },
+      async getProductSpecifications() {
+        this.paramList = []
+        let param = {
+          pageIndex: 1,
+          pageSize: 200,
+          modelId: this.config.modelId
+        }
+        let res = await this.$http.post(this.$api.parampage, param);
+        if (res.data.resultCode == 10000) {
+          if (res.data.data)
+            this.productSpecificationsList = res.data.data
+        }
+      }
+    }
   }
 </script>
 

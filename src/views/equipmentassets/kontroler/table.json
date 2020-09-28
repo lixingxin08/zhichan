@@ -24,7 +24,7 @@
       "title": "控制器型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "modelName"
+      "dataIndex": "modelName2"
     },
 	{
 	  "title": "归属路灯杆",
@@ -41,7 +41,7 @@
       "title": "关联灯具数",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "modelName"
+      "dataIndex": "modelName1"
     },
     {
       "title": "路灯杆名称",
