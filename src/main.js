@@ -40,7 +40,8 @@ import {
   InputNumber,
   Upload,
   message,
-  Descriptions
+  Descriptions,
+  Radio
 } from 'ant-design-vue';
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -61,6 +62,7 @@ Vue.use(Form);
 Vue.use(Steps);
 Vue.use(InputNumber);
 Vue.use(Upload);
+Vue.use(Radio);
 Vue.prototype.$message = message
 Vue.use(Descriptions)
 

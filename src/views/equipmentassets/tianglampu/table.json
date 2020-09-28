@@ -24,14 +24,17 @@
       "title": "路灯杆型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceModel"
+      "dataIndex": "modelName"
     },
-  
+
     {
       "title": "用途类型",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "useType"
+      "dataIndex": "useType",
+      "scopedSlots": {
+        "customRender": "useType"
+      }
     },
     {
       "title": "归属线路",
@@ -44,7 +47,10 @@
       "title": "归属监控箱",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceMonitorBoxName"
+      "dataIndex": "deviceMonitorBoxName",
+      "scopedSlots": {
+        "customRender": "deviceMonitorBoxName"
+      }
     },
     {
       "title": "归属项目",
@@ -56,7 +62,10 @@
       "title": "路灯杆状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "statusCode  "
+      "dataIndex": "statusCode",
+      "scopedSlots": {
+        "customRender": "statusCode"
+      }
     },
     {
       "title": "挂载设备数",

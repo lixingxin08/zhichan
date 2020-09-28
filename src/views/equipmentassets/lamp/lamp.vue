@@ -72,11 +72,23 @@
     methods: {
       /* 编辑 新增*/
       edit(item) {
-        this.$router.push('/addlamp')
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+            lightpoleId: this.isselectdata.id
+          },
+          path: '/addlamp'
+        })
       },
       /* 预览*/
       see() {
-        this.$router.push('/seelamp')
+        this.$router.push({
+          query: {
+            deviceId: item.deviceId,
+            lightpoleId: this.isselectdata.id
+          },
+          path: '/seelamp'
+        })
       },
       /* 获取表格数据*/
       async getTableData() {
@@ -127,7 +139,7 @@
 
       //树接口
       async gettree() {
-        let res = await this.$http.post(this.$api.areastree, {});
+        let res = await this.$http.post(this.$api.devicelightpoletree, {});
         if (res.data.resultCode == 10000) {
           this.setdata(res.data.data);
         }
@@ -138,9 +150,9 @@
         this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
         this.treedata = this.$utils.toTree(data);
         this.showTree = true
-        if (localStorage.getItem('kotakpe')) {
-          this.getselectdata(JSON.parse(localStorage.getItem('kotakpe')));
-          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('kotakpe')).id);
+        if (localStorage.getItem('lamp')) {
+          this.getselectdata(JSON.parse(localStorage.getItem('lamp')));
+          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('lamp')).id);
         } else {
           this.getselectdata(this.treedata[0])
           this.defaultSelectedKeys.push(this.treedata[0].id);
@@ -150,7 +162,7 @@
       getselectdata(val) {
         if (!val)
           return
-        localStorage.setItem('kotakpe', JSON.stringify(val))
+        localStorage.setItem('lamp', JSON.stringify(val))
         this.isselectdata = val;
         this.getTableData()
       },

@@ -16,27 +16,35 @@ const statueList = [{
   comboBoxName: '启用'
 }]
 const useTypeList = [{
-  comboBoxId: '0',
+  comboBoxId: 0,
   comboBoxName: '虚拟监控箱'
 }, {
-  comboBoxId: '1',
+  comboBoxId: 1,
   comboBoxName: '真实监控箱'
 }]
+const lampuUseTypeList = [{
+  comboBoxId: 0,
+  comboBoxName: '普通路灯杆'
+}, {
+  comboBoxId: 1,
+  comboBoxName: '智慧路灯杆'
+}]
 const lineStatueList = [{
-            comboBoxId: '1',
-            comboBoxName: '备用'
-          },
-          {
-            comboBoxId: '2',
-            comboBoxName: '启用'
-          }, {
-            comboBoxId: '3',
-            comboBoxName: '已报废'
-          }
-        ]
+    comboBoxId: 0,
+    comboBoxName: '备用'
+  },
+  {
+    comboBoxId: 1,
+    comboBoxName: '启用'
+  }, {
+    comboBoxId: 2,
+    comboBoxName: '已报废'
+  }
+]
 export default {
   pagination, //分页信息
-  statueList,//监控箱状态
-  useTypeList,//监控箱用途类型
-  lineStatueList//线路状态
+  statueList, //监控箱状态
+  useTypeList, //监控箱用途类型
+  lineStatueList ,//线路状态
+  lampuUseTypeList//路灯杆用途类型
 }

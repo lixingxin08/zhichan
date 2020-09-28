@@ -24,19 +24,25 @@
       "title": "监控箱型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "modelName "
+      "dataIndex": "modelName"
     },
     {
       "title": "监控箱状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "statusCode "
+      "dataIndex": "statusCode",
+      "scopedSlots": {
+        "customRender": "statusCode"
+      }
     },
     {
       "title": "用途类型",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "useType"
+      "dataIndex": "useType",
+      "scopedSlots": {
+        "customRender": "useType"
+      }
     },
     {
       "title": "归属项目",
@@ -45,10 +51,10 @@
       "dataIndex": "projectName"
     },
     {
-      "title": "挂载设备数",
+      "title": "挂载线路数",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceTotal"
+      "dataIndex": "lineTotal"
     },
     {
       "title": "操作",
@@ -73,25 +79,38 @@
       "title": "线路名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+       "width": "180px",
+      "dataIndex": "lineName"
     },
     {
       "title": "线路状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "enableFlag",
+      "scopedSlots": {
+        "customRender": "enableFlag"
+      },
+       "width": "120px"
     },
+    {
+      "title": "开关名称",
+      "align": "center",
+      "ellipsis": true,
+ "width": "120px",
+      "dataIndex": "switchNo"
+    },
+
     {
       "title": "备注信息",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "gradeddd"
+      "dataIndex": "remark"
     },
     {
       "title": "操作",
       "align": "center",
-      "width": "220px",
       "ellipsis": true,
+      "width": "160px",
       "scopedSlots": {
         "customRender": "operation"
       }

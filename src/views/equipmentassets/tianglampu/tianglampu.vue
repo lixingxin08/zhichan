@@ -17,13 +17,13 @@
             <a-select-option key='' value="">
               全部
             </a-select-option>
-            <a-select-option v-for='(item,index) in lineList' :key='index' :value="item.comboBoxId">
-              {{item.comboBoxName}}
+            <a-select-option v-for='(item,index) in lineList' :key='index' :value="item.lineId">
+              {{item.lineName}}
             </a-select-option>
           </a-select>
           <div class='title_tx' style="margin-left: 20px;">路灯杆状态:</div>
-          <a-select :value="enableFlag?enableFlag:'全部'" style="width: 200px;" @change="stateSelectChange">
-            <a-select-option key='' value="">
+          <a-select :value="enableFlag>=0?enableFlag:'全部'" style="width: 200px;" @change="stateSelectChange">
+            <a-select-option key='' :value="-1">
               全部
             </a-select-option>
             <a-select-option v-for='(item,index) in statusCodeList' :key='index' :value="item.comboBoxId">
@@ -31,7 +31,7 @@
             </a-select-option>
           </a-select>
           <div class='title_tx' style="margin-left: 20px;">用途类型:</div>
-          <a-select :value="useType?useType:'全部'" style="width: 200px;" @change="useTypeSelect">
+          <a-select :value="useType>=0?useType:'全部'" style="width: 200px;" @change="useTypeSelect">
             <a-select-option key='' value="">
               全部
             </a-select-option>
@@ -44,20 +44,36 @@
         </div>
 
       </div>
-      <a-button class='base_add88_btn' type='primary' @click='edit({})'>
-        <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
+      <div class="flexrow" v-if="isselectdata.nodeType=='ECB'">
+        <a-button class='base_add88_btn' type='primary' @click='edit({})'>
+          <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
+        <a-button class='copy_btn' type='primary' @click='copy'>复制</a-button>
+      </div>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
-        <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+        <template slot="index" slot-scope="text, record,index">
+          <a-radio :checked='selectIndex==index' @click='change(index)'></a-radio>{{(index+1)+((pagination.current-1)*10)}}
+        </template>
+        <div slot='useType' slot-scope="text, record,index">
+          {{record.useType==1?'智慧路灯杆':'普通路灯杆'}}
+        </div>
+        <div slot='deviceMonitorBoxName' slot-scope="text, record,index">
+          {{isselectdata.name}}
+        </div>
+        <div slot='statusCode' slot-scope="text, record,index">
+          {{record.statusCode==0?'备用':(record.statusCode==1?'启用':'已报废')}}
+        </div>
         <template slot="operation" slot-scope="text, record">
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
             <div class="per-line"></div>
             <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
             <div class="per-line"></div>
-            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+            <a-popconfirm v-if='record.deviceTotal<=0&&record.statusCode!=1' title="确定删除？" ok-text="确定" cancel-text="取消"
+              @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
+            <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
@@ -70,18 +86,19 @@
   export default {
     data() {
       return {
+        selectIndex: -1,
         showTree: false, //展示树
         isselectdata: "", //选中的左边树item
         defaultExpandedKeys: [], //默认展开
         defaultSelectedKeys: [], //默认选中
         tableTitle: tadata.tableTitle, //表格标题
         tableData: [], //表格数据
-        enableFlag: '', //状态选择
-        statusCodeList: this.$config.statueList, //下拉选择  监控箱状态
-        useType: '', //用途类型
-        useTypeList: this.$config.useTypeList,
+        enableFlag: -1, //状态选择
+        statusCodeList: this.$config.lineStatueList, //下拉选择  监控箱状态
+        useType: -1, //用途类型
+        useTypeList: this.$config.lampuUseTypeList,
         lineList: [],
-        lineId: [],
+        lineId: '',
         keyword: '', //输入框 搜索条件 监控箱名称
         projectName: '', //输入框 搜索条件 归属i项目
         pagination: this.$config.pagination,
@@ -96,15 +113,17 @@
         this.$router.push({
           query: {
             deviceId: item.deviceId,
+            monitorId: this.isselectdata.id
           },
           path: '/addtianglampu'
         })
       },
       /* 预览*/
-      see() {
+      see(item) {
         this.$router.push({
           query: {
             deviceId: item.deviceId,
+            monitorName: this.isselectdata.name
           },
           path: '/seetianglampu'
         })
@@ -115,14 +134,15 @@
         if (this.pagination.current == 1)
           this.pagination.total = 0
         let param = {
-          useType: this.useType,
-          enableFlag: this.enableFlag,
+          useType: this.useType == -1 ? '' : this.useType,
+          enableFlag: this.enableFlag == -1 ? '' : this.enableFlag,
           keyword: this.keyword,
           lineName: this.lineId,
+          deviceId: this.isselectdata.id,
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize
         }
-        let res = this.$http.post(this.$api.devicelightpolepage, param)
+        let res = await this.$http.post(this.$api.devicelightpolepage, param)
         if (res.data.resultCode == 10000) {
           if (res.data.data) {
             this.tableData = res.data.data.list
@@ -133,16 +153,41 @@
           this.$message.error(res.data.resultMsg)
         }
       },
+      /* 复制*/
+      copy() {
+        if (this.selectIndex < 0) {
+          this.$message.warning('请先选择监控箱')
+          return
+        }
+        let item = this.tableData[this.selectIndex]
+        this.$router.push({
+          query: {
+            copy: true,
+            deviceId: item.deviceId,
+            monitorId: this.isselectdata.id
+          },
+          path: '/addtianglampu'
+        })
+      },
       /* 确认选择*/
       async confirmDelete(item) {
         let param = {
           deviceId: item.deviceId
         }
-        let res = this.$http.post(this.$api.devicelightpoleremove, param)
+        let res = await this.$http.post(this.$api.devicelightpoleremove, param)
         if (res.data.resultCode == 10000) {
           this.getTableData()
+          this.$message.success(res.data.resultMsg)
         } else {
           this.$message.error(res.data.resultMsg)
+        }
+      },
+      /* 当选按钮*/
+      change(index) {
+        if (index == this.selectIndex) {
+          this.selectIndex = -1
+        } else {
+          this.selectIndex = index
         }
       },
       /* 分页选择*/
@@ -163,7 +208,7 @@
       },
       //树接口
       async gettree() {
-        let res = await this.$http.post(this.$api.devicelightpoletree, {});
+        let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
         if (res.data.resultCode == 10000) {
           this.setdata(res.data.data);
         }
@@ -194,8 +239,9 @@
       cleanSearch() {
         this.keyword = ''
         this.projectName = ''
-        this.enableFlag = ''
-        this.useType = ''
+        this.lineId = ''
+        this.enableFlag = -1
+        this.useType = -1
         this.getTableData()
       },
       async getLineListData() {

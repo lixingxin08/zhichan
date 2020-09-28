@@ -4,35 +4,28 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属路灯杆:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input"  placeholder='路灯杆名称' />
+          <a-input disabled v-model="lightpole.name" placeholder='路灯杆名称' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属线路:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input"  placeholder='线路名称' />
+          <a-input disabled v-model="lightpole.parentName" placeholder='线路名称' />
         </div>
       </div>
-     <!-- <div class="flexrow flexac edit_item_ko_first">
-        <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>控制器品牌:</div>
-        <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="stateSelectChange">
-          <a-select-option v-for='(item,index) in brandSelectList' :key='index' :value="item.comboBoxId">
-            {{item.comboBoxName}}
-          </a-select-option>
-        </a-select>
-      </div> -->
+
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具型号:</div>
-        <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="stateSelectChange">
-          <a-select-option v-for='(item,index) in typeSelectList' :key='index' :value="item.comboBoxId">
-            {{item.comboBoxName}}
+        <a-select :value="config.modelId?config.modelId:'请选择'" style="width: 667px;" @change="modelSelectChange">
+          <a-select-option v-for='(item,index) in modelList' :key='index' :value="item.modelId">
+            {{item.modelName}}
           </a-select-option>
         </a-select>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具类型:</div>
-        <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="stateSelectChange">
-          <a-select-option v-for='(item,index) in typeSelectList' :key='index' :value="item.comboBoxId">
+        <a-select :value="config.type?config.type:'请选择'" style="width: 667px;" @change="typeSelectChange">
+          <a-select-option v-for='(item,index) in typeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
@@ -40,21 +33,21 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具名称:</div>
         <div class="edit_item_input">
-          <a-input v-model="config.input" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
+          <a-input v-model="config.deviceName" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具编号:</div>
         <div class="edit_item_input">
-          <a-input v-model="config.input" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
+          <a-input v-model="config.deviceCode" :maxLength='30' placeholder='30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
         </div>
       </div>
 
 
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具状态:</div>
-        <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="stateSelectChange">
-          <a-select-option v-for='(item,index) in stageSelectList' :key='index' :value="item.comboBoxId">
+        <a-select :value="config.statusCode>=0?config.statusCode:'请选择'" style="width: 667px;" @change="stateSelectChange">
+          <a-select-option v-for='(item,index) in statusCodeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
@@ -63,15 +56,15 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">备注信息:</div>
         <div style="position: relative;width: 667px;">
-          <a-textarea :maxLength='250' :rows="5" placeholder="250字以内，格式不限制" @change="onChangeConfig" v-model="config.remark" />
-          <div class="edit_number_ko_first">{{remarkLength}}/256</div>
+          <a-textarea :maxLength='250' :rows="5" placeholder="250字以内，格式不限制" v-model="config.remark" />
+          <div class="edit_number_ko_first">{{config.remark.length}}/256</div>
         </div>
       </div>
     </div>
     <div class="flexrow flexjc" style="margin-top: 50px;">
-      <a-button type='primary' style='margin-left: 20px;margin-right: 20px;'>保存</a-button>
-      <a-button type='primary' style='margin-right: 20px;'>保存并复制</a-button>
-      <a-button>重置</a-button>
+      <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='submit'>保存</a-button>
+      <!--      <a-button type='primary' style='margin-right: 20px;'>保存并复制</a-button> -->
+      <a-button @click='reset'>重置</a-button>
     </div>
   </div>
 </template>
@@ -80,27 +73,77 @@
   export default {
     data() {
       return {
-        typeSelectList: [], //路灯杆型号
-        kontrolerList:[],//灯具list
-        stateSelectList: this.$config.statueList, //路灯杆状态
-        useSelectList: [], //用图类型
-        ascSelectList: [], //归属线路
-        remarkLength: 0,
+        deviceId: '',
+        lightpole: {}, //灯杆详情
+        modelList: [], //型号list
+        typeList: [], //灯具list
+        statusCodeList: this.$config.lineStatueList, //路灯杆状态
         config: {
           brand: '',
-          type: '',
+          statusCode: -1,
           remark: ''
         }
       }
     },
+    created() {
+      this.deviceId = this.$route.query.deviceId
+      if (localStorage.getItem('lamp'))
+        this.lightpole = JSON.parse(localStorage.getItem('lamp'))
+      if (this.deviceId) {
+        this.getDetail()
+      }
+    },
     methods: {
-      /* 修改描述 备注*/
-      onChangeConfig(e) {
-        this.remarkLength = this.config.remark.length
+      async submit() {
+        if (!this.config.modelId) {
+          this.$message.warning('请选择灯具型号')
+        }
+        if (!this.config.typeCode) {
+          this.$message.warning('请选择灯具类型')
+        }
+        if (!this.config.deviceName) {
+          this.$message.warning('请填写灯具名称')
+        }
+        if (!this.config.deviceCode) {
+          this.$message.warning('请选择灯具编号')
+        }
+        if (this.config.statusCode < 0) {
+          this.$message.warning('请选择灯具状态')
+        }
+        this.config.poleId = this.lightpole.id
+        let res = this.$http.post(this.$api.devicelightpoleform, this.config)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg)
+          this.$router.go(-1)
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
-
-      stateSelectChange(e) {},
-      kontrolerSelectChange(e){}
+      async getDetail() {
+        let param = {
+          deviceId: this.deviceId
+        }
+        let res = await this.$http.post(this.$api.devicecameradetail, param)
+        if (res.data.resultCode = 10000) {
+          this.config = res.data.data
+        }
+      },
+      /* 类型选择*/
+      typeSelectChange() {},
+      /* 状态选择*/
+      stateSelectChange(e) {
+        this.config.statusCode = e
+      },
+      modelSelectChange(e) {},
+      reset() {
+        if (this.deviceId) {
+          this.getDetail()
+        } else {
+          this.config = {
+            statusCode: -1
+          }
+        }
+      }
     }
   }
 </script>

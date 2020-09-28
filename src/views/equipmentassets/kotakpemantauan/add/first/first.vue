@@ -1,6 +1,6 @@
 <template>
-  <div class="content2" >
-      <is-map :visible="visible" @positon='positon' @isvisible='isvisible' @address='address'></is-map>
+  <div class="content2">
+    <is-map :visible="visible" @positon='positon' @isvisible='isvisible' @address='address'></is-map>
     <div style="margin: 0 auto;">
       <!--  <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>监控箱品牌:</div>
@@ -32,7 +32,7 @@
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>监控箱状态:</div>
-        <a-select :value="config.statusCode?config.statusCode:'请选择'" style="width: 667px;" @change="stateSelectChange">
+        <a-select :disabled='config.lineTotal>0' :value="config.statusCode>=0?config.statusCode:'请选择'" style="width: 667px;" @change="stateSelectChange">
           <a-select-option v-for='(item,index) in stageCodeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
@@ -40,7 +40,7 @@
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>用途类型:</div>
-        <a-select :value="config.useType?config.useType:'请选择'" style="width: 667px;" @change="useTypeSelectChange">
+        <a-select :value="config.useType>=0?config.useType:'请选择'" style="width: 667px;" @change="useTypeSelectChange">
           <a-select-option v-for='(item,index) in useTypeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
@@ -96,7 +96,7 @@
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -108,7 +108,8 @@
     },
     props: {
       deviceId: String,
-      areaId: String
+      areaId: String,
+      copy: Boolean
     },
     data() {
       return {
@@ -123,16 +124,17 @@
         config: {
           deviceBrandId: '', //监控箱品牌
           modelId: '', //监控箱型号
-          statusCode: '', //监控箱状态
-          useType: '', //用途类型
+          statusCode: -1, //监控箱状态
+          useType: -1, //用途类型
           projectId: '', //归属项目
           phaseId: '', //项目阶段
-          remark: ''
+          remark: '' //备注
         }
       }
     },
     created() {
       this.getModeList()
+      this.getDetail()
     },
     methods: {
       /* 提交*/
@@ -146,6 +148,7 @@
         }
         this.config.areaId = this.areaId
         let res = await this.$http.post(this.$api.devicemonitorboxform, this.config)
+        this.$emit('callbackDeviceCode', this.config.deviceCode)
         this.$emit('callback', res.data)
       },
 
@@ -155,18 +158,18 @@
           return false
         }
         if (!this.$utils.vify_cn50(this.config.deviceName)) {
-          this.$message.warning('请填写监控箱名称')
+          this.$message.warning('请监控箱名称格式不对')
           return false
         }
         if (!this.$utils.vify_cn50(this.config.deviceCode)) {
           this.$message.warning('请填写监控箱编号')
           return false
         }
-        if (!this.config.statusCode) {
+        if (this.config.statusCode < 0) {
           this.$message.warning('请选择监控箱状态')
           return false
         }
-        if (!this.config.useType) {
+        if (this.config.useType < 0) {
           this.$message.warning('请选择监控箱用途类型')
           return false
         }
@@ -186,7 +189,7 @@
         } else {
           this.config = {
             deviceBrandId: '', //监控箱品牌
-            deviceModelId: '', //监控箱型号
+            modelId: '', //监控箱型号
             statusCode: '', //监控箱状态
             useType: '', //用途类型
             projectId: '', //归属项目
@@ -196,12 +199,26 @@
         }
       },
       async getDetail() {
+        if (!this.deviceId)
+          return
         let param = {
           deviceId: this.deviceId
         }
         let res = await this.$http.post(this.$api.devicemonitorboxdetail, param)
         if (res.data.resultCode == 10000) {
           this.config = res.data.data
+          if (this.copy) { //如果是复制 清空选项
+            this.config.deviceCode = ''//编号
+            this.config.imei = ''//通讯模组
+            this.config.iccid = ''//物联卡数据
+            this.config.deviceId = ''//设备id
+            this.config.latitude=''
+            this.config.longitude=''
+            this.config.address=''
+            this.config.lineTotal=0
+          }
+          this.getProjectPhase()
+          this.$emit('callbackDeviceCode', this.config.deviceCode)
         }
       },
       async getModeList() {
@@ -224,7 +241,8 @@
       },
       /* 选中监控箱经纬度*/
       positon(e) {
-        console.log(e)
+        this.config.longitude = e.split(',')[0]
+        this.config.latitude = e.split(',')[1]
       },
       isvisible(b) {
         this.visible = !b
@@ -248,7 +266,7 @@
       },
       /* 获取项目阶段列表*/
       async getProjectPhase() {
-        this.config.phaseId = ''
+
         this.phaseList = []
         let param = {
           projectId: this.config.projectId
@@ -290,9 +308,11 @@
     font-size: 14px;
     color: #999999;
   }
-.map-btn{
-  margin-left: 20px;
-}
+
+  .map-btn {
+    margin-left: 20px;
+  }
+
   .edit_item_input {
     width: 667px;
   }
