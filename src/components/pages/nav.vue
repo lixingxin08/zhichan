@@ -1,148 +1,172 @@
 <template>
-  <a-layout-sider v-model="iscollapsed"  class="scroller-nav" :trigger="null" collapsible collapsedWidth="0">
-    <div class="logo_box flex_a" >
-       <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
+  <a-layout-sider v-model="iscollapsed" class="scroller2" :trigger="null" collapsible collapsedWidth="0">
+    <div class="logo_box flex_a">
+      <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
     </div>
-    <a-menu theme="dark" mode="inline" :defaultSelectedKeys="[$route.name]" :selectedKeys="[$route.name]">
-      <a-menu-item key="asetgeografis">
-        <!-- <a-icon type="calendar" /> -->
-        <router-link to="/asetgeografis">
-          <span>地理资产</span>
-        </router-link>
-      </a-menu-item>
-      <a-sub-menu key="watthourmeter" >
+    <a-menu theme="dark" mode="inline" @click="handleClick" @openChange='openChange' :selected-keys="selectedKeys" :open-keys="openKeys">
+      <!--  <a-sub-menu v-if='menudata' v-for='(item,index) in menudata' :key='index'>
         <div slot="title" class="flex_F">
           <img class="nav_icon" src="../../assets/nav_img/icon_z_jichu@2x.png" alt />
           <span class="nav_title">基础配置</span>
         </div>
-        <a-menu-item key="watthourmeter">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/watthourmeter'>
-            <span>区域管理</span>
+        <a-menu-item v-for='(item2,index2) in item.children' :key="index2">
+          <span @click="gotoUrl(item.url)">行政区划</span>
+        </a-menu-item>
+      </a-sub-menu>-->
+      <template v-for="item in menudata">
+        <a-menu-item v-if="!item.children" :key="item.menuName">
+          <router-link :to="{path:item.linkURL}">
+            <img style='width: 14px;height: 14px;margin-right:5px ' :src="item.menuIcon" alt /> <span>{{item.menuName}}</span>
           </router-link>
         </a-menu-item>
-      </a-sub-menu>
-      <a-sub-menu key="asetperalatan" >
-        <div slot="title" class="flex_F">
-          <img class="nav_icon" src="../../assets/nav_img/icon_z_jichu@2x.png" alt />
-          <span class="nav_title">设备资产</span>
-        </div>
-        <a-menu-item key="kotakpemantauan">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to="/kotakpemantauan">
-            <span>监控箱信息</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="tianglampu">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/tianglampu'>
-            <span>路灯杆</span>
-          </router-link>
-        </a-menu-item>
-    
-        <a-menu-item key="lamp">
-        
-          <router-link to='/lamp'>
-            <span>灯具</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="kontroler">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to="/kontroler">
-            <span>终端控制器</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="kamera">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/kamera'>
-            <span>监控摄像头</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="basestation">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/basestation'>
-            <span>5G基站</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="siaranip">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/siaranip'>
-            <span>公共广播</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="panggilbantuan">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/panggilbantuan'>
-            <span>求助报警</span>
-          </router-link>
-        </a-menu-item>
-
-        <a-menu-item key="apinfo">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/apinfo'>
-            <span>共享WIFI</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="lingkungan">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/lingkungan'>
-            <span>环境传感器</span>
-          </router-link>
-        </a-menu-item>
-         <a-menu-item key="layarled">
-         <!--   <a-icon type="upload" /> -->
-           <router-link to='/layarled'>
-             <span>多媒体发布屏</span>
-           </router-link>
-         </a-menu-item>
-        <a-menu-item key="masagaransiperalatan">
-          <!-- <a-icon type="upload" /> -->
-          <router-link to='/masagaransiperalatan'>
-            <span>设备质保期</span>
-          </router-link>
-        </a-menu-item>
-      </a-sub-menu>
+        <sub-menu v-else :key="item.id" :menu-info="item"></sub-menu>
+      </template>
     </a-menu>
   </a-layout-sider>
 </template>
 <script>
+  import {
+    Menu
+  } from "ant-design-vue";
+  //import js from './new_file.json'
+  const SubMenu = {
+    template: `
+        <a-sub-menu :key="menuInfo.menuName" v-bind="$props" v-on="$listeners">
+          <span slot="title">
+           <img style='width: 14px;height: 14px;margin-right:5px ' :src="menuInfo.menuIcon" alt /><span>{{ menuInfo.menuName }}</span>
+          </span>
+          <template v-for="item in menuInfo.children">
+            <a-menu-item v-if="!item.children" :key="item.menuName" >
+           <router-link :to="item.linkURL">
+             <img style='width: 14px;height: 14px;margin-right:5px ' :src="item.menuIcon" alt />
+                    <span>{{item.menuName}}</span>
+                  </router-link>
+            </a-menu-item>
+            <sub-menu v-else :key="item.menuName" :menu-info="item" />
+          </template>
+        </a-sub-menu>
+      `,
+    name: "SubMenu",
+    // must add isSubMenu: true
+    isSubMenu: true,
+    props: {
+      ...Menu.SubMenu.props,
+      menuInfo: {
+        type: Object,
+        default: () => ({}),
+      },
+    },
+  };
+
   export default {
     name: "isnav",
+    data() {
+      return {
+        menudata: [], //树数据
+        selectedKeys: [],
+        openKeys: []
+      };
+    },
+    components: {
+      "sub-menu": SubMenu,
+    },
+
+    created() {
+     
+      this.getMenuList();
+    },
+    methods: {
+      handleClick(e) {
+        console.log('click ', e.key);
+        this.selectedKeys = [e.key]
+      },
+      openChange(e){
+         console.log('open ', e);
+         this.openKeys=e
+         localStorage.setItem("navOpenId", JSON.stringify(e))
+      },
+      async getMenuList() {
+           let isurl=window.location.href.split('#/')
+           console.log(isurl,9999);
+           let isurl2=isurl[1].split('/')
+           console.log(isurl2,'isurl2isurl2isurl2isurl2');
+        let navlist=JSON.parse(localStorage.getItem("usermsg")).navlist
+            for (let i = 0; i < navlist.length; i++) {
+              if (navlist[i].linkURL==isurl2[0]) {
+                this.selectedKeys=navlist[i].menuName
+              }
+            }
+        this.menudata = this.toTree(
+          navlist
+        );
+      //  this.menudata = this.toTree(js.navlist)
+      },
+      toTree(data) {
+        let result = [];
+        if (!Array.isArray(data)) {
+          return result;
+        }
+        data.forEach((item) => {
+          delete item.children;
+        });
+        let map = {};
+        data.forEach((item) => {
+          map[item.menuId] = item;
+        });
+        data.forEach((item) => {
+          let parent = map[item.parentId];
+          if (parent) {
+            (parent.children || (parent.children = [])).push(item);
+          } else {
+            result.push(item);
+          }
+        });
+        if (localStorage.getItem("navOpenId")) {
+          this.openKeys = JSON.parse(localStorage.getItem("navOpenId"))
+        }
+        return result;
+      },
+    },
+
     props: {
       iscollapsed: Boolean,
     },
   };
 </script>
-<style>
-  .logo_box{
-     width: 100%;
-    height: 42px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-
-  }
-  .logo_img{
-    width: 120px;
-    height: 42px;
-  }
+<style scoped>
   .nav_icon {
     width: 14px;
     height: 14px;
-    vertical-align: middle;
   }
-  .nav_title{
+
+  .nav_title {
     margin-left: 10px;
   }
 
-  .scroller-nav {
+  .scroller2 {
     color: #fff;
     height: 100vh;
     overflow: scroll;
-
     max-height: 1009px;
   }
 
-  .scroller-nav::-webkit-scrollbar {
+  .scroller2::-webkit-scrollbar {
     display: none;
+  }
+
+  .rizhi {
+    margin-left: 30px;
+  }
+
+  .logo_img {
+    width: 120px;
+    height: 42px;
+  }
+
+  .logo_box {
+    width: 100%;
+    height: 42px;
+    margin-top: 16px;
+    margin-bottom: 16px;
   }
 </style>

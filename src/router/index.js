@@ -40,7 +40,8 @@ const seelingkungan = () => import('@/views/equipmentassets/lingkungan/see/see')
 const layarled = () => import('@/views/equipmentassets/layarled/layarled') //发布屏信息
 const addlayarled = () => import('@/views/equipmentassets/layarled/add/add') //发布屏信息 新增
 const seelayarled = () => import('@/views/equipmentassets/layarled/see/see') //发布屏信息 预览
-const masagaransiperalatan = () => import('@/views/equipmentassets/masagaransiperalatan/masagaransiperalatan') //设备质保期止
+const masagaransiperalatan = () => import('@/views/equipmentassets/masagaransiperalatan/masagaransiperalatan') //设备质保期
+const addmasagaransiperalatan = () => import('@/views/equipmentassets/masagaransiperalatan/edit/edit') //设备质保期止编辑
 
 const error_404 = () => import('@/components/error_page/404.vue')
 const error_403 = () => import('@/components/error_page/403.vue')
@@ -48,12 +49,10 @@ const error_500 = () => import('@/components/error_page/500.vue')
 Vue.use(Router)
 export default new Router({
   routes: [
-
-
     {
       path: '/',
-      name: 'asetgeografis',
-      redirect: '/asetgeografis',
+      name: 'watthourmeter',
+      redirect: '/watthourmeter',
       meta: {
         title: '首页'
       },
@@ -364,6 +363,14 @@ export default new Router({
             title: '设备质保期止'
           },
           component: masagaransiperalatan,
+        },
+        {
+          path: '/addmasagaransiperalatan',
+          name: 'masagaransiperalatan',
+          meta: {
+            title: '设备质保期止'
+          },
+          component: addmasagaransiperalatan,
         },
       ]
     },

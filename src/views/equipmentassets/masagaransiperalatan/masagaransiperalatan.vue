@@ -4,15 +4,15 @@
       <div class="flexrow flexac">
         <div class='title_tx'>归属项目:</div>
         <div style="width: 200px;margin-right: 20px;">
-          <a-input placeholder="请输入归属项目" v-model="keyword" />
+          <a-input placeholder="请输入归属项目" v-model="pageparame.keyword" />
         </div>
         <div class='title_tx'>设备类型:</div>
         <div style="width: 200px;margin-right: 20px;">
-          <a-input placeholder="请输入设备类型" v-model="keyword1" />
+          <a-input placeholder="请输入设备类型" v-model="pageparame.deviceTypeName" />
         </div>
         <div class='title_tx'>设备型号:</div>
         <div style="width: 200px;margin-right: 20px;">
-          <a-input placeholder="请输入设备型号" v-model="keyword2" />
+          <a-input placeholder="请输入设备型号" v-model="pageparame.deviceModelName" />
         </div>
 
         <div class='title_tx'>有效期:</div>
@@ -50,13 +50,25 @@
         monthFormat: 'YYYY/MM',
         timeValue: ['', ''],
        pagination:this.$config.pagination,
+       pageparame:{
+         keyword:'',
+         deviceTypeName:'',
+         deviceModelName:'',
+         startData:'',
+         endData:'',
+         pageIndex:''
+       }
       }
     },
     methods: {
       moment,
       /* 编辑 新增*/
       edit(item) {
-        this.$router.push('/addlingkungan')
+         this.$router.push('/addmasagaransiperalatan')
+      },
+      //分页
+      getpage(){
+        this.$http.post(this.$api.deviceguaranteepage,)
       },
       /* 预览*/
       see() {
