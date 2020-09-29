@@ -47,8 +47,10 @@
       "title": "关联灯具数",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceToal"
-      
+      "dataIndex": "lampId",
+ "scopedSlots": {
+        "customRender": "lampId"
+      }
     },
     {
       "title": "控制器状态",

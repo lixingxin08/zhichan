@@ -4,13 +4,13 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属路灯杆:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="lightpoleConfig.deviceName" placeholder='路灯杆名称' />
+          <a-input disabled v-model="lightConfig.name" placeholder='路灯杆名称' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属线路:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="lightpoleConfig.lineName" placeholder='线路名称' />
+          <a-input disabled v-model="lineConfig.name" placeholder='线路名称' />
         </div>
       </div>
 
@@ -36,9 +36,9 @@
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>控制灯具:</div>
-        <a-select :value="config.brand?config.brand:'请选择'" style="width: 667px;" @change="kontrolerSelectChange">
-          <a-select-option v-for='(item,index) in kontrolerList' :key='index' :value="item.comboBoxId">
-            {{item.comboBoxName}}
+        <a-select :value="config.lampId?config.lampId:'请选择'" style="width: 667px;" @change="lanternsSelectChange">
+          <a-select-option v-for='(item,index) in lanternsList' :key='index' :value="item.deviceId">
+            {{item.deviceName}}
           </a-select-option>
         </a-select>
       </div>
@@ -83,30 +83,32 @@
   export default {
     data() {
       return {
-        lightpoleId: '', //路灯杆id
-        lightpoleConfig: '', //路灯杆详情
+       lineConfig: {}, //线路
+       lightConfig: {}, //灯杆
         deviceId: '', //设备id
         modelList: [], //型号List
-       lanternsList: [], //灯具list
+        lanternsList: [], //灯具list
         stateSelectList: this.$config.lineStatueList, //状态List
         config: { //设备详情
           modelId: '',
           remark: '',
+          lampId:'',
           statusCode: -1
         }
       }
     },
     created() {
       this.deviceId = this.$route.query.deviceId
-      this.lightpoleId = this.$route.query.lightpoleId
+      this.lightConfig = this.$utils.getLightSelectKey()
+      this.lineConfig = this.$utils.getLineSelectKey()
       this.getModelList()
-      this.getLanternsList()
+
       if (this.deviceId) {
         this.getDetail()
+      } else {
+        this.getLanternsList()
       }
-      if (this.lightpoleId) {
-        this.getLightpoleDetail()
-      }
+
     },
     methods: {
       /* 提交*/
@@ -123,12 +125,15 @@
           this.$message.warning('请填写控制器编号')
           return
         }
-
+        if (!this.config.deviceCode) {
+          this.$message.warning('请选择控制的灯具')
+          return
+        }
         if (this.config.statusCode < 0) {
           this.$message.warning('请选择控制器状态')
           return
         }
-        this.config.poleId = this.lightpoleConfig.deviceId
+        this.config.poleId = this.lightConfig.id
         let res = await this.$http.post(this.$api.devicepolecontrollerform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
@@ -145,6 +150,7 @@
         let res = await this.$http.post(this.$api.devicepolecontrollerdetail, param)
         if (res.data.resultCode == 10000) {
           this.config = res.data.data
+          this.getLanternsList()
         }
       },
       /* 获取路灯杆详情*/
@@ -165,6 +171,18 @@
           this.modelList = res.data.data
         }
       },
+      async getLanternsList() {
+        this.lanternsList = []
+        let param = {
+          lightpoleId: this.lightConfig.id,
+        }
+        if (this.config.lampId)
+          param.deviceId = this.config.deviceId
+        let res = await this.$http.post(this.$api.devicelamplist, param)
+        if (res.data.resultCode == 10000) {
+          this.lanternsList = res.data.data
+        }
+      },
       /* 重置*/
       reset() {
         if (this.deviceId) {
@@ -173,20 +191,23 @@
           this.config = { //设备详情
             modelId: '',
             remark: '',
+            lampId:'',
             statusCode: -1
           }
         }
       },
       /* 型号*/
-      modelSelectChange(e){
-        this.config.modelId=e
+      modelSelectChange(e) {
+        this.config.modelId = e
       },
       /* 状态选择*/
       stateSelectChange(e) {
         this.config.statusCode = e
       },
       /* 控制灯具选择*/
-      kontrolerSelectChange(e) {}
+      lanternsSelectChange(e) {
+        this.config.lampId=e
+      }
     }
   }
 </script>

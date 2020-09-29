@@ -57,7 +57,7 @@
       "title": "控制器名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceTotal"
+      "dataIndex": "controllerName"
     },
     {
       "title": "灯具状态",

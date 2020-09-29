@@ -33,6 +33,9 @@
         <div slot='statusCode' slot-scope="text, record,index">
           {{record.statusCode==0?'备用':(record.statusCode==1?'启用':'已报废')}}
         </div>
+        <div slot='lampId' slot-scope="text, record,index">
+           {{record.lampId?'1':'0'}}
+        </div>
         <div slot='parentName'>{{isselectdata.name}}</div>
          <div slot='lineName'>{{parentData.name}}</div>
         <template slot="operation" slot-scope="text, record">
@@ -41,10 +44,10 @@
             <div class="per-line"></div>
             <!--       <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
           <div class="per-line"></div> -->
-            <a-popconfirm title="确定删除"  ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+            <a-popconfirm v-if='record.statusCode!=1&&!record.lampId' title="确定删除"  ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
-          <!--  <a href="#" v-else style='color: #CCCCCC;font-size: 12px;'>删除</a> -->
+          <a href="#" v-else style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
