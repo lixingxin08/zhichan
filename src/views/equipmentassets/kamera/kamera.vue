@@ -72,6 +72,9 @@
         pagination: this.$config.pagination,
       }
     },
+    created() {
+      this.gettree()
+    },
     methods: {
       /* 编辑 新增*/
       edit(item) {
@@ -148,35 +151,72 @@
         this.protocolType = ''
         this.getTableData()
       },
-      //树接口
-      async gettree() {
-        let res = await this.$http.post(this.$api.devicelightpoletree, {});
-        if (res.data.resultCode == 10000) {
-          this.setdata(res.data.data);
-        }
-      },
+     //树接口
+     async gettree() {
+       this.treedata = this.$utils.getlightTreeData()
+       if (!this.treedata) {
+         let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
+         if (res.data.resultCode == 10000) {
+           this.setdata(res.data.data);
+         }
+       } else {
+         this.defaultExpandedKeys = this.$utils.getLightExpangKey()
+         this.setSelectKey()
+         this.showTree = true
+       }
+     },
 
-      /* 设置tree 数据*/
-      setdata(data) {
-        this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
-        this.treedata = this.$utils.toTree(data);
-        this.showTree = true
-        if (localStorage.getItem('kamera')) {
-          this.getselectdata(JSON.parse(localStorage.getItem('kamera')));
-          this.defaultSelectedKeys.push(JSON.parse(localStorage.getItem('kamera')).id);
-        } else {
-          this.getselectdata(this.treedata[0])
-          this.defaultSelectedKeys.push(this.treedata[0].id);
-        }
-      },
-      /* 点击Item事件*/
-      getselectdata(val) {
-        if (!val)
-          return
-        localStorage.setItem('kamera', JSON.stringify(val))
-        this.isselectdata = val;
-        this.getTableData()
-      },
+     /* 设置tree 数据*/
+     setdata(data) {
+       this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
+       this.$utils.setLightExpandKey(this.defaultExpandedKeys)
+       this.treedata = this.$utils.toTree(data);
+       this.setSelectKey()
+       this.showTree = true
+     },
+     /* 设置选中item*/
+     setSelectKey() {
+       if (this.$utils.getLightSelectKey()) {
+         this.getselectdata(this.$utils.getLightSelectKey());
+         this.defaultSelectedKeys.push(this.$utils.getLightSelectKey().id);
+       } else {
+         this.getselectdata(this.treedata[0])
+         this.defaultSelectedKeys.push(this.treedata[0].id);
+       }
+     },
+     /* 点击Item事件*/
+     getselectdata(val) {
+       if (!val)
+         return
+       this.$utils.setLightSelectKey(val)
+       this.isselectdata = val;
+       if (this.isselectdata.nodeType == 'LINE')
+         this.getTableData()
+     },
+
+     onLoadData(treeNode) {
+       return new Promise(async resolve => {
+         if (treeNode.dataRef.children) {
+           resolve();
+           return;
+         }
+         if (treeNode.dataRef.nodeType != 'ECB') {
+           resolve();
+           return
+         }
+         let param = {
+           deviceId: treeNode.dataRef.id
+         }
+         let res = await this.$http.post(this.$api.devicelightpoletree, param)
+         if (res.data.resultCode == 10000) {
+           if (res.data.data)
+             treeNode.dataRef.children = res.data.data
+         }
+         this.treedata = [...this.treedata];
+         this.$utils.setlightTreeData(this.treedata)
+         resolve();
+       });
+     },
     }
   }
 </script>

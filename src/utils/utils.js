@@ -20,10 +20,10 @@ export default {
     return true;
   },
 
-  isChinese16 :function (temp){
-      var re=/[^\u4E00-\u9FA5]{2,16}$/gi;
-      if (re.test(temp)) return false ;
-      return true ;
+  isChinese16: function(temp) {
+    var re = /[^\u4E00-\u9FA5]{2,16}$/gi;
+    if (re.test(temp)) return false;
+    return true;
   },
   //校验中文字符
   vify_cn: function(phone) {
@@ -69,7 +69,8 @@ export default {
     }
   },
   toTree: function(data) {
-
+    if (!data)
+      return []
     for (let i = 0; i < data.length; i++) {
       if (data[i].nodeType == 0) {
         data[i].disabled = true;
@@ -105,5 +106,37 @@ export default {
       }
     }
     return defaultExpandedKeys
+  },
+  getTreeExpandedKeysByArea: function(data) {
+    let defaultExpandedKeys = []
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].open && data[i].nodeType == 'AREA') {
+        defaultExpandedKeys.push(data[i].id);
+      }
+    }
+    return defaultExpandedKeys
+  },
+  setlightTreeData(data) {
+    localStorage.setItem("lightTree", JSON.stringify(data))
+  },
+  getlightTreeData() {
+    return JSON.parse(localStorage.getItem('lightTree'))
+  },
+  setLightExpandKey(data) {
+    localStorage.setItem("lightTreeExpandKey", JSON.stringify(data))
+  },
+  getLightExpangKey() {
+    return JSON.parse(localStorage.getItem("lightTreeExpandKey"))
+  },
+  setLightSelectKey(data) {
+    localStorage.setItem("lightTreeSelectKey", JSON.stringify(data))
+  },
+  getLightSelectKey() {
+    return JSON.parse(localStorage.getItem("lightTreeSelectKey"))
+  },
+  cleanTree() {
+    localStorage.clear('lightTree')
+    localStorage.clear('lightTreeExpandKey')
+    localStorage.clear('lightTreeSelectKey')
   }
 }

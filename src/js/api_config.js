@@ -34,6 +34,7 @@ export default {
   devicepolecontrollerremove: base.baseUrl1 + `/device/pole-controller/remove`, //路灯控制器 移除接口
   devicepolecontrollerpage: base.baseUrl1 + `/device/pole-controller/page`, //路灯控制器 分页接口
   devicepolecontrollertree: base.baseUrl1 + `/device/pole-controller/tree`, //路灯控制器 树接口
+  devicepolecontrollermodel: base.baseUrl2 + `/auth/customer-model/controller/combobox`,//路灯控制器 型号列表
 
   devicecameraform: base.baseUrl1 + `/device/camera/form`, //摄像头   表单接口
   devicecameradetail: base.baseUrl1 + `/device/camera/detail`, //摄像头 详情接口

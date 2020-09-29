@@ -177,6 +177,7 @@
         let res = await this.$http.post(this.$api.devicelightpoleremove, param)
         if (res.data.resultCode == 10000) {
           this.getTableData()
+           this.$utils.cleanTree()
           this.$message.success(res.data.resultMsg)
         } else {
           this.$message.error(res.data.resultMsg)

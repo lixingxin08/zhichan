@@ -58,6 +58,7 @@
           let res = await this.$http.post(this.$api.devicemonitorboxlinefrom, param)
           if (res.data.resultCode == 10000) {
             this.getLineData()
+             this.$utils.cleanTree()
           } else {
             this.$message.error(res.data.resultMsg)
           }
@@ -72,6 +73,7 @@
         let res = await this.$http.post(this.$api.devicemonitorboxlineremove, param)
         if (res.data.resultCode == 10000) {
           this.getLineData()
+           this.$utils.cleanTree()
         } else {
           this.$message.error(res.data.resultMsg)
         }

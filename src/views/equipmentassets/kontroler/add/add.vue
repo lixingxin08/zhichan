@@ -99,6 +99,7 @@
     created() {
       this.deviceId = this.$route.query.deviceId
       this.lightpoleId = this.$route.query.lightpoleId
+      this.getModelList()
       if (this.deviceId) {
         this.getDetail()
       }
@@ -121,15 +122,12 @@
           this.$message.warning('请填写控制器编号')
           return
         }
-        if (!this.config.deviceName) {
-          this.$message.warning('请填写控制器名称')
-          return
-        }
+
         if (this.config.statusCode < 0) {
           this.$message.warning('请选择控制器状态')
           return
         }
-              this.config.poleId = this.lightpole.id
+        this.config.poleId = this.lightpoleConfig.deviceId
         let res = await this.$http.post(this.$api.devicepolecontrollerform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
@@ -139,11 +137,11 @@
         }
       },
       /* 获取设备详情*/
-     async getDetail() {
+      async getDetail() {
         let param = {
           deviceId: this.deviceId
         }
-        let res = await this.$http.post(this.$api.devicelightpoledetail, param)
+        let res = await this.$http.post(this.$api.devicepolecontrollerdetail, param)
         if (res.data.resultCode == 10000) {
           this.config = res.data.data
         }
@@ -158,6 +156,13 @@
           this.lightpoleConfig = res.data.data
         }
       },
+      async getModelList() {
+        this.modelList = []
+        let res = await this.$http.post(this.$api.devicepolecontrollermodel, {})
+        if (res.data.resultCode == 10000) {
+          this.modelList = res.data.data
+        }
+      },
       /* 重置*/
       reset() {
         if (this.deviceId) {
@@ -169,6 +174,10 @@
             statusCode: -1
           }
         }
+      },
+      /* 型号*/
+      modelSelectChange(e){
+        this.config.modelId=e
       },
       /* 状态选择*/
       stateSelectChange(e) {
