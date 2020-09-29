@@ -12,32 +12,37 @@
       "title": "发布屏名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "发布屏编号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "发布屏型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "modelName"
     },
     {
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "lightPoleName",
+      "scopedSlots": {
+        "customRender": "lightPoleName"
+      }
     },
    
     {
       "title": "发布屏状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+   "scopedSlots": {
+     "customRender": "statusCode"
+   }
     },
    
     {

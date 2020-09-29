@@ -12,19 +12,19 @@
       "title": "环境要素名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "className"
+      "dataIndex": "deviceName"
     },
     {
       "title": "环境要素编号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "classCode"
+      "dataIndex": "deviceCode"
     },
     {
       "title": "环境要素型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "grade"
+      "dataIndex": "modelName"
     },
 
 
@@ -32,13 +32,19 @@
       "title": "环境要素状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentCode2"
+      "dataIndex": "statusCode",
+      "scopedSlots": {
+        "customRender": "statusCode"
+      }
     },
     {
       "title": "归属路灯杆",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "lightPoleName",
+      "scopedSlots": {
+        "customRender": "lightPoleName"
+      }
     },
     {
       "title": "操作",

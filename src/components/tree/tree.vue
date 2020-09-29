@@ -4,8 +4,8 @@
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
     </div>-->
     <div class="istree">
-      <a-tree :show-line="showLine" :load-data="onLoadData" @select="onSelect" defaultExpandAll :tree-data="treedata"
-        :replaceFields="replaceFields" :default-selected-keys='defaultSelectedKeys' :default-expanded-keys="defaultExpandedKeys">
+      <a-tree :show-line="showLine" :load-data="onLoadData" @select="onSelect" defaultExpandAll :tree-data="treedata"   :default-selected-keys='defaultSelectedKeys'
+        :replaceFields="replaceFields"  :default-expanded-keys="defaultExpandedKeys">
         <a-icon slot="icon" type="carry-out" />
       </a-tree>
     </div>
@@ -45,6 +45,8 @@
         if (selectedNodes.selected == false) {
           return
         }
+
+        this.getAreaId(selectedNodes.node)
         this.$emit("parentdata", selectedNodes.node.$parent.dataRef)
         this.olddata = selectedNodes.selectedNodes[0].data.props
         this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
@@ -53,6 +55,14 @@
         console.log(value, 88292);
         this.$emit("searchdata", value);
       },
+      getAreaId(node) {
+        if (node.dataRef.nodeType == 'AREA') {
+          this.$utils.setAreaId(node.dataRef)
+        } else {
+          if (node.$parent)
+            this.getAreaId(node.$parent)
+        }
+      }
     },
   };
 </script>

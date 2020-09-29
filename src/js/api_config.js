@@ -3,7 +3,7 @@ import base from './base_url.js'
 
 export default {
 
-  dictionarycombobox: base.baseUrl2 +`/config/dictionary/combobox`, //数据字典下拉列表框接口
+  dictionarycombobox: base.baseUrl2 + `/config/dictionary/combobox`, //数据字典下拉列表框接口
 
   areasform: base.baseUrl1 + `/config/areas/form`, //  设备授权区域表单接口
   areaspage: base.baseUrl1 + `/config/areas/page`, //设备授权区域分页接口
@@ -43,11 +43,42 @@ export default {
   devicecameraremove: base.baseUrl1 + `/device/camera/remove`, //摄像头 删除接口
   devicecamerapage: base.baseUrl1 + `/device/camera/page`, //摄像头 分页接口
   devicepolecontrollercamera: base.baseUrl2 + `/auth/customer-model/camera/combobox`, //摄像头 型号列表
-  devicecameraprotoroltypelist: base.baseUrl1 + '', //摄像头协议列表
+
+  devicedevicebodypage: base.baseUrl1 + `/device/public-broadcast/page`, //公共广播 分页
+  devicedevicebodydetail: base.baseUrl1 + `/device/public-broadcast/detail`, //公共广播 详情
+  devicedevicebodyform: base.baseUrl1 + `/device/public-broadcast/form`, //公共广播 表单
+  devicedevicebodyremove: base.baseUrl1 + `/device/public-broadcast/remove`, //公共广播 删除
+  devicepolecontrollerdevicebody: base.baseUrl2 + `/auth/customer-model/public-broadcast/combobox`, //广播 型号列表
+
+  devicepolicepage: base.baseUrl1 + `/device/turn-police/page`,//警报 分页
+  devicepolicedetail: base.baseUrl1 + `/device/turn-police/detail`,//警报 详情
+  devicepoliceform: base.baseUrl1 + `/device/turn-police/form`,//警报 表单
+  devicepoliceremove: base.baseUrl1 + `/device/turn-police/remove`,//警报 删除
+  devicepolicemodellist: base.baseUrl2 + `/auth/customer-model/turn-police/combobox`,//警报 型号列表
+
+  devicewifipage: base.baseUrl1 + `/device/wifi/page`,//WIFI 分页
+  devicewifidetail: base.baseUrl1 + `/device/wifi/detail`,//WIFI 详情
+  devicewifiform: base.baseUrl1 + `/device/wifi/form`,//WIFI 表单
+  devicewifiremove: base.baseUrl1 + `/device/wifi/remove`,//WIFI 删除
+  devicewifimodellist: base.baseUrl2 + `/auth/customer-model/wifi/combobox`,//WIFI 型号列表
+  
+  
+  deviceenvironmentalpage: base.baseUrl1 + `/device/environmental-elements/page`,//环境传感器 分页
+  deviceenvironmentaldetail: base.baseUrl1 + `/device/environmental-elements/detail`,//环境传感器 详情
+  deviceenvironmentalform: base.baseUrl1 + `/device/environmental-elements/form`,//环境传感器 表单
+  deviceenvironmentalremove: base.baseUrl1 + `/device/environmental-elements/remove`,//环境传感器 删除
+  deviceenvironmentalmodellist: base.baseUrl2 + `/auth/customer-model/environmental-elements/combobox`,//环境传感器 型号列表
+
+  devicemultimediapage: base.baseUrl1 + `/device/multimedia-screen/page`,//多媒体发布屏 分页
+  devicemultimediadetail: base.baseUrl1 + `/device/multimedia-screen/detail`,//多媒体发布屏 详情
+  devicemultimediaform: base.baseUrl1 + `/device/multimedia-screen/form`,//多媒体发布屏 表单
+  devicemultimediaremove: base.baseUrl1 + `/device/multimedia-screen/remove`,//多媒体发布屏 删除
+  devicemultimediamodellist: base.baseUrl2 + `/auth/customer-model/multimedia-screen/combobox`,//多媒体发布屏 型号列表
 
   deviceguaranteeform: base.baseUrl1 + `/device/guarantee/form`, //质保期表单
   deviceguaranteedetail: base.baseUrl1 + `/device/guarantee/detail`, //质保期详情
   deviceguaranteepage: base.baseUrl1 + `/device/guarantee/page`, //质保期分页
+
 
   parampage: base.baseUrl2 + `/device/ModelParameter/list`, //授权设备运行参数==产品规格
 

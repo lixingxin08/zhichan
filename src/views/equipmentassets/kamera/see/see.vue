@@ -3,35 +3,35 @@
     <div class="flexrow des-title">摄像头信息</div>
     <a-descriptions size='small' bordered>
 
-      <a-descriptions-item label="摄像头型号" >
+      <a-descriptions-item label="摄像头型号">
         {{config.modelName}}
       </a-descriptions-item>
       <a-descriptions-item label="摄像头类型" :span="2">
         {{config.deviceTypeName}}
       </a-descriptions-item>
-      <a-descriptions-item label="接入协议类型"  >
-         {{config.protocolTypeName}}
+      <a-descriptions-item label="接入协议类型">
+        {{config.protocolTypeName}}
       </a-descriptions-item>
       <a-descriptions-item label="摄像头名称" :span="2">
-       {{config.deviceName}}
+        {{config.deviceName}}
       </a-descriptions-item>
-      <a-descriptions-item label="摄像头编号"  >
-       {{config.deviceName}}
+      <a-descriptions-item label="摄像头编号">
+        {{config.deviceCode}}
       </a-descriptions-item>
       <a-descriptions-item label="设备通道数" :span="2">
-         {{config.deviceName}}
+        {{config.totalChannel}}
       </a-descriptions-item>
-      <a-descriptions-item label="激活通道数"  >
-         {{config.deviceName}}
+      <a-descriptions-item label="激活通道数">
+        {{config.activeChannel }}
       </a-descriptions-item>
-      <a-descriptions-item label="摄像头状态":span="2" >
-         {{config.deviceName}}
+      <a-descriptions-item label="摄像头状态" :span="2">
+        {{record.statusCode==0?'备用':(record.statusCode==1?'启用':'已报废')}}
       </a-descriptions-item>
-      <a-descriptions-item label="路灯杆名称"  >
-{{lightConfig.name}}
+      <a-descriptions-item label="路灯杆名称">
+        {{lightConfig.name}}
       </a-descriptions-item>
       <a-descriptions-item label="线路名称" :span="2">
-     {{lineConfig.name}}
+        {{lineConfig.name}}
       </a-descriptions-item>
     </a-descriptions>
     <div v-if="productSpecificationsList.length>0" class="flexrow des-title" style="margin-top: 30px;">产品规格</div>
@@ -50,11 +50,11 @@
   export default {
     data() {
       return {
-        deviceId:'',
+        deviceId: '',
         lineConfig: {}, //线路
         lightConfig: {}, //灯杆
         config: {},
-           productSpecificationsList: [] //产品规格详情列表
+        productSpecificationsList: [] //产品规格详情列表
       }
     },
     created() {
@@ -65,7 +65,7 @@
         this.getDetail()
       }
     },
-    methods:{
+    methods: {
       /* 获取详情*/
       async getDetail() {
         let param = {
@@ -86,8 +86,8 @@
         }
         let res = await this.$http.post(this.$api.parampage, param);
         if (res.data.resultCode == 10000) {
-          if(res.data.data)
-          this.productSpecificationsList = res.data.data
+          if (res.data.data)
+            this.productSpecificationsList = res.data.data
         }
       }
     }

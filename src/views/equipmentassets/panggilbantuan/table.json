@@ -27,12 +27,15 @@
       "dataIndex": "modelName"
     },
     {
-      "title": "路灯杆名称",
+      "title": "归属路灯杆",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceLightPoleName"
+      "dataIndex": "lightPoleName",
+      "scopedSlots": {
+        "customRender": "lightPoleName"
+      }
     },
-   
+
     {
       "title": "求助装置状态",
       "align": "center",
@@ -42,7 +45,7 @@
 	    "customRender": "statusCode"
 	  }
     },
-   
+
     {
       "title": "操作",
       "align": "center",

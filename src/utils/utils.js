@@ -122,6 +122,7 @@ export default {
   },
   /* 获取树数据*/
   getlightTreeData() {
+    //return null
     return JSON.parse(localStorage.getItem('lightTree'))
   },
   /* 缓存树展开的数据*/
@@ -130,6 +131,7 @@ export default {
   },
   /* 获取树展开的数据*/
   getLightExpangKey() {
+    //return null
     return JSON.parse(localStorage.getItem("lightTreeExpandKey"))
   },
   /* 缓存选择线路的数据*/
@@ -147,6 +149,12 @@ export default {
   /* 获取缓存的灯杆的数据*/
   getLightSelectKey() {
     return JSON.parse(localStorage.getItem("lightTreeSelectKey"))
+  },
+  setAreaId(data){
+      localStorage.setItem("areaId", JSON.stringify(data))
+  },
+  getAreaId(){
+     return JSON.parse(localStorage.getItem("areaId"))
   },
   cleanTree() {
     localStorage.clear('lightTree')

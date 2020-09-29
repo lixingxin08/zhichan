@@ -1,7 +1,7 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-      <is-left-tree v-if="showTree" :treedata="treedata" @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
+      <is-left-tree v-if="showTree" :onLoadData='onLoadData' :treedata="treedata" @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
         :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
     </div>
     <div class="content2">

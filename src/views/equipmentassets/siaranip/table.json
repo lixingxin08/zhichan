@@ -30,7 +30,10 @@
       "title": "路灯杆名称",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceLightPoleName"
+      "dataIndex": "lightPoleName",
+      "scopedSlots": {
+        "customRender": "lightPoleName"
+      }
     },
    
     {
