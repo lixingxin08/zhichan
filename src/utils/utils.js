@@ -157,8 +157,8 @@ export default {
      return JSON.parse(localStorage.getItem("areaId"))
   },
   cleanTree() {
-    localStorage.clear('lightTree')
-    localStorage.clear('lightTreeExpandKey')
-    localStorage.clear('lightTreeSelectKey')
+    //localStorage.clear('lightTree')
+    //localStorage.clear('lightTreeExpandKey')
+    //localStorage.clear('lightTreeSelectKey')
   }
 }

@@ -87,7 +87,7 @@
         lightpoleConfig: '', //路灯杆详情
         deviceId: '', //设备id
         modelList: [], //型号List
-        kontrolerList: [], //灯具list
+       lanternsList: [], //灯具list
         stateSelectList: this.$config.lineStatueList, //状态List
         config: { //设备详情
           modelId: '',
@@ -100,6 +100,7 @@
       this.deviceId = this.$route.query.deviceId
       this.lightpoleId = this.$route.query.lightpoleId
       this.getModelList()
+      this.getLanternsList()
       if (this.deviceId) {
         this.getDetail()
       }
@@ -156,6 +157,7 @@
           this.lightpoleConfig = res.data.data
         }
       },
+      /* 获取型号列表*/
       async getModelList() {
         this.modelList = []
         let res = await this.$http.post(this.$api.devicepolecontrollermodel, {})

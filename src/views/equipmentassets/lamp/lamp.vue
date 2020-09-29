@@ -1,9 +1,9 @@
 <template>
- <div class="administrativedivision flex_fs">
-   <div class="isleft">
-     <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
-       @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
-   </div>
+  <div class="administrativedivision flex_fs">
+    <div class="isleft">
+      <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata'
+        :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
+    </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
         <div class="flexrow flexac">
@@ -28,19 +28,28 @@
         </div>
 
       </div>
-      <a-button v-if="isselectdata.nodeType == 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>   <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
+      <a-button v-if="isselectdata.nodeType == 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>
+        <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+        <div slot='statusCode' slot-scope="text, record,index">
+          {{record.statusCode==0?'备用':(record.statusCode==1?'启用':'已报废')}}
+        </div>
+
+        <div slot='useType' slot-scope="text, record,index">{{record.useType==0?'LED灯':'高压钠灯'}}</div>
+        <div slot='lightName'>{{isselectdata.name}}</div>
+        <div slot='lineName'>{{parentData.name}}</div>
         <template slot="operation" slot-scope="text, record">
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
             <div class="per-line"></div>
             <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
             <div class="per-line"></div>
-            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+            <a-popconfirm v-if='record.statusCode!=1' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
+              <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
@@ -50,17 +59,19 @@
 <!-- 路灯杆信息-->
 <script>
   import tadata from './table.json'
-import {lightstree} from '../../../utils/mixins.js'
+  import {
+    lightstree
+  } from '../../../utils/mixins.js'
   export default {
-     mixins: [lightstree],
+    mixins: [lightstree],
     data() {
       return {
-      tableTitle: tadata.tableTitle, //表格标题
-      tableData: [], //表格数据
-      statusCode: -1, //状态选择
-      statusCodeList: this.$config.lineStatueList, //状态List
-      keyword: '', //输入框 搜索条件 名称
-      pagination: this.$config.pagination
+        tableTitle: tadata.tableTitle, //表格标题
+        tableData: [], //表格数据
+        statusCode: -1, //状态选择
+        statusCodeList: this.$config.lineStatueList, //状态List
+        keyword: '', //输入框 搜索条件 名称
+        pagination: this.$config.pagination
       }
     },
     created() {
@@ -72,17 +83,15 @@ import {lightstree} from '../../../utils/mixins.js'
         this.$router.push({
           query: {
             deviceId: item.deviceId,
-            lightpoleId: this.isselectdata.id
           },
           path: '/addlamp'
         })
       },
       /* 预览*/
-      see() {
+      see(item) {
         this.$router.push({
           query: {
             deviceId: item.deviceId,
-            lightpoleId: this.isselectdata.id
           },
           path: '/seelamp'
         })
@@ -93,11 +102,11 @@ import {lightstree} from '../../../utils/mixins.js'
           this.pagination.total = 0
         this.tableData = []
         let param = {
-      statusCode: this.statusCode == -1 ? '' : this.statusCode,
-      pageIndex: this.pagination.current,
-      pageSize: this.pagination.pageSize,
-      keyword:this.keyword,
-      lightpoleId: this.isselectdata.id
+          statusCode: this.statusCode == -1 ? '' : this.statusCode,
+          pageIndex: this.pagination.current,
+          pageSize: this.pagination.pageSize,
+          keyword: this.keyword,
+          lightpoleId: this.isselectdata.id
         }
         let res = await this.$http.post(this.$api.devicelamppage, param)
         if (res.data.resultCode == 10000) {

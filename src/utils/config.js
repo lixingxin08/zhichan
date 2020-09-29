@@ -15,6 +15,13 @@ const statueList = [{
   comboBoxId: '1',
   comboBoxName: '启用'
 }]
+const lanternsList = [{
+  comboBoxId: 0,
+  comboBoxName: 'LED灯'
+}, {
+  comboBoxId: 1,
+  comboBoxName: '高压钠灯'
+}]
 const useTypeList = [{
   comboBoxId: 0,
   comboBoxName: '虚拟监控箱'
@@ -46,5 +53,6 @@ export default {
   statueList, //监控箱状态
   useTypeList, //监控箱用途类型
   lineStatueList ,//线路状态
-  lampuUseTypeList//路灯杆用途类型
+  lampuUseTypeList,//路灯杆用途类型
+  lanternsList
 }

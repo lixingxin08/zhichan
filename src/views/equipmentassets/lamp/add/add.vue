@@ -24,8 +24,8 @@
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具类型:</div>
-        <a-select :value="config.type?config.type:'请选择'" style="width: 667px;" @change="typeSelectChange">
-          <a-select-option v-for='(item,index) in typeList' :key='index' :value="item.comboBoxId">
+        <a-select :value="config.useType>=0?config.useType:'请选择'" style="width: 667px;" @change="typeSelectChange">
+          <a-select-option v-for='(item,index) in lanternsList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
         </a-select>
@@ -57,7 +57,7 @@
         <div class="edit_item_title_ko_first">备注信息:</div>
         <div style="position: relative;width: 667px;">
           <a-textarea :maxLength='250' :rows="5" placeholder="250字以内，格式不限制" v-model="config.remark" />
-          <div class="edit_number_ko_first">{{config.remark.length}}/256</div>
+          <div class="edit_number_ko_first">{{config.remark.length}}/250</div>
         </div>
       </div>
     </div>
@@ -74,12 +74,13 @@
     data() {
       return {
         deviceId: '',
-     lineConfig: {}, //线路
-     lightConfig: {}, //灯杆
+        lineConfig: {}, //线路
+        lightConfig: {}, //灯杆
         modelList: [], //型号list
-        typeList: [], //灯具list
         statusCodeList: this.$config.lineStatueList, //路灯杆状态
+        lanternsList: this.$config.lanternsList,
         config: {
+          useType:-1,
           modelId: '',
           statusCode: -1,
           remark: ''
@@ -88,9 +89,9 @@
     },
     created() {
       this.deviceId = this.$route.query.deviceId
-     this.getModelList()
-     this.lightConfig = this.$utils.getLightSelectKey()
-     this.lineConfig = this.$utils.getLineSelectKey()
+      this.getModelList()
+      this.lightConfig = this.$utils.getLightSelectKey()
+      this.lineConfig = this.$utils.getLineSelectKey()
       if (this.deviceId) {
         this.getDetail()
       }
@@ -100,7 +101,7 @@
         if (!this.config.modelId) {
           this.$message.warning('请选择灯具型号')
         }
-        if (!this.config.typeCode) {
+        if (this.config.useType<0) {
           this.$message.warning('请选择灯具类型')
         }
         if (!this.config.deviceName) {
@@ -113,7 +114,7 @@
           this.$message.warning('请选择灯具状态')
         }
         this.config.poleId = this.lightConfig.id
-        let res = this.$http.post(this.$api.devicelightpoleform, this.config)
+        let res =await this.$http.post(this.$api.devicelampform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.$router.go(-1)
@@ -134,14 +135,14 @@
       /* 获取型号列表*/
       async getModelList() {
         this.modelList = []
-        let res = await this.$http.post(this.$api.devicemultimediamodellist, {})
+        let res = await this.$http.post(this.$api.devicelampmodellist, {})
         if (res.data.resultCode == 10000) {
           this.modelList = res.data.data
         }
       },
       /* 类型选择*/
       typeSelectChange(e) {
-        this.config.deviceType=e
+        this.config.useType = e
       },
       /* 状态选择*/
       stateSelectChange(e) {
@@ -149,14 +150,17 @@
       },
       /* 型号选择*/
       modelSelectChange(e) {
-        this.config.modelId=e
+        this.config.modelId = e
       },
       reset() {
         if (this.deviceId) {
           this.getDetail()
         } else {
           this.config = {
-            statusCode: -1
+           useType:-1,
+           modelId: '',
+           statusCode: -1,
+           remark: ''
           }
         }
       }

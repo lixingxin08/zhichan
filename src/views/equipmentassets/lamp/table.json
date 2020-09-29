@@ -24,25 +24,34 @@
       "title": "灯具型号",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "modelName "
+      "dataIndex": "modelName"
     },
     {
       "title": "灯具类型",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "statusCode "
+      "dataIndex": "useType",
+      "scopedSlots": {
+        "customRender": "useType"
+      }
     },
     {
       "title": "归属路灯杆",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "useType"
+      "dataIndex": "lightName",
+      "scopedSlots": {
+        "customRender": "lightName"
+      }
     },
     {
       "title": "归属线路",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "projectName"
+      "dataIndex": "lineName",
+      "scopedSlots": {
+        "customRender": "lineName"
+      }
     },
     {
       "title": "控制器名称",
@@ -54,7 +63,10 @@
       "title": "灯具状态",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "statueCode"
+      "dataIndex": "statusCode",
+      "scopedSlots": {
+        "customRender": "statusCode"
+      }
     },
     {
       "title": "操作",

@@ -36,6 +36,7 @@ export default {
   devicepolecontrollerremove: base.baseUrl1 + `/device/pole-controller/remove`, //路灯控制器 移除接口
   devicepolecontrollerpage: base.baseUrl1 + `/device/pole-controller/page`, //路灯控制器 分页接口
   devicepolecontrollertree: base.baseUrl1 + `/device/pole-controller/tree`, //路灯控制器 树接口
+  devicepolecontrollerlanterns: base.baseUrl1 + `/device/pole-controller/tree`, //路灯控制器 灯具接口
   devicepolecontrollermodel: base.baseUrl2 + `/auth/customer-model/controller/combobox`, //路灯控制器 型号列表
 
   devicecameraform: base.baseUrl1 + `/device/camera/form`, //摄像头   表单接口
@@ -75,11 +76,11 @@ export default {
   devicemultimediaremove: base.baseUrl1 + `/device/multimedia-screen/remove`,//多媒体发布屏 删除
   devicemultimediamodellist: base.baseUrl2 + `/auth/customer-model/multimedia-screen/combobox`,//多媒体发布屏 型号列表
   
-  devicelamppage: base.baseUrl1 + `/device/lamp/page`,//灯具 分页
-  devicelampdetail: base.baseUrl1 + `/device/lamp/detail`,//灯具 详情
-  devicelampform: base.baseUrl1 + `/device/lamp/form`,//灯具 表单
-  devicelampremove: base.baseUrl1 + `/device/lamp/remove`,//灯具 删除
-  devicelampmodellist: base.baseUrl2 + `/auth/customer-model/lamp/combobox`,//灯具 型号列表
+  devicelamppage: base.baseUrl1 + `/device/lanterns/page`,//灯具 分页
+  devicelampdetail: base.baseUrl1 + `/device/lanterns/detail`,//灯具 详情
+  devicelampform: base.baseUrl1 + `/device/lanterns/form`,//灯具 表单
+  devicelampremove: base.baseUrl1 + `/device/lanterns/remove`,//灯具 删除
+  devicelampmodellist: base.baseUrl2 + `/auth/customer-model/lanterns/combobox`,//灯具 型号列表
 
   deviceguaranteeform: base.baseUrl1 + `/device/guarantee/form`, //质保期表单
   deviceguaranteedetail: base.baseUrl1 + `/device/guarantee/detail`, //质保期详情
