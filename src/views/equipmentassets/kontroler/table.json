@@ -30,18 +30,25 @@
       "title": "归属路灯杆",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "parentName"
+      "dataIndex": "parentName",
+      "scopedSlots": {
+        "customRender": "parentName"
+      }
     },
     {
       "title": "归属线路",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "lineName"
+      "dataIndex": "lineName",
+      "scopedSlots": {
+        "customRender": "lineName"
+      }
     }, {
       "title": "关联灯具数",
       "align": "center",
       "ellipsis": true,
       "dataIndex": "deviceToal"
+      
     },
     {
       "title": "控制器状态",

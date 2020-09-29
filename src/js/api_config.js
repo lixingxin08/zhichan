@@ -3,6 +3,8 @@ import base from './base_url.js'
 
 export default {
 
+  dictionarycombobox: base.baseUrl2 +`/config/dictionary/combobox`, //数据字典下拉列表框接口
+
   areasform: base.baseUrl1 + `/config/areas/form`, //  设备授权区域表单接口
   areaspage: base.baseUrl1 + `/config/areas/page`, //设备授权区域分页接口
   areastree: base.baseUrl1 + `/config/areas/tree`, //设备授权区域数接口
@@ -34,22 +36,25 @@ export default {
   devicepolecontrollerremove: base.baseUrl1 + `/device/pole-controller/remove`, //路灯控制器 移除接口
   devicepolecontrollerpage: base.baseUrl1 + `/device/pole-controller/page`, //路灯控制器 分页接口
   devicepolecontrollertree: base.baseUrl1 + `/device/pole-controller/tree`, //路灯控制器 树接口
-  devicepolecontrollermodel: base.baseUrl2 + `/auth/customer-model/controller/combobox`,//路灯控制器 型号列表
+  devicepolecontrollermodel: base.baseUrl2 + `/auth/customer-model/controller/combobox`, //路灯控制器 型号列表
 
   devicecameraform: base.baseUrl1 + `/device/camera/form`, //摄像头   表单接口
   devicecameradetail: base.baseUrl1 + `/device/camera/detail`, //摄像头 详情接口
   devicecameraremove: base.baseUrl1 + `/device/camera/remove`, //摄像头 删除接口
   devicecamerapage: base.baseUrl1 + `/device/camera/page`, //摄像头 分页接口
+  devicepolecontrollercamera: base.baseUrl2 + `/auth/customer-model/camera/combobox`, //摄像头 型号列表
+  devicecameraprotoroltypelist: base.baseUrl1 + '', //摄像头协议列表
 
   deviceguaranteeform: base.baseUrl1 + `/device/guarantee/form`, //质保期表单
   deviceguaranteedetail: base.baseUrl1 + `/device/guarantee/detail`, //质保期详情
   deviceguaranteepage: base.baseUrl1 + `/device/guarantee/page`, //质保期分页
 
-  parampage:  base.baseUrl2 + `/device/ModelParameter/list`, //授权设备运行参数==产品规格
+  parampage: base.baseUrl2 + `/device/ModelParameter/list`, //授权设备运行参数==产品规格
 
-  devicepolecontrollerpage :base.baseUrl1+`/device/pole-controller/page`,//控制器分页
-  devicepolecontrollerremove :base.baseUrl1+`/device/pole-controller/remove`,//控制器删除接口
-  devicepolecontrollerform :base.baseUrl1+`/device/pole-controller/form`,//控制器表单接口
-  devicepolecontrollerdetail :base.baseUrl1+`/device/pole-controller/detail`,//控制器详情接口
+  devicepolecontrollerpage: base.baseUrl1 + `/device/pole-controller/page`, //控制器分页
+  devicepolecontrollerremove: base.baseUrl1 + `/device/pole-controller/remove`, //控制器删除接口
+  devicepolecontrollerform: base.baseUrl1 + `/device/pole-controller/form`, //控制器表单接口
+  devicepolecontrollerdetail: base.baseUrl1 + `/device/pole-controller/detail`, //控制器详情接口
+
 
 }

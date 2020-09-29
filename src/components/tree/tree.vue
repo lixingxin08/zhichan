@@ -4,8 +4,8 @@
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
     </div>-->
     <div class="istree">
-      <a-tree :show-line="showLine":load-data="onLoadData" @select="onSelect" :tree-data="treedata" :replaceFields="replaceFields"
-        :default-selected-keys='defaultSelectedKeys'  :default-expanded-keys="defaultExpandedKeys">
+      <a-tree :show-line="showLine" :load-data="onLoadData" @select="onSelect" defaultExpandAll :tree-data="treedata"
+        :replaceFields="replaceFields" :default-selected-keys='defaultSelectedKeys' :default-expanded-keys="defaultExpandedKeys">
         <a-icon slot="icon" type="carry-out" />
       </a-tree>
     </div>
@@ -24,9 +24,9 @@
     },
     props: {
       treedata: Array, //树数据
-      onLoadData:{
-        type:Function,
-        default:null
+      onLoadData: {
+        type: Function,
+        default: null
       },
       replaceFields: {
         type: Object,
@@ -42,10 +42,10 @@
     methods: {
 
       onSelect(selectedKeys, selectedNodes) {
-        console.log(selectedKeys, selectedNodes, 8889999);
         if (selectedNodes.selected == false) {
           return
         }
+        this.$emit("parentdata", selectedNodes.node.$parent.dataRef)
         this.olddata = selectedNodes.selectedNodes[0].data.props
         this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
       },

@@ -33,21 +33,24 @@
       "dataIndex": "protocolTypeName"
     },
     {
-      "title": "路灯杆名称",
+      "title": "归属路灯杆",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceLightPoleName"
+      "dataIndex": "lightPoleName",
+      "scopedSlots": {
+        "customRender": "lightPoleName"
+      }
     },
     {
       "title": "摄像头状态",
       "align": "center",
       "ellipsis": true,
       "dataIndex": "statusCode",
-	  "scopedSlots": {
-	    "customRender": "statusCode"
-	  }
+      "scopedSlots": {
+        "customRender": "statusCode"
+      }
     },
- 
+
     {
       "title": "操作",
       "align": "center",

@@ -116,21 +116,35 @@ export default {
     }
     return defaultExpandedKeys
   },
+  /* 缓存树数据*/
   setlightTreeData(data) {
     localStorage.setItem("lightTree", JSON.stringify(data))
   },
+  /* 获取树数据*/
   getlightTreeData() {
     return JSON.parse(localStorage.getItem('lightTree'))
   },
+  /* 缓存树展开的数据*/
   setLightExpandKey(data) {
     localStorage.setItem("lightTreeExpandKey", JSON.stringify(data))
   },
+  /* 获取树展开的数据*/
   getLightExpangKey() {
     return JSON.parse(localStorage.getItem("lightTreeExpandKey"))
   },
+  /* 缓存选择线路的数据*/
+  setLineSelectKey(data) {
+    localStorage.setItem("lineSelectKey", JSON.stringify(data))
+  },
+  /* 获取选择的线路数据*/
+  getLineSelectKey() {
+    return JSON.parse(localStorage.getItem("lineSelectKey"))
+  },
+  /* 缓存灯杆的数据*/
   setLightSelectKey(data) {
     localStorage.setItem("lightTreeSelectKey", JSON.stringify(data))
   },
+  /* 获取缓存的灯杆的数据*/
   getLightSelectKey() {
     return JSON.parse(localStorage.getItem("lightTreeSelectKey"))
   },

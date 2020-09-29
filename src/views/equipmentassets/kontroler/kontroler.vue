@@ -1,7 +1,7 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-      <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' :defaultExpandedKeys="defaultExpandedKeys"
+      <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
         @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
     </div>
     <div class="content2">
@@ -24,19 +24,17 @@
           <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
           <a-button @click='cleanSearch'>清除</a-button>
         </div>
-
       </div>
       <a-button v-if="isselectdata.nodeType == 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>
         <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
-
         <div slot='statusCode' slot-scope="text, record,index">
           {{record.statusCode==0?'备用':(record.statusCode==1?'启用':'已报废')}}
         </div>
         <div slot='parentName'>{{isselectdata.name}}</div>
-         <div slot='lineName'>{{isselectdata.parendName}}</div>
+         <div slot='lineName'>{{parentData.name}}</div>
         <template slot="operation" slot-scope="text, record">
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
@@ -56,14 +54,11 @@
 <!-- 路灯控制器-->
 <script>
   import tadata from './table.json'
+  import {lightstree} from '../../../utils/mixins.js'
   export default {
+     mixins: [lightstree],
     data() {
       return {
-        showTree: false, //展示树
-        treedata: [],
-        isselectdata: "", //选中的左边树item
-        defaultExpandedKeys: [], //默认展开
-        defaultSelectedKeys: [], //默认选中
         tableTitle: tadata.tableTitle, //表格标题
         tableData: [], //表格数据
         statusCode: -1, //状态选择
@@ -149,76 +144,7 @@
         this.statusCode = -1
         this.getTableData()
       },
-      //树接口
-      async gettree() {
-        this.treedata = this.$utils.getlightTreeData()
-        if (!this.treedata) {
-          let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
-          if (res.data.resultCode == 10000) {
-            this.setdata(res.data.data);
-          }
-        } else {
-          this.defaultExpandedKeys = this.$utils.getLightExpangKey()
-          this.setSelectKey()
-          this.showTree = true
-        }
-      },
 
-      /* 设置tree 数据*/
-      setdata(data) {
-        this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
-        this.$utils.setLightExpandKey(this.defaultExpandedKeys)
-        this.treedata = this.$utils.toTree(data);
-        this.setSelectKey()
-        this.showTree = true
-      },
-      /* 设置选中item*/
-      setSelectKey() {
-        if (this.$utils.getLightSelectKey()) {
-          this.getselectdata(this.$utils.getLightSelectKey());
-          this.defaultSelectedKeys.push(this.$utils.getLightSelectKey().id);
-        } else {
-          this.getselectdata(this.treedata[0])
-          this.defaultSelectedKeys.push(this.treedata[0].id);
-        }
-      },
-      /* 点击Item事件*/
-      getselectdata(val) {
-        if (!val)
-          return
-        this.$utils.setLightSelectKey(val)
-        this.isselectdata = val;
-        this.tableData=[]
-         if (this.isselectdata.nodeType == 'GLP')
-         this.getTableData()
-      },
-
-      onLoadData(treeNode) {
-        return new Promise(async resolve => {
-          if (treeNode.dataRef.children) {
-            resolve();
-            return;
-          }
-          if (treeNode.dataRef.nodeType != 'ECB' && treeNode.dataRef.nodeType != 'LINE') {
-            resolve();
-            return
-          }
-          let param = {
-            deviceId: treeNode.dataRef.id
-          }
-          let res = await this.$http.post(this.$api.devicelightpoletree, param)
-          if (res.data.resultCode == 10000) {
-            let childTree = this.$utils.toTree(res.data.data)
-            if(childTree[0]!=null){
-            if (childTree[0].pid == treeNode.dataRef.id)
-              treeNode.dataRef.children = childTree
-              }
-          }
-          this.treedata = [...this.treedata];
-          this.$utils.setlightTreeData(this.treedata)
-          resolve();
-        });
-      },
     }
   }
 </script>
