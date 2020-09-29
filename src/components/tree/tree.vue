@@ -56,6 +56,8 @@
         this.$emit("searchdata", value);
       },
       getAreaId(node) {
+        if(!node.dataRef)
+        return
         if (node.dataRef.nodeType == 'AREA') {
           this.$utils.setAreaId(node.dataRef)
         } else {

@@ -16,8 +16,9 @@
         </div>
 
         <div class='title_tx'>有效期:</div>
-     <a-range-picker :ranges="{ Today: [moment(), moment()], 'This Month': [moment(), moment().endOf('month')] }"
-          show-time :value='timeValue' :placeholder="['开始时间', '结束时间']" format="YYYY/MM/DD HH:mm:ss" @change="onChangeTime" />
+        <a-range-picker style='width: 250px;' :value='timeValue' @change="onChange">
+
+        </a-range-picker>
         <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
         <a-button @click='cleanSearch'>清除</a-button>
       </div>
@@ -37,51 +38,37 @@
 <!-- 设备质保期-->
 <script>
   import tadata from './table.json'
-   import moment from 'moment';
+  import moment from 'moment';
   export default {
     data() {
       return {
         tableTitle: tadata.tableTitle, //表格标题
-        tableData:tadata.list, //表格数据
-        keyword: '', //输入框 搜索条件 名称
-        keyword1: '',
-        keyword2: '',
-        dateFormat: 'YYYY-MM-DD',
-        monthFormat: 'YYYY/MM',
+        tableData: tadata.list, //表格数据
         timeValue: ['', ''],
-       pagination:this.$config.pagination,
-       pageparame:{
-         keyword:'',
-         deviceTypeName:'',
-         deviceModelName:'',
-         startData:'',
-         endData:'',
-         pageIndex:''
-       }
+        pagination: this.$config.pagination,
+        pageparame: {
+          keyword: '',
+          deviceTypeName: '',
+          deviceModelName: '',
+          startData: '',
+          endData: '',
+          pageIndex: ''
+        }
       }
     },
     methods: {
       moment,
       /* 编辑 新增*/
       edit(item) {
-         this.$router.push('/addmasagaransiperalatan')
+        this.$router.push('/addmasagaransiperalatan')
       },
-      //分页
-      getpage(){
-        this.$http.post(this.$api.deviceguaranteepage,)
-      },
-      /* 预览*/
-      see() {
 
-      },
+
       /* 获取表格数据*/
       getTableData() {
 
       },
-      /* 确认选择*/
-      confirmDelete(item) {
 
-      },
       /* 分页选择*/
       handleTableChange(pagination) {
         this.pagination = pagination;
@@ -90,15 +77,26 @@
 
 
       cleanSearch() {
-        this.keyword = ''
-        this.keyword1 = ''
-        this.keyword2 = ''
+        this.timeValue=['', '']
+        this.pageparame = {
+          keyword: '',
+          deviceTypeName: '',
+          deviceModelName: '',
+          startData: '',
+          endData: '',
+          pageIndex: ''
+        }
         this.getTableData()
       },
-      onChangeTime(dates, dateStrings) {
-        this.timeValue = dateStrings
-      },
-
+      onChange(date, dateString) {
+            console.log(date, dateString);
+            //console.log(this.dates)
+            this.timeValue = dateString
+            this.pageparame.startData = this.timeValue[0] ? this.timeValue[0].toString().replace(new RegExp('/', 'gm'), '-') :
+              ''
+            this.pageparame.endData = this.timeValue[1] ? this.timeValue[1].toString().replace(new RegExp('/', 'gm'), '-') :
+              ''
+          },
     }
   }
 </script>

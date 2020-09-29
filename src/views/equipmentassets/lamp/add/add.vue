@@ -4,13 +4,13 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属路灯杆:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="lightpole.name" placeholder='路灯杆名称' />
+          <a-input disabled v-model="lightConfig.name" placeholder='路灯杆名称' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属线路:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="lightpole.parentName" placeholder='线路名称' />
+          <a-input disabled v-model="lineConfig.name" placeholder='线路名称' />
         </div>
       </div>
 
@@ -74,12 +74,13 @@
     data() {
       return {
         deviceId: '',
-        lightpole: {}, //灯杆详情
+     lineConfig: {}, //线路
+     lightConfig: {}, //灯杆
         modelList: [], //型号list
         typeList: [], //灯具list
         statusCodeList: this.$config.lineStatueList, //路灯杆状态
         config: {
-          brand: '',
+          modelId: '',
           statusCode: -1,
           remark: ''
         }
@@ -87,8 +88,9 @@
     },
     created() {
       this.deviceId = this.$route.query.deviceId
-      if (localStorage.getItem('lamp'))
-        this.lightpole = JSON.parse(localStorage.getItem('lamp'))
+     this.getModelList()
+     this.lightConfig = this.$utils.getLightSelectKey()
+     this.lineConfig = this.$utils.getLineSelectKey()
       if (this.deviceId) {
         this.getDetail()
       }
@@ -110,7 +112,7 @@
         if (this.config.statusCode < 0) {
           this.$message.warning('请选择灯具状态')
         }
-        this.config.poleId = this.lightpole.id
+        this.config.poleId = this.lightConfig.id
         let res = this.$http.post(this.$api.devicelightpoleform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
@@ -119,22 +121,36 @@
           this.$message.error(res.data.resultMsg)
         }
       },
+      /* 获取详情*/
       async getDetail() {
         let param = {
           deviceId: this.deviceId
         }
-        let res = await this.$http.post(this.$api.devicecameradetail, param)
+        let res = await this.$http.post(this.$api.devicelampdetail, param)
         if (res.data.resultCode = 10000) {
           this.config = res.data.data
         }
       },
+      /* 获取型号列表*/
+      async getModelList() {
+        this.modelList = []
+        let res = await this.$http.post(this.$api.devicemultimediamodellist, {})
+        if (res.data.resultCode == 10000) {
+          this.modelList = res.data.data
+        }
+      },
       /* 类型选择*/
-      typeSelectChange() {},
+      typeSelectChange(e) {
+        this.config.deviceType=e
+      },
       /* 状态选择*/
       stateSelectChange(e) {
         this.config.statusCode = e
       },
-      modelSelectChange(e) {},
+      /* 型号选择*/
+      modelSelectChange(e) {
+        this.config.modelId=e
+      },
       reset() {
         if (this.deviceId) {
           this.getDetail()

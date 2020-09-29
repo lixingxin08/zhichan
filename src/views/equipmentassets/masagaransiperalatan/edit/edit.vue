@@ -4,40 +4,51 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属项目:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input" placeholder='路灯杆名称' />
+          <a-input disabled v-model="config.projectName" placeholder='路灯杆名称' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">项目阶段:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input" placeholder='线路名称' />
+          <a-input disabled v-model="config.phaseName" placeholder='线路名称' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">设备类型:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input" placeholder='设备类型' />
+          <a-input disabled v-model="config.deviceTypeName" placeholder='设备类型' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">设备型号:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.input" placeholder='设备型号' />
+          <a-input disabled v-model="config.modelName" placeholder='设备型号' />
         </div>
       </div>
-
+      <div class="flexrow flexac edit_item_ko_first">
+        <div class="edit_item_title_ko_first">投运期始:</div>
+        <a-date-picker style='width: 667px;' @change="startofoperationChange" />
+      </div>
+      <div class="flexrow flexac edit_item_ko_first">
+        <div class="edit_item_title_ko_first">有效期始:</div>
+        <a-date-picker style='width: 667px;' @change="validityperiodbeginsChange" />
+      </div>
+      <div class="flexrow flexac edit_item_ko_first">
+        <div class="edit_item_title_ko_first">有效期止:</div>
+        <a-date-picker style='width: 667px;' @change="expirationDateChange" />
+      </div>
 
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">备注信息:</div>
         <div style="position: relative;width: 667px;">
-          <a-textarea :maxLength='256' :rows="5" placeholder="500字以内，格式不限制" @change="onChangeConfig" v-model="config.remark" />
-          <div class="edit_number_ko_first">{{remarkLength}}/256</div>
+          <a-textarea :maxLength='250' :rows="5" placeholder="250字以内，格式不限制" v-model="config.remark" />
+          <div class="edit_number_ko_first">{{config.remark.length}}/250</div>
         </div>
       </div>
     </div>
     <div class="flexrow flexjc" style="margin-top: 50px;">
-      <a-button type='primary' style='margin-left: 20px;margin-right: 20px;'>保存</a-button>
-      <a-button>重置</a-button>
+      <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='submit'>保存</a-button>
+      <a-button @click='reset'>重置</a-button>
     </div>
   </div>
 </template>
@@ -46,24 +57,27 @@
   export default {
     data() {
       return {
-        brandSelectList: [], //路灯杆品牌
-        typeSelectList: [], //路灯杆型号
-        stateSelectList: [], //路灯杆状态
-        remarkLength: 0,
+        deviceId:'',
         config: {
-          brand: '',
-          type: '',
           remark: ''
         }
       }
     },
+    created() {
+      this.deviceId = this.$route.query.deviceId
+    },
     methods: {
-      /* 修改描述 备注*/
-      onChangeConfig(e) {
-        this.remarkLength = this.config.remark.length
+      reset() {},
+      submit(){},
+      expirationDateChange() {
+        console.log(date, dateString);
       },
-
-      stateSelectChange(e) {},
+      validityperiodbeginsChange() {
+        console.log(date, dateString);
+      },
+      startofoperationChange() {
+        console.log(date, dateString);
+      }
     }
   }
 </script>

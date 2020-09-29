@@ -122,8 +122,8 @@ export default {
   },
   /* 获取树数据*/
   getlightTreeData() {
-    //return null
-    return JSON.parse(localStorage.getItem('lightTree'))
+    return null//先屏蔽
+    //return JSON.parse(localStorage.getItem('lightTree'))
   },
   /* 缓存树展开的数据*/
   setLightExpandKey(data) {
@@ -131,8 +131,8 @@ export default {
   },
   /* 获取树展开的数据*/
   getLightExpangKey() {
-    //return null
-    return JSON.parse(localStorage.getItem("lightTreeExpandKey"))
+    return null
+    //return JSON.parse(localStorage.getItem("lightTreeExpandKey"))
   },
   /* 缓存选择线路的数据*/
   setLineSelectKey(data) {

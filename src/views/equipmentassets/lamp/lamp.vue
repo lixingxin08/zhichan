@@ -1,9 +1,9 @@
 <template>
-  <div class="administrativedivision flex_fs">
-    <div class="isleft">
-      <is-left-tree v-if="showTree" :treedata="treedata" :defaultExpandedKeys="defaultExpandedKeys" :onLoadData='onLoadData'@selectdata="getselectdata"
-        :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
-    </div>
+ <div class="administrativedivision flex_fs">
+   <div class="isleft">
+     <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
+       @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
+   </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
         <div class="flexrow flexac">
@@ -14,7 +14,7 @@
 
 
           <div class='title_tx' style="margin-left: 20px;">灯具状态:</div>
-          <a-select :value="statusCode?statusCode:'全部'" style="width: 200px;" @change="stateSelectChange">
+          <a-select :value="statusCode>=0?statusCode:'全部'" style="width: 200px;" @change="stateSelectChange">
             <a-select-option key='' value="">
               全部
             </a-select-option>
@@ -28,7 +28,7 @@
         </div>
 
       </div>
-      <a-button class='base_add88_btn' type='primary' @click='edit({})'>   <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
+      <a-button v-if="isselectdata.nodeType == 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>   <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
@@ -50,20 +50,17 @@
 <!-- 路灯杆信息-->
 <script>
   import tadata from './table.json'
+import {lightstree} from '../../../utils/mixins.js'
   export default {
+     mixins: [lightstree],
     data() {
       return {
-        showTree: false, //展示树
-        isselectdata: "", //选中的左边树item
-        defaultExpandedKeys: [], //默认展开
-        defaultSelectedKeys: [], //默认选中
-        tableTitle: tadata.tableTitle, //表格标题
-        tableData: [], //表格数据
-        statusCode: '', //状态选择
-        statusCodeList: this.$config.statueList, //下拉选择状态
-        keyword: '', //输入框 搜索条件 监控箱名称
-        projectName: '', //输入框 搜索条件 归属i项目
-        pagination: this.$config.pagination
+      tableTitle: tadata.tableTitle, //表格标题
+      tableData: [], //表格数据
+      statusCode: -1, //状态选择
+      statusCodeList: this.$config.lineStatueList, //状态List
+      keyword: '', //输入框 搜索条件 名称
+      pagination: this.$config.pagination
       }
     },
     created() {
@@ -96,14 +93,13 @@
           this.pagination.total = 0
         this.tableData = []
         let param = {
-          keyword: this.keyword,
-          projectName: this.projectName,
-          statusCode: this.statusCode,
-          pageIndex: this.pagination.current,
-          pageSize: this.pagination.pageSize,
-          parentId: this.isselectdata.id
+      statusCode: this.statusCode == -1 ? '' : this.statusCode,
+      pageIndex: this.pagination.current,
+      pageSize: this.pagination.pageSize,
+      keyword:this.keyword,
+      lightpoleId: this.isselectdata.id
         }
-        let res = await this.$http.post(this.$api.devicemonitorboxpage, param)
+        let res = await this.$http.post(this.$api.devicelamppage, param)
         if (res.data.resultCode == 10000) {
           if (res.data.data) {
             this.tableData = res.data.data.list
@@ -119,7 +115,7 @@
         let param = {
           deviceId: item.deviceId
         }
-        let res = await this.$http.post(this.$api.devicemonitorboxremove, param)
+        let res = await this.$http.post(this.$api.devicelampremove, param)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.getTableData()
@@ -137,78 +133,10 @@
         this.statusCode = e
       },
 
-     //树接口
-     async gettree() {
-       this.treedata = this.$utils.getlightTreeData()
-       if (!this.treedata) {
-         let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
-         if (res.data.resultCode == 10000) {
-           this.setdata(res.data.data);
-         }
-       } else {
-         this.defaultExpandedKeys = this.$utils.getLightExpangKey()
-         this.setSelectKey()
-         this.showTree = true
-       }
-     },
-
-     /* 设置tree 数据*/
-     setdata(data) {
-       this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
-       this.$utils.setLightExpandKey(this.defaultExpandedKeys)
-       this.treedata = this.$utils.toTree(data);
-       this.setSelectKey()
-       this.showTree = true
-     },
-     /* 设置选中item*/
-     setSelectKey() {
-       if (this.$utils.getLightSelectKey()) {
-         this.getselectdata(this.$utils.getLightSelectKey());
-         this.defaultSelectedKeys.push(this.$utils.getLightSelectKey().id);
-       } else {
-         this.getselectdata(this.treedata[0])
-         this.defaultSelectedKeys.push(this.treedata[0].id);
-       }
-     },
-     /* 点击Item事件*/
-     getselectdata(val) {
-       if (!val)
-         return
-       this.$utils.setLightSelectKey(val)
-       this.isselectdata = val;
-       if (this.isselectdata.nodeType == 'LINE')
-         this.getTableData()
-     },
-
-     onLoadData(treeNode) {
-       return new Promise(async resolve => {
-         if (treeNode.dataRef.children) {
-           resolve();
-           return;
-         }
-         if (treeNode.dataRef.nodeType != 'ECB') {
-           resolve();
-           return
-         }
-         let param = {
-           deviceId: treeNode.dataRef.id
-         }
-         let res = await this.$http.post(this.$api.devicelightpoletree, param)
-         if (res.data.resultCode == 10000) {
-           if (res.data.data)
-             treeNode.dataRef.children = res.data.data
-         }
-         this.treedata = [...this.treedata];
-         this.$utils.setlightTreeData(this.treedata)
-         resolve();
-       });
-     },
 
       cleanSearch() {
         this.keyword = ''
-        this.projectName = ''
         this.statusCode = ''
-        this.serviceType = ''
         this.getTableData()
       }
 
