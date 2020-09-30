@@ -184,3 +184,9 @@
   margin-bottom: 20px;
   margin-left: 20px;
 }
+.ant-menu-submenu-title{
+  text-align: left!important;
+}
+.ant-menu-item{
+  text-align: left!important;
+}

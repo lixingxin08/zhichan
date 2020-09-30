@@ -5,7 +5,7 @@ import axios from 'axios'
 
 //axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'action/' : '/api';
 //axios.defaults.baseURL = process.env.NODE_ENV === 'production' ?'http://192.168.3.86:8093/assets':'/api';
-//axios.defaults.baseURL='http://192.168.3.86:8093/asset'
+axios.defaults.baseURL=''
 //axios.defaults.baseURL = '8088/haiot-auth';
 axios.defaults.withCredentials = true;
 axios.defaults.allowCredentials = true
