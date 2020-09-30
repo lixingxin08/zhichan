@@ -14,8 +14,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 Vue.prototype.$utils = utils;
 Vue.prototype.$config=config
- import isLeftTree from './components/tree/tree.vue'
-Vue.component("isLeftTree", isLeftTree);
+
 import 'ant-design-vue/dist/antd.css';
 import {
   Layout,
@@ -94,8 +93,7 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMjk0MTc1MjEzLCJ0b2tlbklkIjoiMTI4ZTczZDU1ZmY3NDBjYzhiN2I4MWQxMDExYjI0NjYiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.GDQUeFbQ7-M0KiJTzsoOYdNSdMGWFfXXoaJA9_Wpmd0"
-    
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxNDQyMDExOTMxLCJ0b2tlbklkIjoiMzU0OGFiNGExYjQ5NGFhODljOGY0MDMzNWQwMmRjOTgiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.R4FJMoJ-s2pZ_tbLutTbxLNA7mb7LlbgMroXv0qU81s"
     } else {
       token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     }
@@ -106,90 +104,91 @@ axios.interceptors.request.use(
     return Promise.error(error);
   }
 )
-let backnum = 0
-axios.interceptors.response.use(
-  response => {
-    backnum++
-    let aa = JSON.parse(localStorage.getItem('usermsg'))
-    aa.token = response.headers.token
-    let thisurl = window.location.href.split('/#')
-    let bb = thisurl[0].split('/authorization')
-    localStorage.setItem('usermsg', JSON.stringify(aa))
-    if (response.data.resultMsg == "执行成功，但没有获取到数据") {
-      response.data.data=[]
-      response.data.data.list=[]
+// let backnum = 0
+// axios.interceptors.response.use(
+//   response => {
+//     backnum++
+//     let aa = JSON.parse(localStorage.getItem('usermsg'))
+//     aa.token = response.headers.token
+//     let thisurl = window.location.href.split('/#')
+//     let bb = thisurl[0].split('/authorization')
+//     localStorage.setItem('usermsg', JSON.stringify(aa))
+//     if (response.data.resultMsg == "执行成功，但没有获取到数据") {
+//       response.data.data=[]
+//       response.data.data.list=[]
 
-    }
-    if (response.data.resultCode == "20100") {
-      message.error("令牌错误，请重新登录",5)
-      if (backnum >= 2) {
-        window.location.href = bb[0]
-      }
-    }
-    if (response.data.resultCode == "20101") {
-      message.error("未登录，请先登录",5)
-      if (backnum >= 3) {
-        window.location.href = bb[0]
-      }
-    }
-    if (response.data.code == "20102") {
-      message.error("你的账号已在其他地方登录，请重新登录",5)
-      if (backnum >= 3) {
-        window.location.href = bb[0]
-      }
-    }
-    if (response.data.resultCode == "20103") {
-      message.error("登录已过期，请重新登录！",5)
-      if (backnum >= 3) {
-        window.location.href = bb[0]
-      }
-    }
-    if (response.data.resultCode == "20104") {
-      message.error("登录已失效，请重新登录！",5)
-      if (backnum >= 3) {
-        window.location.href = bb[0]
-      }
-    }
-    if (response.data.resultCode == "20105") {
-      message.error("登录已失效，请重新登录！",5)
-      if (backnum >= 3) {
-        window.location.href = bb[0]
-      }
-    }
+//     }
+//     if (response.data.resultCode == "20100") {
+//       message.error("令牌错误，请重新登录",5)
+//       if (backnum >= 2) {
+//         window.location.href = bb[0]
+//       }
+//     }
+//     if (response.data.resultCode == "20101") {
+//       message.error("未登录，请先登录",5)
+//       if (backnum >= 3) {
+//         window.location.href = bb[0]
+//       }
+//     }
+//     if (response.data.code == "20102") {
+//       message.error("你的账号已在其他地方登录，请重新登录",5)
+//       if (backnum >= 3) {
+//         window.location.href = bb[0]
+//       }
+//     }
+//     if (response.data.resultCode == "20103") {
+//       message.error("登录已过期，请重新登录！",5)
+//       if (backnum >= 3) {
+//         window.location.href = bb[0]
+//       }
+//     }
+//     if (response.data.resultCode == "20104") {
+//       message.error("登录已失效，请重新登录！",5)
+//       if (backnum >= 3) {
+//         window.location.href = bb[0]
+//       }
+//     }
+//     if (response.data.resultCode == "20105") {
+//       message.error("登录已失效，请重新登录！",5)
+//       if (backnum >= 3) {
+//         window.location.href = bb[0]
+//       }
+//     }
 
-    return response;
-  },
-  error => {
-    if (error.response) {
-      console.log(error, 'errorerrorerrorerror');
-      console.log(error.response, 'errorerrorerrorerror');
-      switch (error.response.status) {
-        case 404:
-          router.replace({
-            path: '/error404',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 500:
-          router.replace({
-            path: '/error500',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 403:
-          router.replace({
-            path: '/error403',
-          })
-      }
-    }
-    return Promise.reject(error.response.data)
-  }
-)
-
+//     return response;
+//   },
+//   error => {
+//     if (error.response) {
+//       console.log(error, 'errorerrorerrorerror');
+//       console.log(error.response, 'errorerrorerrorerror');
+//       switch (error.response.status) {
+//         case 404:
+//           router.replace({
+//             path: '/error404',
+//           })
+//         case 504:
+//           router.replace({
+//             path: '/error504',
+//           })
+//         case 500:
+//           router.replace({
+//             path: '/error500',
+//           })
+//         case 504:
+//           router.replace({
+//             path: '/error504',
+//           })
+//         case 403:
+//           router.replace({
+//             path: '/error403',
+//           })
+//       }
+//     }
+//     return Promise.reject(error.response.data)
+//   }
+// )
+import isLeftTree from './components/tree/tree.vue'
+Vue.component("isLeftTree", isLeftTree);
 
 /* eslint-disable no-new */
 new Vue({
