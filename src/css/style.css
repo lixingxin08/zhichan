@@ -81,9 +81,8 @@
 }
 
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 1px;
+.isleft::-webkit-scrollbar {
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb {

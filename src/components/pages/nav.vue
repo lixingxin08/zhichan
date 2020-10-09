@@ -90,8 +90,8 @@
         let isurl = window.location.href.split('#/')
         console.log(isurl, 9999);
         let isurl2 = isurl[1].split('/')
-        if (localStorage.getItem("usermsg")) {
-          let navlist = JSON.parse(localStorage.getItem("usermsg")).navlist
+        if (localStorage.getItem("asset")) {
+          let navlist = JSON.parse(localStorage.getItem("asset")).navlist
           for (let i = 0; i < navlist.length; i++) {
             if (navlist[i].linkURL == isurl2[0]) {
               this.selectedKeys = navlist[i].menuName
