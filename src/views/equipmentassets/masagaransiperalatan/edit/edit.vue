@@ -4,38 +4,38 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属项目:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.projectName" placeholder='路灯杆名称' />
+          <a-input disabled v-model="config.projectName" placeholder='无' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">项目阶段:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.phaseName" placeholder='线路名称' />
+          <a-input disabled v-model="config.phaseName" placeholder='无' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">设备类型:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.deviceTypeName" placeholder='设备类型' />
+          <a-input disabled v-model="config.deviceTypeName" placeholder='无' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">设备型号:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.modelName" placeholder='设备型号' />
+          <a-input disabled v-model="config.modelName" placeholder='无' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">投运期始:</div>
-        <a-date-picker style='width: 667px;' @change="startofoperationChange" />
+        <a-date-picker :value='config.putInDate' style='width: 667px;' @change="putInDateChange" />
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">有效期始:</div>
-        <a-date-picker style='width: 667px;' @change="validityperiodbeginsChange" />
+        <a-date-picker :value='config.startDate' style='width: 667px;' @change="startDateChange" />
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">有效期止:</div>
-        <a-date-picker style='width: 667px;' @change="expirationDateChange" />
+        <a-date-picker :value='config.endDate' style='width: 667px;' @change="endDateChange" />
       </div>
 
       <div class="flexrow flexac edit_item_ko_first">
@@ -57,26 +57,39 @@
   export default {
     data() {
       return {
-        deviceId:'',
         config: {
           remark: ''
         }
       }
     },
     created() {
-      this.deviceId = this.$route.query.deviceId
+      this.reset()
     },
     methods: {
-      reset() {},
-      submit(){},
-      expirationDateChange() {
-        console.log(date, dateString);
+      reset() {
+        let item = JSON.parse(localStorage.getItem('masagaransiperalatan'))
+        if (!item.remark)
+          item.remark = ''
+        this.config = item
       },
-      validityperiodbeginsChange() {
-        console.log(date, dateString);
+      async submit() {
+        let res = await this.$http.post(this.$api.deviceguaranteeform,this.config)
+        if (res.data.resultCode == 10000) {
+          this.$message.success(res.data.resultMsg)
+          this.$router.push('/masagaransiperalatan')
+        }else{
+           this.$message.error(res.data.resultMsg)
+        }
       },
-      startofoperationChange() {
-        console.log(date, dateString);
+      putInDateChange(date, dateString) {
+        this.config.putInDate = dateString
+      },
+      startDateChange(date, dateString) {
+        this.config.startDate = dateString
+      },
+
+      endDateChange(date, dateString) {
+        this.config.endDate = dateString
       }
     }
   }

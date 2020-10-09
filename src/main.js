@@ -166,31 +166,31 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       console.log(error.response.status, 'errorerrorerrorerror');
-      if (error.response.status==404) {
-        router.replace({
-          path: '/error404',
-        })
-      }
-      if (error.response.status==403) {
-        router.replace({
-          path: '/error403',
-        })
-      }
-      if (error.response.status==404) {
-        router.replace({
-          path: '/error404',
-        })
-      }
-      if (error.response.status==500) {
-        router.replace({
-          path: '/error500',
-        })
-      }
-      if (error.response.status==504) {
-        router.replace({
-          path: '/error504',
-        })
-      }
+      // if (error.response.status==404) {
+      //   router.replace({
+      //     path: '/error404',
+      //   })
+      // }
+      // if (error.response.status==403) {
+      //   router.replace({
+      //     path: '/error403',
+      //   })
+      // }
+      // if (error.response.status==404) {
+      //   router.replace({
+      //     path: '/error404',
+      //   })
+      // }
+      // if (error.response.status==500) {
+      //   router.replace({
+      //     path: '/error500',
+      //   })
+      // }
+      // if (error.response.status==504) {
+      //   router.replace({
+      //     path: '/error504',
+      //   })
+      // }
     }
     return Promise.reject(error.response.data)
   }

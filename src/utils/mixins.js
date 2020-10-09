@@ -47,30 +47,22 @@ export const lightstree = {
       treedata: [],
       isselectdata: "", //选中的左边树item
       parentData: {}, //选中父级菜单
-      defaultExpandedKeys: [], //默认展开
       defaultSelectedKeys: [], //默认选中
     };
   },
   methods: {
     //树接口
     async gettree() {
-      this.treedata = this.$utils.getlightTreeData()
-      if (!this.treedata) {
+
         let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
         if (res.data.resultCode == 10000) {
           this.setdata(res.data.data);
         }
-      } else {
-        this.defaultExpandedKeys = this.$utils.getLightExpangKey()
-        this.setSelectKey()
-        this.showTree = true
-      }
+    
     },
 
     /* 设置tree 数据*/
     setdata(data) {
-      this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
-      this.$utils.setLightExpandKey(this.defaultExpandedKeys)
       if (this.$utils.getLineSelectKey())
         this.parentData = this.$utils.getLineSelectKey()
       this.treedata = this.$utils.toTree(data);

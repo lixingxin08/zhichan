@@ -4,7 +4,7 @@
       <div class="flexrow flexac">
         <div class='title_tx'>归属项目:</div>
         <div style="width: 200px;margin-right: 20px;">
-          <a-input placeholder="请输入归属项目" v-model="pageparame.keyword" />
+          <a-input placeholder="请输入归属项目" v-model="pageparame.projectName" />
         </div>
         <div class='title_tx'>设备类型:</div>
         <div style="width: 200px;margin-right: 20px;">
@@ -12,7 +12,7 @@
         </div>
         <div class='title_tx'>设备型号:</div>
         <div style="width: 200px;margin-right: 20px;">
-          <a-input placeholder="请输入设备型号" v-model="pageparame.deviceModelName" />
+          <a-input placeholder="请输入设备型号" v-model="pageparame.modelName" />
         </div>
 
         <div class='title_tx'>有效期:</div>
@@ -26,6 +26,9 @@
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
+      <div slot="deviceOn" slot-scope="text, record">
+       {{record.deviceTotal}}/ {{record.deviceOn}}
+      </div>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
@@ -47,26 +50,44 @@
         timeValue: ['', ''],
         pagination: this.$config.pagination,
         pageparame: {
-          keyword: '',
+          projectName: '',
           deviceTypeName: '',
-          deviceModelName: '',
+          modelName: '',
           startData: '',
           endData: '',
           pageIndex: ''
         }
       }
     },
+    created() {
+      this.getTableData()
+    },
     methods: {
       moment,
       /* 编辑 新增*/
       edit(item) {
+        localStorage.setItem('masagaransiperalatan',JSON.stringify(item))
         this.$router.push('/addmasagaransiperalatan')
       },
 
 
       /* 获取表格数据*/
-      getTableData() {
-
+      async getTableData() {
+        if (this.pagination.current == 1)
+          this.pagination.total = 0
+        this.tableData = []
+        this.pageparame.pageIndex = this.pagination.current
+        this.pageparame.pageSize = this.pagination.pageSize
+        let res = await this.$http.post(this.$api.deviceguaranteepage, this.pageparame)
+        if (res.data.resultCode == 10000) {
+          if (res.data.data) {
+            this.tableData = res.data.data.list
+            if (this.pagination.current == 1)
+              this.pagination.total = res.data.data.length
+          }
+        } else {
+          this.$message.error(res.data.resultMsg)
+        }
       },
 
       /* 分页选择*/
@@ -77,11 +98,11 @@
 
 
       cleanSearch() {
-        this.timeValue=['', '']
+        this.timeValue = ['', '']
         this.pageparame = {
-          keyword: '',
+          projectName: '',
           deviceTypeName: '',
-          deviceModelName: '',
+          modelName: '',
           startData: '',
           endData: '',
           pageIndex: ''
@@ -89,14 +110,14 @@
         this.getTableData()
       },
       onChange(date, dateString) {
-            console.log(date, dateString);
-            //console.log(this.dates)
-            this.timeValue = dateString
-            this.pageparame.startData = this.timeValue[0] ? this.timeValue[0].toString().replace(new RegExp('/', 'gm'), '-') :
-              ''
-            this.pageparame.endData = this.timeValue[1] ? this.timeValue[1].toString().replace(new RegExp('/', 'gm'), '-') :
-              ''
-          },
+        console.log(date, dateString);
+        //console.log(this.dates)
+        this.timeValue = dateString
+        this.pageparame.startData = this.timeValue[0] ? this.timeValue[0].toString().replace(new RegExp('/', 'gm'), '-') :
+          ''
+        this.pageparame.endData = this.timeValue[1] ? this.timeValue[1].toString().replace(new RegExp('/', 'gm'), '-') :
+          ''
+      },
     }
   }
 </script>

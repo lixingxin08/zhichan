@@ -45,12 +45,16 @@
       <!-- <a-descriptions-item label="" :span="2">
       </a-descriptions-item> -->
     </a-descriptions>
-    <div class="flexrow des-title" style="margin-top: 30px;">产品规格</div>
-    <a-descriptions size='small' bordered >
-      <a-descriptions-item v-for='(item,index) in productSpecificationsList' :key='index' :label="item.parameterName" :span="index%2!=0?1:2">
-        {{item.parameterValue?item.parameterValue:'未知'}}
-      </a-descriptions-item>
-    </a-descriptions>
+    <div v-if='productSpecificationsList.length>0' class="flexrow des-title" style="margin-top: 30px;">产品规格</div>
+    <div class="flexrow" v-for='(item,index) in productSpecificationsList' :key='index'>
+      <div class="att-title">{{item.propertyName}}</div>
+      <div class="flexcolumn" style="width: 100%;">
+        <div class="flexrow" v-for='(item2,index2) in item.childrenList' :key='index2'>
+          <div class="att-item">{{item2.propertyName}}</div>
+          <div class="att-item">{{item2.propertyCode}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,9 +62,9 @@
   export default {
     data() {
       return {
-        config: {},//设备详情
-        deviceId: "",//设备id
-        productSpecificationsList:[]//产品规格详情列表
+        config: {}, //设备详情
+        deviceId: "", //设备id
+        productSpecificationsList: [] //产品规格详情列表
       }
     },
     created() {
@@ -91,7 +95,21 @@
         }
         let res = await this.$http.post(this.$api.parampage, param);
         if (res.data.resultCode == 10000) {
-          this.productSpecificationsList=res.data.data
+          let data = []
+          res.data.data.forEach((item) => {
+            if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
+              item.childrenList = []
+              res.data.data.forEach((childItem) => {
+                if (childItem.parentId == item.propertyId) {
+                  item.childrenList.push(childItem)
+                }
+              })
+              if (item.childrenList.length <= 0)
+                item.childrenList = [{}]
+              data.push(item)
+            }
+          })
+          this.productSpecificationsList = data
         }
       }
     }
