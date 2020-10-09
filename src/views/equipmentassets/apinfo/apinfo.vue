@@ -23,12 +23,12 @@
             </a-select-option>
           </a-select>
 
-          <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
+          <a-button :disabled="isselectdata.nodeType!='GLP'" style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
           <a-button @click='cleanSearch'>清除</a-button>
         </div>
 
       </div>
-      <a-button v-if="isselectdata.nodeType=='GLP'" class='base_add88_btn' type='primary' @click='edit({})'>
+      <a-button :disabled="isselectdata.nodeType!='GLP'" class='base_add88_btn' type='primary' @click='edit({})'>
         <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
@@ -99,6 +99,9 @@
       /* 获取表格数据*/
       async getTableData() {
         if (!this.isselectdata) return
+        if (this.isselectdata.nodeType != 'GLP') {
+          return
+        }
         if (this.pagination.current == 1)
           this.pagination.total = 0
         this.tableData = []

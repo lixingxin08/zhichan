@@ -101,7 +101,7 @@
             navlist
           );
         } else {
-          if(isurl[0].indexOf('http://192.168.3.31:8092/')>=0)
+          if(isurl[0].indexOf('localhost')>=0)
            this.menudata = this.toTree(js.navlist)
         }
 
