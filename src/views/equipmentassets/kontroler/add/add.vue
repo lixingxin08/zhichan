@@ -138,6 +138,7 @@
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.$router.go(-1)
+            this.$router.push('/kontroler')
         } else {
           this.$message.error(res.data.resultMsg)
         }
