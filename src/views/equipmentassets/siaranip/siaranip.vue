@@ -106,7 +106,7 @@
           statusCode: this.statusCode == -1 ? "" : this.statusCode,
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize,
-		  keyword:this.keyword,
+          keyword:this.keyword,
           lightpoleId: this.isselectdata.id
         }
         let res = await this.$http.post(this.$api.devicedevicebodypage, param)

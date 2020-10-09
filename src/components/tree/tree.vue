@@ -70,7 +70,7 @@
 </script>
 <style scoped>
   .istree {
-    width: 100%;
+    width: auto;
     text-align: left;
     height: 90vh;
     overflow-x: hidden;

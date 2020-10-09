@@ -48,23 +48,26 @@
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>归属线路:</div>
-        <a-select :value="config.lineId?config.lineId:'请选择'" style="width: 667px;" @change="lineSelectChange">
+        <a-select v-if='lineList.length>0' :value="config.lineId?config.lineId:'请选择'" style="width: 667px;" @change="lineSelectChange">
           <a-select-option v-for='(item,index) in lineList' :key='index' :value="item.lineId">
             {{item.lineName}}
           </a-select-option>
         </a-select>
+        <div v-else class="edit_item_input">
+          <a-input disabled placeholder='无启用的线路' :maxLength='30' />
+        </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">归属项目:</div>
         <div class="edit_item_input">
-          <a-input v-model="monitorConfig.projectName " disabled placeholder='50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号'
+          <a-input v-model="monitorConfig.projectName " disabled placeholder='无'
             :maxLength='50' />
         </div>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">项目阶段:</div>
         <div class="edit_item_input">
-          <a-input v-model="monitorConfig.phaseName" disabled placeholder='50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' :maxLength='50' />
+          <a-input v-model="monitorConfig.phaseName" disabled placeholder='无' :maxLength='50' />
         </div>
       </div>
 
@@ -78,7 +81,7 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">位置地址:</div>
         <div class="edit_item_input">
-          <a-input disabled v-model="config.address" placeholder='50字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号' />
+          <a-input disabled v-model="config.address" placeholder='请选择位置' />
         </div>
 
       </div>
