@@ -22,7 +22,7 @@
         {{monitorName}}
       </a-descriptions-item>
       <a-descriptions-item label="归属线路" >
-       {{config.parentName}}
+       {{config.lineName}}
       </a-descriptions-item>
       <a-descriptions-item label="归属项目" :span="2">
        {{config.projectName}}
