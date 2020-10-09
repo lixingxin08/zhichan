@@ -122,7 +122,7 @@ export default {
   },
   /* 获取树数据*/
   getlightTreeData() {
-    return null//先屏蔽
+    return null //先屏蔽
     //return JSON.parse(localStorage.getItem('lightTree'))
   },
   /* 缓存树展开的数据*/
@@ -140,7 +140,10 @@ export default {
   },
   /* 获取选择的线路数据*/
   getLineSelectKey() {
-    return JSON.parse(localStorage.getItem("lineSelectKey"))
+    let item = localStorage.getItem("lineSelectKey")
+    if(item!='undefined')
+      return JSON.parse(item)
+    return {}
   },
   /* 缓存灯杆的数据*/
   setLightSelectKey(data) {
@@ -150,11 +153,11 @@ export default {
   getLightSelectKey() {
     return JSON.parse(localStorage.getItem("lightTreeSelectKey"))
   },
-  setAreaId(data){
-      localStorage.setItem("areaId", JSON.stringify(data))
+  setAreaId(data) {
+    localStorage.setItem("areaId", JSON.stringify(data))
   },
-  getAreaId(){
-     return JSON.parse(localStorage.getItem("areaId"))
+  getAreaId() {
+    return JSON.parse(localStorage.getItem("areaId"))
   },
   cleanTree() {
     //localStorage.clear('lightTree')

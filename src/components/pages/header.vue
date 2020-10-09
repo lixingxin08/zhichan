@@ -50,7 +50,12 @@ export default {
        this.$route.matched.forEach((item) => {
         this.title.push(item.meta.title);
       });
-    }
+    },
+    backhome() {
+      let aa = window.location.href.split("/#");
+      let bb = aa[0].split("/authorization");
+      window.location.href = bb[0] + "/#/home";
+    },
   },
   created() {
     this.gettitle()

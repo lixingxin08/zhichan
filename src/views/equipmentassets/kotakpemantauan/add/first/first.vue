@@ -273,6 +273,7 @@
       /* 监控箱归属项目*/
       projectSelectChange(e) {
         this.config.projectId = e
+        this.config.phaseId=''
         this.getProjectPhase()
       },
       /* 获取项目阶段列表*/

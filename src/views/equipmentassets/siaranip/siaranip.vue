@@ -1,9 +1,9 @@
 <template>
   <div class="administrativedivision flex_fs">
-    <div class="isleft">
-      <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
-        @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
-    </div>
+   <div class="isleft">
+     <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
+       @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
+   </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
         <div class="flexrow flexac">
@@ -106,7 +106,7 @@
           statusCode: this.statusCode == -1 ? "" : this.statusCode,
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize,
-		  keyword:this.keyword,
+          keyword:this.keyword,
           lightpoleId: this.isselectdata.id
         }
         let res = await this.$http.post(this.$api.devicedevicebodypage, param)

@@ -89,7 +89,7 @@ export default {
         });
         _that.map.addControl(geolocation);
       });
-      
+
       _that.map.on("click", function (params) {
         console.log(params, 112);
         if (_that.markertype == true) {
@@ -127,11 +127,11 @@ export default {
 						city: '010'
 					})
 					geocoder.getAddress(lnglat, function(status, result) {
-       
+
 						if (status === 'complete' && result.info === 'OK') {
 							// self.formattedAddress=result.regeocode.formattedAddress
               // result为对应的地理位置详细信息
-              _that.$emit("address",result.regeocode.formattedAddress);     
+              _that.$emit("address",result.regeocode.formattedAddress);
 						}
 					})
 				})
@@ -164,26 +164,32 @@ export default {
 </script>
 <style >
 .dialogadminadd {
+   position: absolute;
   width: 920px;
-  height: 810px;
-  position: relative;
-  left: 0;
+  height: 70vh;
+  left: 20%;
   border-radius: 8px;
+  margin: 0 auto;
   box-shadow: 0px 0px 20px 0px #ccc;
   background-color: #fff;
   z-index: 2;
+}
+.map {
+  width: 840px;
+  height: 40vh;
 }
 .dialogadminadd_t {
   width: 920px;
   height: 72px;
   background-color: #1890ff;
   color: #fff;
+  border-top-left-radius: 8px;
+   border-top-right-radius: 8px;
   font-size: 24px;
   padding: 0 40px;
 }
 .dialogadminadd_c {
-  width: 920px;
-  height: 554px;
+  height: 46vh;
   font-size: 20px;
   font-family: Microsoft YaHei, Microsoft YaHei-Regular;
   font-weight: 400;
@@ -203,10 +209,7 @@ export default {
   border: 1px solid #dcdcdc;
   border-radius: 8px;
 }
-.map {
-  width: 840px;
-  height: 472px;
-}
+
 .dialogadminadd_f {
   margin-top: 40px;
 }

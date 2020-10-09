@@ -1,8 +1,8 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-      <is-left-tree v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
-        @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
+      <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
+        @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
     </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
@@ -42,8 +42,8 @@
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
             <div class="per-line"></div>
-            <!--       <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
-          <div class="per-line"></div> -->
+                  <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
+          <div class="per-line"></div>
             <a-popconfirm v-if='record.statusCode!=1&&!record.lampId' title="确定删除"  ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
@@ -85,11 +85,10 @@
         })
       },
       /* 预览*/
-      see() {
+      see(item) {
         this.$router.push({
           query: {
             deviceId: item.deviceId,
-            lightpoleId: this.isselectdata.id
           },
           path: '/seekontroler'
         })

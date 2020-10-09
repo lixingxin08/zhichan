@@ -47,31 +47,24 @@ export const lightstree = {
       treedata: [],
       isselectdata: "", //选中的左边树item
       parentData: {}, //选中父级菜单
-      defaultExpandedKeys: [], //默认展开
       defaultSelectedKeys: [], //默认选中
     };
   },
   methods: {
     //树接口
     async gettree() {
-      this.treedata = this.$utils.getlightTreeData()
-      if (!this.treedata) {
+
         let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
         if (res.data.resultCode == 10000) {
           this.setdata(res.data.data);
         }
-      } else {
-        this.defaultExpandedKeys = this.$utils.getLightExpangKey()
-        this.setSelectKey()
-        this.showTree = true
-      }
+    
     },
 
     /* 设置tree 数据*/
     setdata(data) {
-      this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
-      this.$utils.setLightExpandKey(this.defaultExpandedKeys)
-          this.parentData=this.$utils.getLineSelectKey()
+      if (this.$utils.getLineSelectKey())
+        this.parentData = this.$utils.getLineSelectKey()
       this.treedata = this.$utils.toTree(data);
       this.setSelectKey()
       this.showTree = true
@@ -92,13 +85,13 @@ export const lightstree = {
         return
       this.$utils.setLightSelectKey(val)
       this.isselectdata = val;
-  
+
       this.tableData = []
       if (this.isselectdata.nodeType == 'GLP')
         this.getTableData()
     },
     parentdata(val) {
-     this.$utils.setLineSelectKey(val)
+      this.$utils.setLineSelectKey(val)
       this.parentData = val
     },
     onLoadData(treeNode) {
@@ -124,6 +117,9 @@ export const lightstree = {
         }
         this.treedata = [...this.treedata];
         this.$utils.setlightTreeData(this.treedata)
+        if (this.$refs.tree) {
+          this.$refs.tree.updateExpandKeys()
+        }
         resolve();
       });
     },

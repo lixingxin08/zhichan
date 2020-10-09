@@ -38,7 +38,8 @@ import {
   Upload,
   message,
   Descriptions,
-  Radio
+  Radio,
+  ConfigProvider
 } from 'ant-design-vue';
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -62,6 +63,7 @@ Vue.use(Upload);
 Vue.use(Radio);
 Vue.prototype.$message = message
 Vue.use(Descriptions)
+Vue.use(ConfigProvider)
 
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
@@ -164,38 +166,39 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       console.log(error.response.status, 'errorerrorerrorerror');
-      if (error.response.status==404) {
-        router.replace({
-          path: '/error404',
-        })
-      }
-      if (error.response.status==403) {
-        router.replace({
-          path: '/error403',
-        })
-      }
-      if (error.response.status==404) {
-        router.replace({
-          path: '/error404',
-        })
-      }
-      if (error.response.status==500) {
-        router.replace({
-          path: '/error500',
-        })
-      }
-      if (error.response.status==504) {
-        router.replace({
-          path: '/error504',
-        })
-      }
+      // if (error.response.status==404) {
+      //   router.replace({
+      //     path: '/error404',
+      //   })
+      // }
+      // if (error.response.status==403) {
+      //   router.replace({
+      //     path: '/error403',
+      //   })
+      // }
+      // if (error.response.status==404) {
+      //   router.replace({
+      //     path: '/error404',
+      //   })
+      // }
+      // if (error.response.status==500) {
+      //   router.replace({
+      //     path: '/error500',
+      //   })
+      // }
+      // if (error.response.status==504) {
+      //   router.replace({
+      //     path: '/error504',
+      //   })
+      // }
     }
     return Promise.reject(error.response.data)
   }
 )
 import isLeftTree from './components/tree/tree.vue'
 Vue.component("isLeftTree", isLeftTree);
-
+import isExpandTree from './components/tree/expandtree.vue'
+Vue.component("isExpandTree", isExpandTree);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -36,7 +36,10 @@
       "title": "总数量/启用数量",
       "align": "center",
       "ellipsis": true,
-      "dataIndex": "deviceOn"
+      "dataIndex": "deviceOn",
+      "scopedSlots": {
+        "customRender": "deviceOn"
+      }
     },
     {
       "title": "投运期始",
@@ -67,12 +70,12 @@
     }
   ],
   "list": [{
-    "assuranceId": "111", 
-    "projectName": "111", 
-    "phaseName": "XX阶段", 
-    "deviceTypeName": "123", 
+    "assuranceId": "111",
+    "projectName": "111",
+    "phaseName": "XX阶段",
+    "deviceTypeName": "123",
     "modelName":"xx型号",
-    "deviceTotal ": "123", 
+    "deviceTotal ": "123",
     "deviceOn" :"111",
     "putInDate": "2020-01-01 00:00:00" ,
     "startDate": "2020-01-01 00:00:00" ,

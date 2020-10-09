@@ -89,7 +89,7 @@ export default {
   deviceguaranteepage: base.baseUrl1 + `/device/guarantee/page`, //质保期分页
 
 
-  parampage: base.baseUrl2 + `/device/ModelParameter/list`, //授权设备运行参数==产品规格
+  parampage: base.baseUrl2 + `/propertyValue/detail`, //授权设备运行参数==产品规格
 
   devicepolecontrollerpage: base.baseUrl1 + `/device/pole-controller/page`, //控制器分页
   devicepolecontrollerremove: base.baseUrl1 + `/device/pole-controller/remove`, //控制器删除接口
