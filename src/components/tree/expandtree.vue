@@ -4,8 +4,8 @@
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
     </div>-->
     <div class="istree">
-      <a-tree :show-line="showLine" :load-data="onLoadData" @select="onSelect"   :tree-data="treedata"   :default-selected-keys='defaultSelectedKeys'
-        :replaceFields="replaceFields"  :default-expanded-keys="defaultExpandedKeys">
+      <a-tree :show-line="showLine" :load-data="onLoadData" @select="onSelect" @expand='onExpand' :tree-data="treedata"
+        :default-selected-keys='defaultSelectedKeys' :replaceFields="replaceFields" :expandedKeys="expandedKeys">
         <a-icon slot="icon" type="carry-out" />
       </a-tree>
     </div>
@@ -19,7 +19,8 @@
         showLine: true,
         showIcon: true,
         showTree: false,
-        olddata: ""
+        olddata: "",
+        expandedKeys: []
       };
     },
     props: {
@@ -35,29 +36,36 @@
           key: "id",
         })
       }, //替换属性
-      defaultExpandedKeys: Array, //默认展开
       defaultSelectedKeys: Array
     },
-    created() {},
+    created() {
+    this.updateExpandKeys()
+    },
     methods: {
+      onExpand(expandedKeys, expandedNodes) {
 
+        this.expandedKeys = expandedKeys
+        localStorage.setItem('treeExpandedKeys', JSON.stringify(this.expandedKeys))
+      },
       onSelect(selectedKeys, selectedNodes) {
         if (selectedNodes.selected == false) {
           return
         }
-
         this.getAreaId(selectedNodes.node)
         this.$emit("parentdata", selectedNodes.node.$parent.dataRef)
         this.olddata = selectedNodes.selectedNodes[0].data.props
         this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
       },
       onSearch(value) {
-        console.log(value, 88292);
         this.$emit("searchdata", value);
       },
+      updateExpandKeys(){
+        if (localStorage.getItem('treeExpandedKeys'))
+          this.expandedKeys = JSON.parse(localStorage.getItem('treeExpandedKeys'))
+      },
       getAreaId(node) {
-        if(!node.dataRef)
-        return
+        if (!node.dataRef)
+          return
         if (node.dataRef.nodeType == 'AREA') {
           this.$utils.setAreaId(node.dataRef)
         } else {

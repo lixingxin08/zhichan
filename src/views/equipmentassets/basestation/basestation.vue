@@ -1,8 +1,8 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-      <is-left-tree v-if="showTree" :treedata="treedata"  @parentdata='parentdata':defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata"
-        :defaultSelectedKeys="defaultSelectedKeys"></is-left-tree>
+      <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
+        @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
     </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">

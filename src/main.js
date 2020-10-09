@@ -38,7 +38,8 @@ import {
   Upload,
   message,
   Descriptions,
-  Radio
+  Radio,
+  ConfigProvider
 } from 'ant-design-vue';
 Vue.use(Dropdown);
 Vue.use(Layout);
@@ -62,6 +63,7 @@ Vue.use(Upload);
 Vue.use(Radio);
 Vue.prototype.$message = message
 Vue.use(Descriptions)
+Vue.use(ConfigProvider)
 
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
@@ -195,7 +197,8 @@ axios.interceptors.response.use(
 )
 import isLeftTree from './components/tree/tree.vue'
 Vue.component("isLeftTree", isLeftTree);
-
+import isExpandTree from './components/tree/expandtree.vue'
+Vue.component("isExpandTree", isExpandTree);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
