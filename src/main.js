@@ -96,6 +96,7 @@ axios.interceptors.request.use(
       token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyMjE4NjUxMjk5LCJ0b2tlbklkIjoiMTc0ZDU1ZDI1MWFkNGJmNDk5YTI1MWI5Mzk5YWQyYzIiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9._ZYVfRVFVM8bWObjwy0qK-CYuEVlwvJzm2iCbpv7yls"
 
     } else {
+      if(localStorage.getItem('usermsg'))
       token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     }
     config.headers.common['token'] = token
@@ -111,9 +112,11 @@ let bb = thisurl[0].split('/authorization')
 axios.interceptors.response.use(
   response => {
     backnum++
+    if(localStorage.getItem('usermsg')){
     let aa = JSON.parse(localStorage.getItem('usermsg'))
     aa.token = response.headers.token
     localStorage.setItem('usermsg', JSON.stringify(aa))
+    }
     if (response.data.resultMsg == "执行成功，但没有获取到数据") {
       response.data.data=[]
       response.data.data.list=[]

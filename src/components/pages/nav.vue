@@ -3,7 +3,8 @@
     <div class="logo_box flex_a">
       <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
     </div>
-    <a-menu theme="dark" mode="inline" @click="handleClick" @openChange='openChange' :selected-keys="selectedKeys" :open-keys="openKeys">
+    <a-menu theme="dark" mode="inline" @click="handleClick" @openChange='openChange' :selected-keys="selectedKeys"
+      :open-keys="openKeys">
       <!--  <a-sub-menu v-if='menudata' v-for='(item,index) in menudata' :key='index'>
         <div slot="title" class="flex_F">
           <img class="nav_icon" src="../../assets/nav_img/icon_z_jichu@2x.png" alt />
@@ -28,7 +29,7 @@
   import {
     Menu
   } from "ant-design-vue";
-  //import js from './new_file.json'
+  import js from './new_file.json'
   const SubMenu = {
     template: `
         <a-sub-menu :key="menuInfo.menuName" v-bind="$props" v-on="$listeners">
@@ -72,7 +73,7 @@
     },
 
     created() {
-     
+
       this.getMenuList();
     },
     methods: {
@@ -80,26 +81,30 @@
         console.log('click ', e.key);
         this.selectedKeys = [e.key]
       },
-      openChange(e){
-         console.log('open ', e);
-         this.openKeys=e
-         localStorage.setItem("navOpenId", JSON.stringify(e))
+      openChange(e) {
+        console.log('open ', e);
+        this.openKeys = e
+        localStorage.setItem("navOpenId", JSON.stringify(e))
       },
       async getMenuList() {
-           let isurl=window.location.href.split('#/')
-           console.log(isurl,9999);
-           let isurl2=isurl[1].split('/')
-           console.log(isurl2,'isurl2isurl2isurl2isurl2');
-        let navlist=JSON.parse(localStorage.getItem("usermsg")).navlist
-            for (let i = 0; i < navlist.length; i++) {
-              if (navlist[i].linkURL==isurl2[0]) {
-                this.selectedKeys=navlist[i].menuName
-              }
+        let isurl = window.location.href.split('#/')
+        console.log(isurl, 9999);
+        let isurl2 = isurl[1].split('/')
+        if (localStorage.getItem("usermsg")) {
+          let navlist = JSON.parse(localStorage.getItem("usermsg")).navlist
+          for (let i = 0; i < navlist.length; i++) {
+            if (navlist[i].linkURL == isurl2[0]) {
+              this.selectedKeys = navlist[i].menuName
             }
-        this.menudata = this.toTree(
-          navlist
-        );
-      //  this.menudata = this.toTree(js.navlist)
+          }
+          this.menudata = this.toTree(
+            navlist
+          );
+        } else {
+          if(isurl[0].indexOf('http://192.168.3.31:8092/')>=0)
+           this.menudata = this.toTree(js.navlist)
+        }
+
       },
       toTree(data) {
         let result = [];
