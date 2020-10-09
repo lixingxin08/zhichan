@@ -51,7 +51,7 @@
       "dataIndex": "projectName"
     },
     {
-      "title": "挂载线路数",
+      "title": "挂载灯杆数",
       "align": "center",
       "ellipsis": true,
       "dataIndex": "lineTotal"
@@ -99,7 +99,13 @@
  "width": "120px",
       "dataIndex": "switchNo"
     },
-
+  {
+      "title": "挂载设备数",
+      "align": "center",
+      "ellipsis": true,
+ "width": "120px",
+      "dataIndex": "poleTotal"
+    },
     {
       "title": "备注信息",
       "align": "center",
