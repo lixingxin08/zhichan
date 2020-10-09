@@ -118,7 +118,7 @@
         let res = await this.$http.post(this.$api.devicewifiform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
-          this.$router.go(-1)
+           this.$router.push('/apinfo')
         } else {
           this.$message.error(res.data.resultMsg)
         }
