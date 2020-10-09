@@ -13,8 +13,8 @@ module.exports = {
     proxyTable: {
       '/api': {//代理api
         //target: "`",
-        target: "http://192.168.3.83:8092/asset", //代理接口
-        // target: "http://192.168.3.101/haiot-zuul/haiot-auth", //代理接口
+        // target: "http://192.168.3.83:8092/asset", //代理接口
+        target: "http://192.168.3.101/haiot-zuul/haiot-auth", //代理接口
         // target: "http://192.168.3.171:8092/authorization",
         changeOrigin: true,//是否跨域
         allowCredentials:true,
@@ -25,7 +25,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '192.168.3.31', // can be overwritten by process.env.HOST
     port: 8092, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
 
     autoOpenBrowser: false,

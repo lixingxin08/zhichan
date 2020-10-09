@@ -69,8 +69,13 @@
     },
     methods: {
       async submit() {
+		
         if (!this.$utils.isChinese16(this.config.areaName)) {
           this.$message.warning('区划名称格式错误')
+          return
+        }
+        if(this.config.areaName.length<2){
+             this.$message.warning('区划名称格式错误')
           return
         }
         if (!this.config.longitude) {
@@ -81,7 +86,7 @@
         this.config.levelType = this.config.grade ? this.config.grade : (this.parentArea.levelType + 1)
         let res = await this.$http.post(this.$api.areasform, this.config)
         if (res.data.resultCode == 10000) {
-          this.$router.go(-1)
+          this.$router.push('/watthourmeter')
           this.$message.success(res.data.resultMsg)
         } else {
           this.$message.error(res.data.resultMsg)

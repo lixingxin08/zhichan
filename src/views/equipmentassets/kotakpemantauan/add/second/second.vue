@@ -88,6 +88,9 @@
         if (res.data.resultCode == 10000) {
           this.tableData = res.data.data
         }
+        if(this.tableData.length>0){
+           this.$emit('callBackDeviceId', this.tableData[0].deviceId)
+        }
       }
     }
   }

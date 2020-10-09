@@ -4,7 +4,7 @@
       <a-input-search placeholder enter-button="搜索" size="default" @search="onSearch" />
     </div>-->
     <div class="istree">
-      <a-tree :show-line="showLine" :load-data="onLoadData" @select="onSelect" defaultExpandAll :tree-data="treedata"   :default-selected-keys='defaultSelectedKeys'
+      <a-tree :show-line="showLine" :load-data="onLoadData" @select="onSelect" :defaultExpandAll='true'  :tree-data="treedata"   :default-selected-keys='defaultSelectedKeys'
         :replaceFields="replaceFields"  :default-expanded-keys="defaultExpandedKeys">
         <a-icon slot="icon" type="carry-out" />
       </a-tree>

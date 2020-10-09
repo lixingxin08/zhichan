@@ -14,8 +14,7 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 Vue.prototype.$utils = utils;
 Vue.prototype.$config=config
- import isLeftTree from './components/tree/tree.vue'
-Vue.component("isLeftTree", isLeftTree);
+
 import 'ant-design-vue/dist/antd.css';
 import {
   Layout,
@@ -94,9 +93,9 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxMjk0MTc1MjEzLCJ0b2tlbklkIjoiMTI4ZTczZDU1ZmY3NDBjYzhiN2I4MWQxMDExYjI0NjYiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.GDQUeFbQ7-M0KiJTzsoOYdNSdMGWFfXXoaJA9_Wpmd0"
-    
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyMjE2NjYyMjYyLCJ0b2tlbklkIjoiYzQ2OWJjOTBlMTZmNDM5NTg4ODlkNDRmNmNlYWZmMzgiLCJ1c2VySWQiOiIxZDc2ZDhmZjU4ZWU0MjNiYTYxZWYyZWFmYjkzNTU5MyJ9.gNabmc1naVjiBL4QWmQSOy90Y8wu1KBl0MrAZ8l9-54"
     } else {
+      if(localStorage.getItem('usermsg'))
       token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     }
     config.headers.common['token'] = token
@@ -107,14 +106,16 @@ axios.interceptors.request.use(
   }
 )
 let backnum = 0
+let thisurl = window.location.href.split('/#')
+let bb = thisurl[0].split('/authorization')
 axios.interceptors.response.use(
   response => {
     backnum++
+    if(localStorage.getItem('usermsg')){
     let aa = JSON.parse(localStorage.getItem('usermsg'))
     aa.token = response.headers.token
-    let thisurl = window.location.href.split('/#')
-    let bb = thisurl[0].split('/authorization')
     localStorage.setItem('usermsg', JSON.stringify(aa))
+    }
     if (response.data.resultMsg == "执行成功，但没有获取到数据") {
       response.data.data=[]
       response.data.data.list=[]
@@ -161,35 +162,38 @@ axios.interceptors.response.use(
   },
   error => {
     if (error.response) {
-      console.log(error, 'errorerrorerrorerror');
-      console.log(error.response, 'errorerrorerrorerror');
-      switch (error.response.status) {
-        case 404:
-          router.replace({
-            path: '/error404',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 500:
-          router.replace({
-            path: '/error500',
-          })
-        case 504:
-          router.replace({
-            path: '/error504',
-          })
-        case 403:
-          router.replace({
-            path: '/error403',
-          })
+      console.log(error.response.status, 'errorerrorerrorerror');
+      if (error.response.status==404) {
+        router.replace({
+          path: '/error404',
+        })
+      }
+      if (error.response.status==403) {
+        router.replace({
+          path: '/error403',
+        })
+      }
+      if (error.response.status==404) {
+        router.replace({
+          path: '/error404',
+        })
+      }
+      if (error.response.status==500) {
+        router.replace({
+          path: '/error500',
+        })
+      }
+      if (error.response.status==504) {
+        router.replace({
+          path: '/error504',
+        })
       }
     }
     return Promise.reject(error.response.data)
   }
 )
-
+import isLeftTree from './components/tree/tree.vue'
+Vue.component("isLeftTree", isLeftTree);
 
 /* eslint-disable no-new */
 new Vue({

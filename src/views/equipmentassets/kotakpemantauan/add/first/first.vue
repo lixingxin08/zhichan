@@ -157,20 +157,22 @@
           this.$message.warning('请选择监控箱型号')
           return false
         }
-        if (!this.config.deviceName) {
-          this.$message.warning('请输入监控箱名称')
-          return false
-        }
+     
         if (!this.$utils.vify_cn50(this.config.deviceName)) {
           this.$message.warning('请监控箱名称格式不对')
+          return false
+        }
+   
+        if (!this.$utils.vify_cn50(this.config.deviceCode)) {
+          this.$message.warning('请填写监控箱编号')
           return false
         }
         if (!this.config.deviceCode) {
           this.$message.warning('请输入监控箱编号')
           return false
         }
-        if (!this.$utils.vify_cn50(this.config.deviceCode)) {
-          this.$message.warning('请填写监控箱编号')
+        if (!this.config.deviceName) {
+          this.$message.warning('请输入监控箱名称')
           return false
         }
         if (this.config.statusCode < 0) {

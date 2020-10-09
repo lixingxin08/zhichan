@@ -71,6 +71,7 @@ export const lightstree = {
     setdata(data) {
       this.defaultExpandedKeys = this.$utils.getTreeExpandedKeys(data)
       this.$utils.setLightExpandKey(this.defaultExpandedKeys)
+          this.parentData=this.$utils.getLineSelectKey()
       this.treedata = this.$utils.toTree(data);
       this.setSelectKey()
       this.showTree = true
@@ -91,12 +92,12 @@ export const lightstree = {
         return
       this.$utils.setLightSelectKey(val)
       this.isselectdata = val;
+  
       this.tableData = []
       if (this.isselectdata.nodeType == 'GLP')
         this.getTableData()
     },
     parentdata(val) {
-      console.log(val)
      this.$utils.setLineSelectKey(val)
       this.parentData = val
     },

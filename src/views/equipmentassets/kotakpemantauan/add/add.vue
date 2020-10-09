@@ -5,11 +5,11 @@
     </a-steps>
     <is-first ref='first' v-show="step==0" :deviceId='deviceId' :areaId='areaId' :copy='copy' @callback='submitCallBack'
       @callbackDeviceCode='callbackDeviceCode'></is-first>
-    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode' :deviceId='deviceId'></is-second>
+    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode' :deviceId='deviceId' :callBackDeviceId='callBackDeviceId'></is-second>
     <div v-if='step!=1' class="flexrow flexjc" style="margin-top: 50px;">
 
       <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='save'>保存</a-button>
-      <a-button  type='primary' style='margin-right: 20px;' @click='submitNext'>保存并下一步</a-button>
+      <a-button type='primary' style='margin-right: 20px;' @click='submitNext'>保存并下一步</a-button>
       <a-button @click='reset'>重置</a-button>
     </div>
   </div>
@@ -39,13 +39,13 @@
         deviceId: "",
         deviceCode: "",
         areaId: '',
-        copy:false
+        copy: false
       }
     },
     created() {
       this.deviceId = this.$route.query.deviceId
       this.areaId = this.$route.query.areaId
-      this.copy=this.$route.query.copy=='true'
+      this.copy = this.$route.query.copy == 'true'
     },
     methods: {
       /* 切换视图*/
@@ -53,11 +53,11 @@
         if (step == 1 && !this.$refs.first.getMontiorStatue()) {
           return
         }
-        if (step == 1&&!this.deviceCode) {
+        if (step == 1 && !this.deviceCode) {
 
           return
-        }else{
-            this.$refs.second.getLineData()
+        } else {
+          this.$refs.second.getLineData()
         }
         this.step = step;
       },
@@ -69,8 +69,10 @@
             this.saveAndNext = false
             this.step = 1
             this.$refs.second.getLineData()
+          } else {
+            this.$router.push("/kotakpemantauan")
           }
-            this.$message.success(data.resultMsg)
+          this.$message.success(data.resultMsg)
         } else {
           this.$message.error(data.resultMsg)
         }
@@ -86,7 +88,6 @@
         }
       },
       callbackDeviceCode(e) {
-        console.log(e)
         this.deviceCode = e
       },
       /* 下一步*/
@@ -96,7 +97,10 @@
           this.$refs.first.submit()
         }
       },
-
+      /* 回调设备id*/
+      callBackDeviceId(deviceId) {
+        this.deviceId = deviceId
+      },
       /* 重置*/
       reset() {
         if (this.step == 0) {
