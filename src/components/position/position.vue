@@ -13,13 +13,13 @@
             placeholder="输入位置名称"
             id="searinp"
             class="dialogadminadd_inp"
-            @keydown.enter="getLatLngLocation()"
+            @keydown.enter="getcity()"
             v-model="city"
           />
         </div>
         <div
           class="edit_item_toast btn_blue mapbtn"
-          @click="getLatLngLocation()"
+          @click="getcity()"
         >
           <a-icon type="environment"></a-icon>
           <span class="positiontext">地图定位</span>
@@ -115,7 +115,6 @@ export default {
       if (this.position == "") {
         return this.$message.error("请选择地图位置");
       } else {
-        //this.visible = false;
         this.$emit("positon", this.position);
         this.$emit("isvisible", this.visible);
       }
@@ -142,29 +141,15 @@ export default {
 
 
 
-    getLatLngLocation() {
+    getcity() {
       let _that = this;
       if (this.city == "") {
-        return this.$message.error("请先输入位置名称");
+        return this.$message.error("请输入位置名称");
       }
-      var autoOptions = {
-        input: "searinp",
-      };
-      _that.map.plugin(["AMap.PlaceSearch", "AMap.AutoComplete"], function () {
-        var auto = new AMap.AutoComplete(autoOptions);
-        var placeSearch = new AMap.PlaceSearch({
-          map: _that.map,
-        }); //构造地点查询类
-        auto.on("select", select); //注册监听，当选中某条记录时会触发
-        function select(e) {
-          placeSearch.setCity(e.poi.adcode);
-          placeSearch.search(e.poi.name); //关键字查询查询
-        }
-      });
+        _that.map.setCity(_that.city)
     },
     cancel() {
       this.position = "";
-     // this.visible = false;
       this.$emit("isvisible", this.visible);
       this.$emit("positon", this.position);
     },
@@ -213,8 +198,8 @@ export default {
   margin-bottom: 20px;
 }
 .dialogadminadd_inp {
-  width: 724px;
-  height: 36px;
+  width: 724px!important;
+  height: 36px!important;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
 }

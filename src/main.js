@@ -93,7 +93,8 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAxNDQyMDExOTMxLCJ0b2tlbklkIjoiMzU0OGFiNGExYjQ5NGFhODljOGY0MDMzNWQwMmRjOTgiLCJ1c2VySWQiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMjIifQ.R4FJMoJ-s2pZ_tbLutTbxLNA7mb7LlbgMroXv0qU81s"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyMjE4NjUxMjk5LCJ0b2tlbklkIjoiMTc0ZDU1ZDI1MWFkNGJmNDk5YTI1MWI5Mzk5YWQyYzIiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9._ZYVfRVFVM8bWObjwy0qK-CYuEVlwvJzm2iCbpv7yls"
+
     } else {
       token = JSON.parse(localStorage.getItem('usermsg')).token || ""
     }
