@@ -67,10 +67,6 @@ Vue.use(ConfigProvider)
 
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
-// const isDebug_mode = process.env.NODE_ENV !== 'production'
-// Vue.config.debug = isDebug_mode
-// Vue.config.devtools = isDebug_mode
-// Vue.config.productionTip = isDebug_mode
 
 window.addEventListener(
   "message",
@@ -166,31 +162,26 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       console.log(error.response.status, 'errorerrorerrorerror');
-      // if (error.response.status==404) {
-      //   router.replace({
-      //     path: '/error404',
-      //   })
-      // }
-      // if (error.response.status==403) {
-      //   router.replace({
-      //     path: '/error403',
-      //   })
-      // }
-      // if (error.response.status==404) {
-      //   router.replace({
-      //     path: '/error404',
-      //   })
-      // }
-      // if (error.response.status==500) {
-      //   router.replace({
-      //     path: '/error500',
-      //   })
-      // }
-      // if (error.response.status==504) {
-      //   router.replace({
-      //     path: '/error504',
-      //   })
-      // }
+      if (error.response.status==404) {
+        router.replace({
+          path: '/error404',
+        })
+      }
+      if (error.response.status==403) {
+        router.replace({
+          path: '/error403',
+        })
+      }
+      if (error.response.status==500) {
+        router.replace({
+          path: '/error500',
+        })
+      }
+      if (error.response.status==504) {
+        router.replace({
+          path: '/error504',
+        })
+      }
     }
     return Promise.reject(error.response.data)
   }
