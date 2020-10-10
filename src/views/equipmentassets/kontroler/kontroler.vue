@@ -1,8 +1,8 @@
 <template>
   <div class="administrativedivision flex_fs">
     <div class="isleft">
-      <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' :defaultExpandedKeys="defaultExpandedKeys"
-        @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
+      <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata'
+        :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
     </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
@@ -21,11 +21,11 @@
             </a-select-option>
           </a-select>
 
-          <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
+          <a-button :disabled="isselectdata.nodeType!='GLP'" style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
           <a-button @click='cleanSearch'>清除</a-button>
         </div>
       </div>
-      <a-button v-if="isselectdata.nodeType == 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>
+      <a-button :disabled="isselectdata.nodeType != 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>
         <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
@@ -34,20 +34,21 @@
           {{record.statusCode==0?'备用':(record.statusCode==1?'启用':'已报废')}}
         </div>
         <div slot='lampId' slot-scope="text, record,index">
-           {{record.lampId?'1':'0'}}
+          {{record.lampId?'1':'0'}}
         </div>
         <div slot='parentName'>{{isselectdata.name}}</div>
-         <div slot='lineName'>{{parentData.name}}</div>
+        <div slot='lineName'>{{parentData.name}}</div>
         <template slot="operation" slot-scope="text, record">
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
             <div class="per-line"></div>
-                  <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
-          <div class="per-line"></div>
-            <a-popconfirm v-if='record.statusCode!=1&&!record.lampId' title="确定删除"  ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+            <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
+            <div class="per-line"></div>
+            <a-popconfirm v-if='record.statusCode!=1&&!record.lampId' title="确定删除" ok-text="确定" cancel-text="取消"
+              @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
-          <a href="#" v-else style='color: #CCCCCC;font-size: 12px;'>删除</a>
+            <a href="#" v-else style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
@@ -57,9 +58,11 @@
 <!-- 路灯控制器-->
 <script>
   import tadata from './table.json'
-  import {lightstree} from '../../../utils/mixins.js'
+  import {
+    lightstree
+  } from '../../../utils/mixins.js'
   export default {
-     mixins: [lightstree],
+    mixins: [lightstree],
     data() {
       return {
         tableTitle: tadata.tableTitle, //表格标题
@@ -96,6 +99,9 @@
       /* 获取表格数据*/
       async getTableData() {
         if (!this.isselectdata) return
+        if (this.isselectdata.nodeType != 'GLP') {
+          return
+        }
         if (this.pagination.current == 1)
           this.pagination.total = 0
         this.tableData = []
@@ -103,8 +109,8 @@
           statusCode: this.statusCode == -1 ? '' : this.statusCode,
           pageIndex: this.pagination.current,
           pageSize: this.pagination.pageSize,
-          keyword:this.keyword,
-          lightpoleId: this.isselectdata.id
+          keyword: this.keyword,
+          poleId: this.isselectdata.id
         }
         let res = await this.$http.post(this.$api.devicepolecontrollerpage, param)
         if (res.data.resultCode == 10000) {

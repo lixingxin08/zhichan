@@ -54,11 +54,11 @@ export const lightstree = {
     //树接口
     async gettree() {
 
-        let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
-        if (res.data.resultCode == 10000) {
-          this.setdata(res.data.data);
-        }
-    
+      let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
+      if (res.data.resultCode == 10000) {
+        this.setdata(res.data.data);
+      }
+
     },
 
     /* 设置tree 数据*/
@@ -109,6 +109,15 @@ export const lightstree = {
         }
         let res = await this.$http.post(this.$api.devicelightpoletree, param)
         if (res.data.resultCode == 10000) {
+          if (res.data.data && res.data.data.length > 0) {
+            let expandKeys = JSON.parse(localStorage.getItem('treeExpandedKeys'))
+            res.data.data.forEach((item) => {
+              if (item.nodeType == 'GLP') {
+                expandKeys.push(item.id)
+              }
+            })
+			localStorage.setItem('treeExpandedKeys',JSON.stringify(expandKeys))
+          }
           let childTree = this.$utils.toTree(res.data.data)
           if (childTree[0] != null) {
             if (childTree[0].pid == treeNode.dataRef.id)

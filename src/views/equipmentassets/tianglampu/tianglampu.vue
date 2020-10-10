@@ -39,15 +39,15 @@
               {{item.comboBoxName}}
             </a-select-option>
           </a-select>
-          <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
+          <a-button :disabled="isselectdata.nodeType!='ECB'" style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
           <a-button @click='cleanSearch'>清除</a-button>
         </div>
 
       </div>
-      <div class="flexrow" v-if="isselectdata.nodeType=='ECB'">
-        <a-button class='base_add88_btn' type='primary' @click='edit({})'>
+      <div class="flexrow" >
+        <a-button :disabled="isselectdata.nodeType!='ECB'" class='base_add88_btn' type='primary' @click='edit({})'>
           <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
-        <a-button class='copy_btn' type='primary' @click='copy'>复制</a-button>
+        <a-button :disabled="isselectdata.nodeType!='ECB'" class='copy_btn' type='primary' @click='copy'>复制</a-button>
       </div>
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
