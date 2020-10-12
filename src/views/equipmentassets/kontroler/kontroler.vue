@@ -2,7 +2,7 @@
   <div class="administrativedivision flex_fs">
     <div class="isleft">
       <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata'
-        :defaultExpandedKeys="defaultExpandedKeys" @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
+       @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
     </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
@@ -22,7 +22,7 @@
           </a-select>
 
           <a-button :disabled="isselectdata.nodeType!='GLP'" style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
-          <a-button @click='cleanSearch'>清除</a-button>
+          <a-button :disabled="isselectdata.nodeType != 'GLP'" @click='cleanSearch'>清除</a-button>
         </div>
       </div>
       <a-button :disabled="isselectdata.nodeType != 'GLP'" class='base_add88_btn' type='primary' @click='edit({})'>

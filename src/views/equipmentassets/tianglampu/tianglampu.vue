@@ -40,7 +40,7 @@
             </a-select-option>
           </a-select>
           <a-button :disabled="isselectdata.nodeType!='ECB'" style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
-          <a-button @click='cleanSearch'>清除</a-button>
+          <a-button :disabled="isselectdata.nodeType != 'ECB'" @click='cleanSearch'>清除</a-button>
         </div>
 
       </div>
@@ -131,6 +131,8 @@
       /* 获取表格数据*/
       async getTableData() {
         this.tableData = []
+        if(this.isselectdata.nodeType!='ECB')
+        return
         if (this.pagination.current == 1)
           this.pagination.total = 0
         let param = {
@@ -177,7 +179,7 @@
         let res = await this.$http.post(this.$api.devicelightpoleremove, param)
         if (res.data.resultCode == 10000) {
           this.getTableData()
-           this.$utils.cleanTree()
+        this.$config.treeData=[]
           this.$message.success(res.data.resultMsg)
         } else {
           this.$message.error(res.data.resultMsg)
@@ -233,6 +235,7 @@
         if (!val)
           return
         localStorage.setItem('tianglampu', JSON.stringify(val))
+        this.lineList=[]
         this.isselectdata = val;
         this.getLineListData()
         this.getTableData()
@@ -246,6 +249,8 @@
         this.getTableData()
       },
       async getLineListData() {
+        if(this.isselectdata.nodeType!='ECB')
+        return
         this.lineList = []
         let param = {
           deviceId: this.isselectdata.id

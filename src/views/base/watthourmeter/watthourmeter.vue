@@ -10,11 +10,11 @@
           <div class='title_tx'>区划名称:</div>
           <a-input placeholder="请输入区划名称" v-model="keyword" />
 
-          <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
-          <a-button @click='cleanSearch'>清除</a-button>
+          <a-button :disabled='isselectdata.deviceTotal>0' style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
+          <a-button :disabled='isselectdata.deviceTotal>0' @click='cleanSearch'>清除</a-button>
         </div>
       </div>
-      <a-button  class='base_add88_btn' type='primary' @click='edit({})'>  <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
+      <a-button :disabled='isselectdata.deviceTotal>0' class='base_add88_btn' type='primary' @click='edit({})'>  <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
       <a-table :scroll="{  y: 625 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>

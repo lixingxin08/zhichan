@@ -39,7 +39,7 @@
       defaultSelectedKeys: Array
     },
     created() {
-    this.updateExpandKeys()
+      this.updateExpandKeys()
     },
     methods: {
       onExpand(expandedKeys, expandedNodes) {
@@ -59,7 +59,7 @@
       onSearch(value) {
         this.$emit("searchdata", value);
       },
-      updateExpandKeys(){
+      updateExpandKeys() {
         if (localStorage.getItem('treeExpandedKeys'))
           this.expandedKeys = JSON.parse(localStorage.getItem('treeExpandedKeys'))
       },
@@ -80,14 +80,28 @@
   .istree {
     width: auto;
     text-align: left;
-    height: 90vh;
-    overflow-x: hidden;
+    height: 85vh;
+    overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     overflow-scrolling: touch;
     overflow-y: scroll;
   }
 
+  /*滚动条样式*/
   .istree::-webkit-scrollbar {
-    display: none;
+    width: 0px;
+    height: 5px;
+  }
+
+  .istree::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(87, 174, 255, 1);
+    background:rgba(87, 174, 255, 1);
+  }
+
+  .istree::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.1);
   }
 </style>

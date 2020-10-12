@@ -34,15 +34,16 @@
               {{item.comboBoxName}}
             </a-select-option>
           </a-select>
-          <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
-          <a-button @click='cleanSearch'>清除</a-button>
+          <a-button :disabled='isselectdata.isParent' style='margin-left: 20px;margin-right: 20px;' type="primary"
+            @click='getTableData'>查询</a-button>
+          <a-button :disabled='isselectdata.isParent' @click='cleanSearch'>清除</a-button>
         </div>
 
       </div>
       <div class="flexrow">
-        <a-button class='base_add88_btn' type='primary' @click='edit({})'>
+        <a-button :disabled='isselectdata.isParent' class='base_add88_btn' type='primary' @click='edit({})'>
           <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
-        <a-button class='copy_btn' type='primary' @click='copy'>复制</a-button>
+        <a-button :disabled='isselectdata.isParent' class='copy_btn' type='primary' @click='copy'>复制</a-button>
       </div>
 
       <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
@@ -105,7 +106,7 @@
       edit(item) {
         this.$router.push({
           query: {
-             copy: false,
+            copy: false,
             deviceId: item.deviceId,
             areaId: this.isselectdata.id
           },
@@ -124,6 +125,8 @@
 
       /* 获取表格数据*/
       async getTableData() {
+        if (this.isselectdata.isParent)
+          return
         if (this.pagination.current == 1)
           this.pagination.total = 0
         this.tableData = []
@@ -156,7 +159,7 @@
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.getTableData()
-           this.$utils.cleanTree()
+          this.$config.treeData = []
         } else {
           this.$message.error(res.data.resultMsg)
         }
@@ -167,7 +170,7 @@
           this.$message.warning('请先选择监控箱')
           return
         }
-        let item=this.tableData[this.selectIndex]
+        let item = this.tableData[this.selectIndex]
         this.$router.push({
           query: {
             copy: true,
@@ -224,6 +227,7 @@
       getselectdata(val) {
         if (!val)
           return
+        console.log(val)
         localStorage.setItem('kotakpe', JSON.stringify(val))
         this.isselectdata = val;
         this.getTableData()

@@ -50,13 +50,13 @@
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">通讯模组号IMEI:</div>
 
-        <a-input-number style='width: 667px;' v-model="config.imei" placeholder='15位，数字' :max='999999999999999' />
+        <a-input style='width: 667px;' v-model="config.imei" @change='imeiChange' placeholder='15位，数字' :maxLength='15'  />
 
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">物联数据卡(ICCID):</div>
 
-        <a-input-number style='width: 667px;' v-model="config.iccid" placeholder='20位，数字' :max='9999999999999999999' />
+        <a-input style='width: 667px;' v-model="config.iccid" @change='iccidChange' placeholder='20位，数字' :maxLength='20'  />
 
       </div>
       <div class="flexrow flexac edit_item_ko_first">
@@ -147,6 +147,8 @@
         if (!this.getMontiorStatue()) {
           return
         }
+        this.config.imei=parseInt(this.config.imei)
+        this.config.iccid-parseInt(this.config.iccid)
         this.config.areaId = this.areaId
         let res = await this.$http.post(this.$api.devicemonitorboxform, this.config)
 
@@ -280,9 +282,14 @@
         this.config.phaseId = ''
         this.getProjectPhase()
       },
+      imeiChange(e) {
+        this.config.imei = this.config.imei.replace(/[^0-9]/ig, "")
+      },
+      iccidChange(e) {
+         this.config.iccid = this.config.iccid.replace(/[^0-9]/ig, "")
+      },
       /* 获取项目阶段列表*/
       async getProjectPhase() {
-
         this.phaseList = []
         let param = {
           projectId: this.config.projectId

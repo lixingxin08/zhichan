@@ -116,24 +116,8 @@ export default {
     }
     return defaultExpandedKeys
   },
-  /* 缓存树数据*/
-  setlightTreeData(data) {
-    localStorage.setItem("lightTree", JSON.stringify(data))
-  },
-  /* 获取树数据*/
-  getlightTreeData() {
-    return null //先屏蔽
-    //return JSON.parse(localStorage.getItem('lightTree'))
-  },
-  /* 缓存树展开的数据*/
-  setLightExpandKey(data) {
-    localStorage.setItem("lightTreeExpandKey", JSON.stringify(data))
-  },
-  /* 获取树展开的数据*/
-  getLightExpangKey() {
-    return null
-    //return JSON.parse(localStorage.getItem("lightTreeExpandKey"))
-  },
+
+
   /* 缓存选择线路的数据*/
   setLineSelectKey(data) {
     localStorage.setItem("lineSelectKey", JSON.stringify(data))
@@ -159,9 +143,5 @@ export default {
   getAreaId() {
     return JSON.parse(localStorage.getItem("areaId"))
   },
-  cleanTree() {
-    //localStorage.clear('lightTree')
-    //localStorage.clear('lightTreeExpandKey')
-    //localStorage.clear('lightTreeSelectKey')
-  }
+ 
 }

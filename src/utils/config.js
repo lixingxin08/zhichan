@@ -48,11 +48,13 @@ const lineStatueList = [{
     comboBoxName: '已报废'
   }
 ]
+const treeData=[]
 export default {
   pagination, //分页信息
   statueList, //监控箱状态
   useTypeList, //监控箱用途类型
   lineStatueList ,//线路状态
   lampuUseTypeList,//路灯杆用途类型
-  lanternsList
+  lanternsList,
+  treeData
 }

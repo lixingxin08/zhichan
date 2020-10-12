@@ -65,8 +65,12 @@ Vue.prototype.$message = message
 Vue.use(Descriptions)
 Vue.use(ConfigProvider)
 
+
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
+
+
+
 
 window.addEventListener(
   "message",

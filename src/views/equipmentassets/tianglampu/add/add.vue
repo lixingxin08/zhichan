@@ -178,7 +178,7 @@
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.$router.push('/tianglampu')
-           this.$utils.cleanTree()
+          this.$config.treeData=[]
         } else {
           this.$message.error(res.data.resultMsg)
         }

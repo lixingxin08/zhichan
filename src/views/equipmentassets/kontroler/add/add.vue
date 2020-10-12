@@ -54,12 +54,12 @@
 
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">通讯模组号(IMEI):</div>
-        <a-input-number class="edit_item_input" v-model="config.imei" :maxLength='15' placeholder='15位，数字' />
+        <a-input class="edit_item_input" v-model="config.imei" :maxLength='15' placeholder='15位，数字' />
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">物联数据卡(ICCID):</div>
 
-        <a-input-number class="edit_item_input" v-model="config.iccid" :maxLength='20' placeholder='20位，数字' />
+        <a-input class="edit_item_input" v-model="config.iccid" :maxLength='20' placeholder='20位，数字' />
 
       </div>
 
@@ -134,6 +134,8 @@
           return
         }
         this.config.poleId = this.lightConfig.id
+		this.config.imei=parseInt(this.config.imei)
+		this.config.iccid-parseInt(this.config.iccid)
         let res = await this.$http.post(this.$api.devicepolecontrollerform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
@@ -201,6 +203,12 @@
       modelSelectChange(e) {
         this.config.modelId = e
       },
+	  imeiChange(e) {
+	    this.config.imei = this.config.imei.replace(/[^0-9]/ig, "")
+	  },
+	  iccidChange(e) {
+	     this.config.iccid = this.config.iccid.replace(/[^0-9]/ig, "")
+	  },
       /* 状态选择*/
       stateSelectChange(e) {
         this.config.statusCode = e

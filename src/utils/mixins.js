@@ -53,19 +53,23 @@ export const lightstree = {
   methods: {
     //树接口
     async gettree() {
-
-      let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
-      if (res.data.resultCode == 10000) {
-        this.setdata(res.data.data);
+   
+      if (!this.$config.treeData|| this.$config.treeData <= 0) {
+        let res = await this.$http.post(this.$api.devicemonitorboxtree, {});
+        if (res.data.resultCode == 10000) {
+          this.setdata(res.data.data);
+        }
+      } else {
+        this.setdata(null)
       }
-
     },
 
     /* 设置tree 数据*/
     setdata(data) {
       if (this.$utils.getLineSelectKey())
         this.parentData = this.$utils.getLineSelectKey()
-      this.treedata = this.$utils.toTree(data);
+      this.treedata = data ? this.$utils.toTree(data) : this.$config.treeData;
+      this.$config.treeData = this.treedata
       this.setSelectKey()
       this.showTree = true
     },
@@ -116,7 +120,7 @@ export const lightstree = {
                 expandKeys.push(item.id)
               }
             })
-			localStorage.setItem('treeExpandedKeys',JSON.stringify(expandKeys))
+            localStorage.setItem('treeExpandedKeys', JSON.stringify(expandKeys))
           }
           let childTree = this.$utils.toTree(res.data.data)
           if (childTree[0] != null) {
@@ -125,7 +129,7 @@ export const lightstree = {
           }
         }
         this.treedata = [...this.treedata];
-        this.$utils.setlightTreeData(this.treedata)
+         this.$config.treeData = this.treedata
         if (this.$refs.tree) {
           this.$refs.tree.updateExpandKeys()
         }

@@ -70,6 +70,7 @@
           } else {
             this.$router.push("/kotakpemantauan")
           }
+          this.$config.treeData=[]
           this.$message.success(data.resultMsg)
         } else {
           this.$message.error(data.resultMsg)

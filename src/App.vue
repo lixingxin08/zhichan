@@ -22,7 +22,6 @@
       }
     },
     mounted() {
-      this.$utils.cleanTree()
       localStorage.setItem("istoken", "istoken");
     },
 
