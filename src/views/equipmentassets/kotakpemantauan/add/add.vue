@@ -5,7 +5,7 @@
     </a-steps>
     <is-first ref='first' v-show="step==0" :deviceId='deviceId' :areaId='areaId' :copy='copy' @callback='submitCallBack'
       @callbackDeviceCode='callbackDeviceCode'></is-first>
-    <is-second v-show="step==1" ref='second' :deviceCode='deviceCode' :deviceId='deviceId' :callBackDeviceId='callBackDeviceId'></is-second>
+    <is-second v-show="step==1" ref='second' @callBackDeviceId='callBackDeviceId'></is-second>
     <div v-if='step!=1' class="flexrow flexjc" style="margin-top: 50px;">
 
       <a-button type='primary' style='margin-left: 20px;margin-right: 20px;' @click='save'>保存</a-button>
@@ -54,17 +54,15 @@
           return
         }
         if (step == 1 && !this.deviceCode) {
-
           return
-        } else {
-          this.$refs.second.getLineData()
         }
+        if(step==1)
+        this.$refs.second.getLineData()
+        
         this.step = step;
       },
       submitCallBack(data) {
         if (data.resultCode == 10000) {
-          //this.step = 1
-          //this.deviceCode = data.deviceCode
           if (this.saveAndNext) {
             this.saveAndNext = false
             this.step = 1
@@ -87,9 +85,7 @@
           this.$refs.first.submit()
         }
       },
-      callbackDeviceCode(e) {
-        this.deviceCode = e
-      },
+
       /* 下一步*/
       submitNext() {
         this.saveAndNext = true
@@ -97,10 +93,17 @@
           this.$refs.first.submit()
         }
       },
+      callbackDeviceCode(deviceCode) {
+        this.deviceCode = deviceCode
+        this.$refs.second.updatedeviceCode(deviceCode)
+      },
       /* 回调设备id*/
       callBackDeviceId(deviceId) {
         this.deviceId = deviceId
+        this.$refs.second.updateDeviceId(deviceId)
+        this.$refs.first.updateDeviceId(deviceId)
       },
+
       /* 重置*/
       reset() {
         if (this.step == 0) {

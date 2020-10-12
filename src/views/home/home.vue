@@ -1,16 +1,13 @@
 <template>
   <div id="home">
-    <a-layout id="components-layout-demo-custom-trigger">
+    <a-layout id="components-layout-demo-custom-trigger" >
       <isnav :iscollapsed="collapsed"></isnav>
-      <a-layout>
+      <a-layout class='scroller'>
         <ishead @tocollapsed="getcollapsed"></ishead>
-        <a-layout-content
-          :style="{ margin: '20px 20px', background: '#fff', minHeight: '280px' ,minWidth:'1672px'}"
-        >
-        <keep-alive :include="isinclude">
-         <router-view></router-view>
-        </keep-alive>
-
+        <a-layout-content style='margin: 20px;background-color: #FFFFFF;'>
+          <keep-alive :include="isinclude">
+            <router-view v-if="isRouterShow"></router-view>
+          </keep-alive>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -19,42 +16,43 @@
 <script>
 import isnav from "../../components/pages/nav";
 import ishead from "../../components/pages/header";
+
 export default {
   name: "home",
+  provide() {
+    return {
+      reload: this.reload,
+    };
+  },
   data() {
     return {
       collapsed: false,
       searchdata: "",
-      localSearchData: "homeHisData",
-      isinclude:"supervision,header,nav",
-      test: "tesss",
- 
+      isinclude: "nav",
+      isRouterShow: true,
     };
   },
   components: {
     isnav,
     ishead,
   },
+
   methods: {
     getcollapsed(val) {
       this.collapsed = val;
     },
-    async getdata(val) {
-      const res = await this.$http.get(this.$api.login);
+    async reload() {
+      this.isRouterShow = false;
+      await this.$nextTick()
+      this.isRouterShow = true;
     },
-    tologin() {
-      this.$router.push({ name: "error_404" });
-    },
- 
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 <style>
 #home {
   height: 100%;
-  background-color: #FFFFFF;
 }
 #components-layout-demo-custom-trigger {
   height: 100%;
@@ -70,7 +68,14 @@ export default {
 #components-layout-demo-custom-trigger .trigger:hover {
   color: #1890ff;
 }
-
+.scroller {
+ overflow: initial;
+  height: 100vh;
+  min-Width:80vw;
+}
+.scroller::-webkit-scrollbar{
+  display: none;
+}
 #components-layout-demo-custom-trigger .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);

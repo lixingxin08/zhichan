@@ -71,11 +71,11 @@
       async submit() {
 		
         if (!this.$utils.isChinese16(this.config.areaName)) {
-          this.$message.warning('区划名称格式错误')
+          this.$message.warning('请输入2~16个中文汉字')
           return
         }
         if(this.config.areaName.length<2){
-             this.$message.warning('区划名称格式错误')
+             this.$message.warning('请输入2~16个中文汉字')
           return
         }
         if (!this.config.longitude) {

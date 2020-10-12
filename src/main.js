@@ -126,39 +126,39 @@ axios.interceptors.response.use(
     }
     if (response.data.resultCode == "20100") {
       message.error("令牌错误，请重新登录",5)
-      if (backnum >= 2) {
+      //if (backnum >= 2) {
         window.location.href = bb[0]
-      }
+     // }
     }
     if (response.data.resultCode == "20101") {
       message.error("未登录，请先登录",5)
-      if (backnum >= 3) {
+     // if (backnum >= 3) {
         window.location.href = bb[0]
-      }
+     // }
     }
     if (response.data.code == "20102") {
       message.error("你的账号已在其他地方登录，请重新登录",5)
-      if (backnum >= 3) {
+     // if (backnum >= 3) {
         window.location.href = bb[0]
-      }
+      //}
     }
     if (response.data.resultCode == "20103") {
       message.error("登录已过期，请重新登录！",5)
-      if (backnum >= 3) {
+    //  if (backnum >= 3) {
         window.location.href = bb[0]
-      }
+     // }
     }
     if (response.data.resultCode == "20104") {
       message.error("登录已失效，请重新登录！",5)
-      if (backnum >= 3) {
+     // if (backnum >= 3) {
         window.location.href = bb[0]
-      }
+     // }
     }
     if (response.data.resultCode == "20105") {
       message.error("登录已失效，请重新登录！",5)
-      if (backnum >= 3) {
+      //if (backnum >= 3) {
         window.location.href = bb[0]
-      }
+     // }
     }
 
     return response;

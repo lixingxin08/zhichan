@@ -1,6 +1,7 @@
 <template>
   <div class="flexcolumn " style='width: 60vw;margin: 0 auto;'>
-    <a-button type='primary' style='width: 108px;margin-top: 20px;margin-bottom: 20px;' @click="edit({enableFlag:-1,remark:''})">+ 新增线路</a-button>
+    <a-button type='primary' style='width: 108px;margin-top: 20px;margin-bottom: 20px;' @click="edit({enableFlag:-1,remark:''})">+
+      新增线路</a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="false">
       <template slot="index" slot-scope="text, record,index">{{(index+1)}}</template>
       <div slot='enableFlag' slot-scope="text, record,index">
@@ -26,10 +27,7 @@
   import tbData from '../../table.json'
   import isEdit from './edit/edit.vue'
   export default {
-    props: {
-      deviceId: String,
-      deviceCode: String
-    },
+
     components: {
       isEdit
     },
@@ -37,7 +35,9 @@
       return {
         isShowEdit: false, //是否展示修改 新增页面
         tableTitle: tbData.tableLineTitle,
-        tableData: []
+        tableData: [],
+        deviceId: '',
+        deviceCode: ''
       }
     },
     methods: {
@@ -51,14 +51,14 @@
       async editCallBack(param) {
         if (param) {
           if (!this.deviceId) {
+            param.deviceId = this.tableData[0].deviceId
+          } else {
             param.deviceId = this.deviceId
-          }else{
-            param.deviceId=this.tableData[0].deviceId
           }
           let res = await this.$http.post(this.$api.devicemonitorboxlinefrom, param)
           if (res.data.resultCode == 10000) {
             this.getLineData()
-             this.$utils.cleanTree()
+            this.$utils.cleanTree()
           } else {
             this.$message.error(res.data.resultMsg)
           }
@@ -73,7 +73,7 @@
         let res = await this.$http.post(this.$api.devicemonitorboxlineremove, param)
         if (res.data.resultCode == 10000) {
           this.getLineData()
-           this.$utils.cleanTree()
+          this.$utils.cleanTree()
         } else {
           this.$message.error(res.data.resultMsg)
         }
@@ -88,9 +88,16 @@
         if (res.data.resultCode == 10000) {
           this.tableData = res.data.data
         }
-        if(this.tableData.length>0){
-           this.$emit('callBackDeviceId', this.tableData[0].deviceId)
+        if (this.tableData.length > 0) {
+          this.$emit('callBackDeviceId', this.tableData[0].deviceId)
         }
+      },
+      updateDeviceId(deviceId){
+        this.deviceId=deviceId
+      },
+      updatedeviceCode(deviceCode){
+        this.deviceCode=deviceCode
+        console.log('------------------------------',this.deviceCode)
       }
     }
   }

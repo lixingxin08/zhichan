@@ -30,13 +30,19 @@
 </script>
 
 <style>
-  #app {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    font-size: 12px;
-    height: 100%;
-  }
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  font-size: 12px;
+  min-width: 1920px;
+  height: 100%;
+  overflow: scroll;
+  box-sizing: border-box;
+}
+#app::-webkit-scrollbar{
+  display: none;
+}
 </style>

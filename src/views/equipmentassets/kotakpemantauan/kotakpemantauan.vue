@@ -16,8 +16,8 @@
           <div style="width: 200px;">
             <a-input placeholder="请输入归属项目" v-model="projectName" />
           </div>
-          <div class='title_tx' style="margin-left: 20px;">监控下状态:</div>
-          <a-select :value="statusCode?statusCode:'全部'" style="width: 200px;" @change="stateSelectChange">
+          <div class='title_tx' style="margin-left: 20px;">监控箱状态:</div>
+          <a-select :value="statusCode>=0?statusCode:'全部'" style="width: 200px;" @change="stateSelectChange">
             <a-select-option key='' value="">
               全部
             </a-select-option>
@@ -89,7 +89,7 @@
         tableTitle: tadata.tableTitle, //表格标题
         tableData: [], //表格数据
         statusCode: '', //状态选择
-        statusCodeList: this.$config.statueList, //下拉选择  监控箱状态
+        statusCodeList: this.$config.lineStatueList, //下拉选择  监控箱状态
         useType: -1, //用途类型
         useTypeList: this.$config.useTypeList,
         keyword: '', //输入框 搜索条件 监控箱名称

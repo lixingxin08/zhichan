@@ -32,7 +32,8 @@
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>监控箱状态:</div>
-        <a-select :disabled='config.lineTotal>0' :value="config.statusCode>=0?config.statusCode:'请选择'" style="width: 667px;" @change="stateSelectChange">
+        <a-select :disabled='config.lineTotal>0' :value="config.statusCode>=0?config.statusCode:'请选择'" style="width: 667px;"
+          @change="stateSelectChange">
           <a-select-option v-for='(item,index) in stageCodeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
@@ -148,6 +149,7 @@
         }
         this.config.areaId = this.areaId
         let res = await this.$http.post(this.$api.devicemonitorboxform, this.config)
+
         this.$emit('callbackDeviceCode', this.config.deviceCode)
         this.$emit('callback', res.data)
       },
@@ -157,12 +159,12 @@
           this.$message.warning('请选择监控箱型号')
           return false
         }
-     
+
         if (!this.$utils.vify_cn50(this.config.deviceName)) {
           this.$message.warning('请监控箱名称格式不对')
           return false
         }
-   
+
         if (!this.$utils.vify_cn50(this.config.deviceCode)) {
           this.$message.warning('请填写监控箱编号')
           return false
@@ -218,16 +220,15 @@
         if (res.data.resultCode == 10000) {
           this.config = res.data.data
           if (this.copy) { //如果是复制 清空选项
-            this.config.deviceCode = ''//编号
-            this.config.imei = ''//通讯模组
-            this.config.iccid = ''//物联卡数据
-            this.config.deviceId = ''//设备id
-            this.config.latitude=''
-            this.config.longitude=''
-            this.config.address=''
-            this.config.lineTotal=0
+            this.config.deviceCode = '' //编号
+            this.config.imei = '' //通讯模组
+            this.config.iccid = '' //物联卡数据
+            this.config.deviceId = '' //设备id
+            this.config.latitude = ''
+            this.config.longitude = ''
+            this.config.address = ''
+            this.config.lineTotal = 0
           }
-		  this.$utils.cleanTree()
           this.getProjectPhase()
           this.$emit('callbackDeviceCode', this.config.deviceCode)
         }
@@ -246,6 +247,9 @@
       /* 监控箱状态 */
       stateSelectChange(e) {
         this.config.statusCode = e
+      },
+      updateDeviceId(deviceId) {
+        this.config.deviceId = deviceId
       },
       showMap() {
         this.visible = true
@@ -273,7 +277,7 @@
       /* 监控箱归属项目*/
       projectSelectChange(e) {
         this.config.projectId = e
-        this.config.phaseId=''
+        this.config.phaseId = ''
         this.getProjectPhase()
       },
       /* 获取项目阶段列表*/

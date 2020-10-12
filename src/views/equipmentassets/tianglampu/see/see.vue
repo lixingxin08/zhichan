@@ -43,7 +43,7 @@
      <div class="flexcolumn" style="width: 100%;">
        <div class="flexrow" v-for='(item2,index2) in item.childrenList' :key='index2'>
          <div class="att-item">{{item2.propertyName}}</div>
-         <div class="att-item">{{item2.propertyCode}}</div>
+         <div class="att-item">{{item2.propertyValue}}</div>
        </div>
      </div>
    </div>
