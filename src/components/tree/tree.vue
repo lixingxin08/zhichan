@@ -50,6 +50,9 @@
         this.$emit("parentdata", selectedNodes.node.$parent.dataRef)
         this.olddata = selectedNodes.selectedNodes[0].data.props
         this.$emit("selectdata", selectedNodes.selectedNodes[0].data.props || "");
+        this.$config.pagination.pageSize = 20
+        this.$config.pagination.current = 1
+        this.$config.pagination.page = 1
       },
       onSearch(value) {
         console.log(value, 88292);

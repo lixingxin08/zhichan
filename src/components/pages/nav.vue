@@ -1,8 +1,10 @@
 <template>
   <a-layout-sider v-model="iscollapsed" class="scroller2" :trigger="null" collapsible collapsedWidth="0">
-    <div class="logo_box flex_a">
-      <img class="logo_img" src="../../assets/nav_img/logo@2x.png" alt />
+    <div class="logo_box flexcolumn flexac">
+      <img class="logo_img" :src="usermsg.customerLogo" alt />
+      <div class="logo_title">{{usermsg.customerName}}</div>
     </div>
+    <div style="height: 2px;background-color: #FFFFFF;width: 90%;margin: 8px auto;"></div>
     <a-menu theme="dark" mode="inline" @click="handleClick" @openChange='openChange' :selected-keys="selectedKeys"
       :open-keys="openKeys">
       <!--  <a-sub-menu v-if='menudata' v-for='(item,index) in menudata' :key='index'>
@@ -63,6 +65,7 @@
     name: "isnav",
     data() {
       return {
+        usermsg: {},
         menudata: [], //树数据
         selectedKeys: [],
         openKeys: []
@@ -73,7 +76,8 @@
     },
 
     created() {
-
+      if (localStorage.getItem("asset"))
+        this.usermsg = JSON.parse(localStorage.getItem("asset"))
       this.getMenuList();
     },
     methods: {
@@ -101,8 +105,8 @@
             navlist
           );
         } else {
-          if(isurl[0].indexOf('localhost')>=0)
-           this.menudata = this.toTree(js.navlist)
+          if (isurl[0].indexOf('localhost') >= 0)
+            this.menudata = this.toTree(js.navlist)
         }
 
       },
@@ -139,6 +143,17 @@
   };
 </script>
 <style scoped>
+  .logo_title {
+    width: 90%;
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+ overflow: hidden;
+ 	text-overflow:ellipsis;
+ 	white-space: nowrap;
+
+  }
+
   .nav_icon {
     width: 14px;
     height: 14px;
@@ -169,8 +184,6 @@
   }
 
   .logo_box {
-    width: 100%;
-    height: 42px;
     margin-top: 16px;
     margin-bottom: 16px;
   }
