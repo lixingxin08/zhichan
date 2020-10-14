@@ -73,17 +73,11 @@
 
       /* 获取表格数据*/
       async getTableData() {
-        if (this.pagination.current == 1)
-          this.pagination.total = 0
         this.tableData = []
-        this.pageparame.pageIndex = this.pagination.current
-        this.pageparame.pageSize = this.pagination.pageSize
         let res = await this.$http.post(this.$api.deviceguaranteepage, this.pageparame)
         if (res.data.resultCode == 10000) {
           if (res.data.data) {
-            this.tableData = res.data.data.list
-            if (this.pagination.current == 1)
-              this.pagination.total = res.data.data.length
+            this.tableData = res.data.data
           }
         } else {
           this.$message.error(res.data.resultMsg)

@@ -1,9 +1,9 @@
 <template>
   <div class="administrativedivision flex_fs">
-   <div class="isleft">
-     <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata' 
-       @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
-   </div>
+    <div class="isleft">
+      <is-expand-tree ref='tree' v-if="showTree" :treedata="treedata" :onLoadData='onLoadData' @parentdata='parentdata'
+        @selectdata="getselectdata" :defaultSelectedKeys="defaultSelectedKeys"></is-expand-tree>
+    </div>
     <div class="content2">
       <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
         <div class="flexrow flexac">
@@ -23,7 +23,8 @@
             </a-select-option>
           </a-select>
 
-          <a-button :disabled="isselectdata.nodeType!='GLP'" style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
+          <a-button :disabled="isselectdata.nodeType!='GLP'" style='margin-left: 20px;margin-right: 20px;' type="primary"
+            @click='getTableData'>查询</a-button>
           <a-button :disabled="isselectdata.nodeType != 'GLP'" @click='cleanSearch'>清除</a-button>
         </div>
 
@@ -46,10 +47,11 @@
             <div class="per-line"></div>
             <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
             <div class="per-line"></div>
-            <a-popconfirm v-if='record.statusCode!=1&&!record.controllerName' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+            <a-popconfirm v-if='record.statusCode!=1&&!record.controllerName' title="确定删除？" ok-text="确定" cancel-text="取消"
+              @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
-              <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
+            <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
@@ -83,6 +85,7 @@
         this.$router.push({
           query: {
             deviceId: item.deviceId,
+            status: item.controllerName ? 0 : 1
           },
           path: '/addlamp'
         })

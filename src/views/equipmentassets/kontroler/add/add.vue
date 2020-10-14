@@ -54,12 +54,12 @@
 
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">通讯模组号(IMEI):</div>
-        <a-input class="edit_item_input" v-model="config.imei" :maxLength='15' placeholder='15位，数字' />
+        <a-input class="edit_item_input" v-model="config.imei" :maxLength='15' placeholder='15位，数字' @change='imeiChange'/>
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">物联数据卡(ICCID):</div>
 
-        <a-input class="edit_item_input" v-model="config.iccid" :maxLength='20' placeholder='20位，数字' />
+        <a-input class="edit_item_input" v-model="config.iccid" :maxLength='20' placeholder='20位，数字' @change='iccidChange'/>
 
       </div>
 
@@ -147,7 +147,6 @@
         let res = await this.$http.post(this.$api.devicepolecontrollerform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
-          this.$router.go(-1)
             this.$router.push('/kontroler')
         } else {
           this.$message.error(res.data.resultMsg)

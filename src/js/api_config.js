@@ -86,7 +86,7 @@ export default {
 
   deviceguaranteeform: base.baseUrl1 + `/device/guarantee/form`, //质保期表单
   deviceguaranteedetail: base.baseUrl1 + `/device/guarantee/detail`, //质保期详情
-  deviceguaranteepage: base.baseUrl1 + `/device/guarantee/page`, //质保期分页
+  deviceguaranteepage: base.baseUrl1 + `/device/guarantee/list`, //质保期分页
 
 
   parampage: base.baseUrl2 + `/propertyValue/detail`, //授权设备运行参数==产品规格

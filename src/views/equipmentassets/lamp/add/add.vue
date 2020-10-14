@@ -46,7 +46,7 @@
 
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first"><span style="color: #FF0000;">*</span>灯具状态:</div>
-        <a-select :value="config.statusCode>=0?config.statusCode:'请选择'" style="width: 667px;" @change="stateSelectChange">
+        <a-select :disabled="status=='0'" :value="config.statusCode>=0?config.statusCode:'请选择'" style="width: 667px;" @change="stateSelectChange">
           <a-select-option v-for='(item,index) in statusCodeList' :key='index' :value="item.comboBoxId">
             {{item.comboBoxName}}
           </a-select-option>
@@ -74,6 +74,7 @@
     data() {
       return {
         deviceId: '',
+        status: 1,
         lineConfig: {}, //线路
         lightConfig: {}, //灯杆
         modelList: [], //型号list
@@ -82,13 +83,14 @@
         config: {
           useType: -1,
           modelId: '',
-          statusCode: -1,
+          statusCode: 1,
           remark: ''
         }
       }
     },
     created() {
       this.deviceId = this.$route.query.deviceId
+      this.status = this.$route.query.status
       this.getModelList()
       this.lightConfig = this.$utils.getLightSelectKey()
       this.lineConfig = this.$utils.getLineSelectKey()
