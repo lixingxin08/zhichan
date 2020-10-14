@@ -49,7 +49,17 @@ export default {
     }
     return true;
   },
-
+ vify_cn20: function(phone) {
+    let myreg = /^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,20}$/gi;
+    if (myreg.test(phone) !== true) {
+      console.log(211);
+      return false;
+    } else {
+      console.log(3111);
+      return true;
+    }
+    return true;
+  },
   //验证邮箱格式
   verEmail: function(str) {
     var re = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;

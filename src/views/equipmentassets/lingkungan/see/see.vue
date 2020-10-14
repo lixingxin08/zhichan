@@ -75,10 +75,10 @@
 	  let res = await this.$http.post(this.$api.parampage, param);
 	  if (res.data.resultCode == 10000) {
 	    let data = []
-	    res.data.data.forEach((item) => {
+	    res.data.data.result.forEach((item) => {
 	      if (item.parentId == '100000000000000000000000000000000000000000000000000000000000') {
 	        item.childrenList = []
-	        res.data.data.forEach((childItem) => {
+	        res.data.data.result.forEach((childItem) => {
 	          if (childItem.parentId == item.propertyId) {
 	            item.childrenList.push(childItem)
 	          }

@@ -1,6 +1,6 @@
 <template>
   <div class="content2">
-    <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
+   <!-- <div class='flexrow flexac flexsb' style="margin-bottom: 20px;">
       <div class="flexrow flexac">
         <div class='title_tx'>归属项目:</div>
         <div style="width: 200px;margin-right: 20px;">
@@ -22,8 +22,8 @@
         <a-button style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
         <a-button @click='cleanSearch'>清除</a-button>
       </div>
-    </div>
-    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
+    </div> -->
+    <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="false"
       @change="handleTableChange">
       <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
       <div slot="deviceOn" slot-scope="text, record">

@@ -1,11 +1,11 @@
 <template>
   <div class="flexcolumn " style='width: 60vw;margin: 0 auto;'>
-    <a-button type='primary' style='width: 108px;margin-top: 20px;margin-bottom: 20px;' @click="edit({enableFlag:-1,remark:''})">+
+    <a-button type='primary' style='width: 108px;margin-top: 20px;margin-bottom: 20px;' @click="edit({enableFlag:0,remark:''})">+
       新增线路</a-button>
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="false">
       <template slot="index" slot-scope="text, record,index">{{(index+1)}}</template>
       <div slot='enableFlag' slot-scope="text, record,index">
-        {{record.enableFlag==1?'启用':'备用'}}
+          {{record.enableFlag==0?'备用':(record.enableFlag==1?'启用':'已报废')}}
       </div>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
