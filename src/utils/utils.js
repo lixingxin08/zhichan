@@ -49,6 +49,17 @@ export default {
     }
     return true;
   },
+  vify_cn30: function(phone) {
+    let myreg = /^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,30}$/gi;
+    if (myreg.test(phone) !== true) {
+      console.log(211);
+      return false;
+    } else {
+      console.log(3111);
+      return true;
+    }
+    return true;
+  },
   vify_cn20: function(phone) {
     let myreg = /^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,20}$/gi;
     if (myreg.test(phone) !== true) {

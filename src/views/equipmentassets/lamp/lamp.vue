@@ -46,7 +46,7 @@
             <div class="per-line"></div>
             <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
             <div class="per-line"></div>
-            <a-popconfirm v-if='record.statusCode!=1' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
+            <a-popconfirm v-if='record.statusCode!=1&&!record.controllerName' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
               <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
             </a-popconfirm>
               <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>

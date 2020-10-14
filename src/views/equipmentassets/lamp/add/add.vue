@@ -80,7 +80,7 @@
         statusCodeList: this.$config.lineStatueList, //路灯杆状态
         lanternsList: this.$config.lanternsList,
         config: {
-          useType:-1,
+          useType: -1,
           modelId: '',
           statusCode: -1,
           remark: ''
@@ -102,12 +102,20 @@
           this.$message.warning('请选择灯具型号')
           return
         }
-        if (this.config.useType<0) {
+        if (this.config.useType < 0) {
           this.$message.warning('请选择灯具类型')
+          return
+        }
+        if (!this.$utils.vify_cn30(this.config.deviceName)) {
+          this.$message.warning('灯具名称请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
           return
         }
         if (!this.config.deviceName) {
           this.$message.warning('请填写灯具名称')
+          return
+        }
+        if (!this.$utils.vify_cn30(this.config.deviceName)) {
+          this.$message.warning('灯具编号请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
           return
         }
         if (!this.config.deviceCode) {
@@ -119,7 +127,7 @@
           return
         }
         this.config.poleId = this.lightConfig.id
-        let res =await this.$http.post(this.$api.devicelampform, this.config)
+        let res = await this.$http.post(this.$api.devicelampform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
           this.$router.push('./lamp')
@@ -162,10 +170,10 @@
           this.getDetail()
         } else {
           this.config = {
-           useType:-1,
-           modelId: '',
-           statusCode: -1,
-           remark: ''
+            useType: -1,
+            modelId: '',
+            statusCode: -1,
+            remark: ''
           }
         }
       }

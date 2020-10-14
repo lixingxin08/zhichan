@@ -155,11 +155,11 @@
            this.$message.warning('请输入路灯杆名称')
           return
         }
-        if (!this.$utils.vify_cn50(this.config.deviceName)) {
+        if (!this.$utils.vify_cn30(this.config.deviceName)) {
           this.$message.warning('请检查路灯杆名称格式')
           return
         }
-        if (!this.$utils.vify_cn50(this.config.deviceCode)) {
+        if (!this.$utils.vify_cn30(this.config.deviceCode)) {
           this.$message.warning('请检查路灯杆编号格式')
           return
         }

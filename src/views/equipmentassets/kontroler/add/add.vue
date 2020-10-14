@@ -117,8 +117,16 @@
           this.$message.warning('请选择控制器型号')
           return
         }
+        if (!this.$utils.vify_cn30(this.config.deviceName)) {
+          this.$message.warning('控制器名称请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
+          return
+        }
         if (!this.config.deviceName) {
           this.$message.warning('请填写控制器名称')
+          return
+        }
+        if (!this.$utils.vify_cn30(this.config.deviceName)) {
+          this.$message.warning('控制器编号请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
           return
         }
         if (!this.config.deviceCode) {
