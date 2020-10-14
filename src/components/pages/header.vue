@@ -13,7 +13,7 @@
             <div class="head_r"></div>
             <div class="head_r" @click="backhome()">返回首页</div>
             <div class="head_r head_r_last">
-              <img src="../../assets/nav_img/icon_z_jichu.png" alt class="head_r_img" />
+              <img :src="user.customerLogo" alt class="head_r_img" />
               {{user.realName}}
             </div>
           </div>
@@ -56,6 +56,7 @@
       },
     },
     created() {
+           this.user = JSON.parse(localStorage.getItem("asset"));
       this.gettitle()
     },
     watch: {
