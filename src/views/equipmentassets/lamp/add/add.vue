@@ -100,18 +100,23 @@
       async submit() {
         if (!this.config.modelId) {
           this.$message.warning('请选择灯具型号')
+          return
         }
         if (this.config.useType<0) {
           this.$message.warning('请选择灯具类型')
+          return
         }
         if (!this.config.deviceName) {
           this.$message.warning('请填写灯具名称')
+          return
         }
         if (!this.config.deviceCode) {
           this.$message.warning('请选择灯具编号')
+          return
         }
         if (this.config.statusCode < 0) {
           this.$message.warning('请选择灯具状态')
+          return
         }
         this.config.poleId = this.lightConfig.id
         let res =await this.$http.post(this.$api.devicelampform, this.config)
