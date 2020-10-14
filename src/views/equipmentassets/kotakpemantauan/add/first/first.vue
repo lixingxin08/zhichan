@@ -147,8 +147,10 @@
         if (!this.getMontiorStatue()) {
           return
         }
-        this.config.imei=parseInt(this.config.imei)
-        this.config.iccid-parseInt(this.config.iccid)
+        if (this.config.imei)
+          this.config.imei = parseInt(this.config.imei)
+        if (this.config.iccid)
+          this.config.iccid = parseInt(this.config.iccid)
         this.config.areaId = this.areaId
         let res = await this.$http.post(this.$api.devicemonitorboxform, this.config)
 
