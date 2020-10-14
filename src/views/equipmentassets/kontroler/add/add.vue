@@ -133,7 +133,7 @@
           this.$message.warning('请填写控制器编号')
           return
         }
-        if (!this.config.deviceCode) {
+        if (!this.config.lampId) {
           this.$message.warning('请选择控制的灯具')
           return
         }
