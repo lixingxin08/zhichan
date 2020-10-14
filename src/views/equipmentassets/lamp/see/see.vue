@@ -12,16 +12,19 @@
       <a-descriptions-item label="灯具编号">
         {{config.deviceCode}}
       </a-descriptions-item>
-      <a-descriptions-item label="灯具状态" :span="2">
+      <a-descriptions-item label="灯具类型":span="2">
+        {{config.useType==0?'LED灯':'高压钠灯'}}
+      </a-descriptions-item>
+      <a-descriptions-item label="灯具状态" >
         {{config.statusCode==0?'备用':(config.statusCode==1?'启用':'报废')}}
       </a-descriptions-item>
-      <a-descriptions-item label="归属路灯杆">
+      <a-descriptions-item label="归属路灯杆" :span="2">
         {{lightConfig.name}}
       </a-descriptions-item>
-      <a-descriptions-item label="归属线路" :span="2">
+      <a-descriptions-item label="归属线路" >
         {{lineConfig.name}}
       </a-descriptions-item>
-      <a-descriptions-item label="控制器名称">
+      <a-descriptions-item label="控制器名称" :span="2">
         {{config.controlName}}
       </a-descriptions-item>
     </a-descriptions>
