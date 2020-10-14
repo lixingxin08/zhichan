@@ -30,6 +30,7 @@
     name: "isheader",
     data() {
       return {
+        oldval: '',
         iscollapsed: false,
         title: [],
         user: "",
@@ -38,7 +39,10 @@
     },
     methods: {
       backlast() {
-        this.$router.go(-1);
+        if (this.oldval)
+          this.$router.go(-1);
+        else
+          this.$router.push(this.oldval)
       },
       changecollapsed() {
         this.iscollapsed = !this.iscollapsed;
@@ -56,12 +60,13 @@
       },
     },
     created() {
-           this.user = JSON.parse(localStorage.getItem("asset"));
+      this.user = JSON.parse(localStorage.getItem("asset"));
       this.gettitle()
     },
     watch: {
       $route: function(val, oldval) {
         console.log(val, oldval, 112);
+        this.oldval = oldval.path
         if (val.path.search("/add") >= 0 || val.path.search("/see") >= 0) {
           this.addtype = true;
         } else {
