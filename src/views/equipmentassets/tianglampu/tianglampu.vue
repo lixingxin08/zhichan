@@ -39,12 +39,13 @@
               {{item.comboBoxName}}
             </a-select-option>
           </a-select>
-          <a-button :disabled="isselectdata.nodeType!='ECB'" style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
+          <a-button :disabled="isselectdata.nodeType!='ECB'" style='margin-left: 20px;margin-right: 20px;' type="primary"
+            @click='getTableData'>查询</a-button>
           <a-button :disabled="isselectdata.nodeType != 'ECB'" @click='cleanSearch'>清除</a-button>
         </div>
 
       </div>
-      <div class="flexrow" >
+      <div class="flexrow">
         <a-button :disabled="isselectdata.nodeType!='ECB'" class='base_add88_btn' type='primary' @click='edit({})'>
           <a-icon two-tone-color="#ffffff" type="plus" /> 新增</a-button>
         <a-button :disabled="isselectdata.nodeType!='ECB'" class='copy_btn' type='primary' @click='copy'>复制</a-button>
@@ -69,15 +70,17 @@
             <div class="per-line"></div>
             <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
             <div class="per-line"></div>
-            <a-popconfirm v-if='record.deviceTotal<=0&&record.statusCode!=1' title="确定删除？" ok-text="确定" cancel-text="取消"
-              @confirm="confirmDelete(record)">
-              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-            </a-popconfirm>
+
+            <a v-if='record.deviceTotal<=0&&record.statusCode!=1' href="#" style='color: #FF0000;font-size: 12px;'
+              @click="deleteItem(record)">删除</a>
+
             <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
     </div>
+    <a-popconfirm-delete ref='delete' @confirm="confirmDelete">
+    </a-popconfirm-delete>
   </div>
 </template>
 <!-- 路灯杆信息-->
@@ -108,6 +111,10 @@
       this.gettree()
     },
     methods: {
+      /* 删除提示*/
+      deleteItem(item) {
+        this.$refs.delete.show(item)
+      },
       /* 编辑 新增*/
       edit(item) {
         this.$router.push({
@@ -131,8 +138,8 @@
       /* 获取表格数据*/
       async getTableData() {
         this.tableData = []
-        if(this.isselectdata.nodeType!='ECB')
-        return
+        if (this.isselectdata.nodeType != 'ECB')
+          return
         if (this.pagination.current == 1)
           this.pagination.total = 0
         let param = {
@@ -179,7 +186,7 @@
         let res = await this.$http.post(this.$api.devicelightpoleremove, param)
         if (res.data.resultCode == 10000) {
           this.getTableData()
-        this.$config.treeData=[]
+          this.$config.treeData = []
           this.$message.success(res.data.resultMsg)
         } else {
           this.$message.error(res.data.resultMsg)
@@ -235,7 +242,7 @@
         if (!val)
           return
         localStorage.setItem('tianglampu', JSON.stringify(val))
-        this.lineList=[]
+        this.lineList = []
         this.isselectdata = val;
         this.getLineListData()
         this.getTableData()
@@ -249,8 +256,8 @@
         this.getTableData()
       },
       async getLineListData() {
-        if(this.isselectdata.nodeType!='ECB')
-        return
+        if (this.isselectdata.nodeType != 'ECB')
+          return
         this.lineList = []
         let param = {
           deviceId: this.isselectdata.id

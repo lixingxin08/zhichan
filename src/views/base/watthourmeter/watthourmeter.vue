@@ -10,11 +10,13 @@
           <div class='title_tx'>区划名称:</div>
           <a-input placeholder="请输入区划名称" v-model="keyword" />
 
-          <a-button :disabled='isselectdata.deviceTotal>0' style='margin-left: 20px;margin-right: 20px;' type="primary" @click='getTableData'>查询</a-button>
+          <a-button :disabled='isselectdata.deviceTotal>0' style='margin-left: 20px;margin-right: 20px;' type="primary"
+            @click='getTableData'>查询</a-button>
           <a-button :disabled='isselectdata.deviceTotal>0' @click='cleanSearch'>清除</a-button>
         </div>
       </div>
-      <a-button :disabled='isselectdata.deviceTotal>0' class='base_add88_btn' type='primary' @click='edit({})'>  <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
+      <a-button :disabled='isselectdata.deviceTotal>0' class='base_add88_btn' type='primary' @click='edit({})'>
+        <a-icon two-tone-color="#ffffff" type="plus" />新增</a-button>
       <a-table :scroll="{  y: 625 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="pagination"
         @change="handleTableChange">
         <template slot="index" slot-scope="text, record,index">{{(index+1)+((pagination.current-1)*10)}}</template>
@@ -25,14 +27,15 @@
           <div class="flexrow flexac flexjc">
             <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
             <div style="height: 20px;width: 1px;background-color: #e5e5e5;margin-left: 20px;margin-right: 20px;"></div>
-            <a-popconfirm title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
-              <a href="#" v-if="record.childTotal<=0&&record.deviceTotal<=0" style='color: #FF0000;font-size: 12px;'>删除</a>
-              <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
-            </a-popconfirm>
+            <a href="#" v-if="record.childTotal<=0&&record.deviceTotal<=0" style='color: #FF0000;font-size: 12px;'
+              @click="deleteItem(record)">删除</a>
+            <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
     </div>
+    <a-popconfirm-delete ref='delete' @confirm="confirmDelete">
+    </a-popconfirm-delete>
   </div>
 
 </template>
@@ -55,7 +58,7 @@
       }
     },
     created() {
-      console.log(this.$api.areastree,898989899);
+      console.log(this.$api.areastree, 898989899);
       this.gettree()
     },
     methods: {
@@ -67,6 +70,10 @@
             areaId: item.areaId
           }
         });
+      },
+      /* 删除提示*/
+      deleteItem(item) {
+        this.$refs.delete.show(item)
       },
       /* 获取表格数据*/
       async getTableData() {

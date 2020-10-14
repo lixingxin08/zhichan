@@ -46,14 +46,16 @@
             <div class="per-line"></div>
             <a href="#" style='font-size: 12px;' @click="see(record)">预览</a>
             <div class="per-line"></div>
-            <a-popconfirm v-if='record.statusCode!=1' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
-              <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-            </a-popconfirm>
+       
+              <a  v-if='record.statusCode!=1' href="#" style='color: #FF0000;font-size: 12px;'  @click="deleteItem(record)">删除</a>
+          
             <a href="#" v-else style='color: #CCCCCC;font-size: 12px;'>删除</a>
           </div>
         </template>
       </a-table>
     </div>
+    <a-popconfirm-delete ref='delete' @confirm="confirmDelete">
+    </a-popconfirm-delete>
   </div>
 </template>
 <!-- 广播-->
@@ -78,6 +80,10 @@
      this.gettree()
     },
     methods: {
+      /* 删除提示*/
+      deleteItem(item) {
+        this.$refs.delete.show(item)
+      },
       /* 编辑 新增*/
       edit(item) {
         this.$router.push({

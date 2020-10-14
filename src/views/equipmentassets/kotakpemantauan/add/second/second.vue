@@ -5,20 +5,19 @@
     <a-table :scroll="{  y: 700 }" :columns="tableTitle" :data-source="tableData" bordered size="small" :pagination="false">
       <template slot="index" slot-scope="text, record,index">{{(index+1)}}</template>
       <div slot='enableFlag' slot-scope="text, record,index">
-          {{record.enableFlag==0?'备用':(record.enableFlag==1?'启用':'已报废')}}
+        {{record.enableFlag==0?'备用':(record.enableFlag==1?'启用':'已报废')}}
       </div>
       <template slot="operation" slot-scope="text, record">
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
           <div class="per-line"></div>
-          <a-popconfirm v-if='record.poleTotal<=0' title="确定删除？" ok-text="确定" cancel-text="取消" @confirm="confirmDelete(record)">
-            <a href="#" style='color: #FF0000;font-size: 12px;'>删除</a>
-          </a-popconfirm>
+            <a href="#" v-if='record.poleTotal<=0' style='color: #FF0000;font-size: 12px;'  @click="deleteItem(record)">删除</a>
           <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
         </div>
       </template>
     </a-table>
-
+  <a-popconfirm-delete ref='delete' @confirm="confirmDelete">
+    </a-popconfirm-delete>
     <is-edit ref='edit' v-show="isShowEdit" @callback='editCallBack'></is-edit>
   </div>
 </template>
@@ -41,6 +40,10 @@
       }
     },
     methods: {
+      /* 删除提示*/
+      deleteItem(item) {
+        this.$refs.delete.show(item)
+      },
       /* 新增修改*/
       edit(item) {
 
@@ -58,7 +61,7 @@
           let res = await this.$http.post(this.$api.devicemonitorboxlinefrom, param)
           if (res.data.resultCode == 10000) {
             this.getLineData()
-            this.$utils.cleanTree()
+            this.$config.treeData=[]
           } else {
             this.$message.error(res.data.resultMsg)
           }
@@ -73,7 +76,7 @@
         let res = await this.$http.post(this.$api.devicemonitorboxlineremove, param)
         if (res.data.resultCode == 10000) {
           this.getLineData()
-          this.$utils.cleanTree()
+          this.$config.treeData = []
         } else {
           this.$message.error(res.data.resultMsg)
         }
@@ -92,11 +95,11 @@
           this.$emit('callBackDeviceId', this.tableData[0].deviceId)
         }
       },
-      updateDeviceId(deviceId){
-        this.deviceId=deviceId
+      updateDeviceId(deviceId) {
+        this.deviceId = deviceId
       },
-      updatedeviceCode(deviceCode){
-        this.deviceCode=deviceCode
+      updatedeviceCode(deviceCode) {
+        this.deviceCode = deviceCode
       }
     }
   }
