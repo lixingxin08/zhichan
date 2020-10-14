@@ -164,21 +164,22 @@
           return false
         }
 
-        if (!this.$utils.vify_cn50(this.config.deviceName)) {
-          this.$message.warning('请监控箱名称格式不对')
-          return false
-        }
-
-        if (!this.$utils.vify_cn50(this.config.deviceCode)) {
-          this.$message.warning('请填写监控箱编号')
-          return false
-        }
+        
         if (!this.config.deviceCode) {
           this.$message.warning('请输入监控箱编号')
           return false
         }
         if (!this.config.deviceName) {
           this.$message.warning('请输入监控箱名称')
+          return false
+        }
+        if (!this.$utils.vify_cn30(this.config.deviceName)) {
+          this.$message.warning('监控箱名称请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
+          return false
+        }
+        
+        if (!this.$utils.vify_cn30(this.config.deviceCode)) {
+          this.$message.warning('监控箱编号请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
           return false
         }
         if (this.config.statusCode < 0) {

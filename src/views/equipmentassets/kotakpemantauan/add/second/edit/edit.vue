@@ -60,12 +60,13 @@
         this.param = JSON.parse(localStorage.getItem('cache'))
       },
       submit() {
-        if (!this.$utils.vify_cn20(this.param.lineName)) {
-          this.$message.warning('线路名称格式错误')
-          return
-        }
+       
         if (!this.param.lineName) {
           this.$message.warning('线路名称不能为空');
+          return
+        }
+        if (!this.$utils.vify_cn20(this.param.lineName)) {
+          this.$message.warning('线路名称请输入20字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
           return
         }
         if (!this.param.switchNo) {
