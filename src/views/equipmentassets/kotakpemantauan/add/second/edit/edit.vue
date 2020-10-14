@@ -60,7 +60,7 @@
         this.param = JSON.parse(localStorage.getItem('cache'))
       },
       submit() {
-        if (!this.$utils.vify_cn20(this.config.lineName)) {
+        if (!this.$utils.vify_cn20(this.param.lineName)) {
           this.$message.warning('线路名称格式错误')
           return
         }

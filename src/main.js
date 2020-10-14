@@ -95,7 +95,7 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyMjIyNzk0NTkyLCJ0b2tlbklkIjoiMDBlM2IwMWNmYmM4NDhkZWFmNGYwYWQxNjRlMGI0NjQiLCJ1c2VySWQiOiI0ZTgxNWU2NDQxMWM0YWFiYWI2NjhjYmVlODkwNzdlOCJ9.keVTegBYdE5QIQW9MshCjmkeWECbm4ZppDtF66RBhQ0"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNjUwNzQwMzIwLCJ0b2tlbklkIjoiZjk1NWIzM2MyYzJjNDY1NTlmNDQyNDczN2QxZDc1YjAiLCJ1c2VySWQiOiI0YjdmYmMyYWFkOTI0ZWM3YWQ3OTYxOTIxNmIzNmVhYyJ9.dZnCidzYp0oC10GlmkL2Qw0C5OWNkVYl1E2Xt_k0D2I"
 
     } else {
       if(localStorage.getItem('asset'))
@@ -110,7 +110,7 @@ axios.interceptors.request.use(
 )
 let backnum = 0
 let thisurl = window.location.href.split('/#')
-let bb = thisurl[0].split('/authorization')
+let bb = thisurl[0].split('/asset')
 axios.interceptors.response.use(
   response => {
     backnum++

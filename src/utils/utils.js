@@ -49,7 +49,7 @@ export default {
     }
     return true;
   },
- vify_cn20: function(phone) {
+  vify_cn20: function(phone) {
     let myreg = /^[\u4e00-\u9fa5a-z0-9A-Z\（\）\(\)\d_]{0,20}$/gi;
     if (myreg.test(phone) !== true) {
       console.log(211);
@@ -135,7 +135,7 @@ export default {
   /* 获取选择的线路数据*/
   getLineSelectKey() {
     let item = localStorage.getItem("lineSelectKey")
-    if(item!='undefined')
+    if (item != 'undefined')
       return JSON.parse(item)
     return {}
   },
@@ -145,6 +145,8 @@ export default {
   },
   /* 获取缓存的灯杆的数据*/
   getLightSelectKey() {
+    if (!localStorage.getItem("lightTreeSelectKey"))
+      return null
     return JSON.parse(localStorage.getItem("lightTreeSelectKey"))
   },
   setAreaId(data) {
@@ -153,5 +155,5 @@ export default {
   getAreaId() {
     return JSON.parse(localStorage.getItem("areaId"))
   },
- 
+
 }

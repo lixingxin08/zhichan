@@ -97,7 +97,6 @@
       },
       updatedeviceCode(deviceCode){
         this.deviceCode=deviceCode
-        console.log('------------------------------',this.deviceCode)
       }
     }
   }
