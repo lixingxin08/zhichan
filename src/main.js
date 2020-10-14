@@ -69,7 +69,8 @@ Vue.use(ConfigProvider)
 import md5 from 'js-md5';
 Vue.prototype.$md5 = md5
 
-
+import aPopconfirmDelete from './components/popconfirm/popconfirm.vue'
+Vue.component("aPopconfirmDelete", aPopconfirmDelete);
 
 
 window.addEventListener(
@@ -95,7 +96,7 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNjUwNzQwMzIwLCJ0b2tlbklkIjoiZjk1NWIzM2MyYzJjNDY1NTlmNDQyNDczN2QxZDc1YjAiLCJ1c2VySWQiOiI0YjdmYmMyYWFkOTI0ZWM3YWQ3OTYxOTIxNmIzNmVhYyJ9.dZnCidzYp0oC10GlmkL2Qw0C5OWNkVYl1E2Xt_k0D2I"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNjcwODcyOTQxLCJ0b2tlbklkIjoiNDMzMjFlYTU1NzI5NDBiYWIxZjVkNmQwNDAwMjgxYWEiLCJ1c2VySWQiOiI0YjdmYmMyYWFkOTI0ZWM3YWQ3OTYxOTIxNmIzNmVhYyJ9.6ynKH-NeOnpjIMVv-92tqOz7wHF1HVFHpQAvLDow3Aw"
 
     } else {
       if(localStorage.getItem('asset'))
