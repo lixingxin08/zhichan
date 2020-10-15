@@ -11,12 +11,12 @@
         <div class="flexrow flexac flexjc">
           <a href="#" style='font-size: 12px;' @click="edit(record)">编辑</a>
           <div class="per-line"></div>
-            <a href="#" v-if='record.poleTotal<=0' style='color: #FF0000;font-size: 12px;'  @click="deleteItem(record)">删除</a>
+          <a href="#" v-if='record.poleTotal<=0' style='color: #FF0000;font-size: 12px;' @click="deleteItem(record)">删除</a>
           <a v-else href="#" style='color: #CCCCCC;font-size: 12px;'>删除</a>
         </div>
       </template>
     </a-table>
-  <a-popconfirm-delete ref='delete' @confirm="confirmDelete">
+    <a-popconfirm-delete ref='delete' @confirm="confirmDelete">
     </a-popconfirm-delete>
     <is-edit ref='edit' v-show="isShowEdit" @callback='editCallBack'></is-edit>
   </div>
@@ -61,7 +61,7 @@
           let res = await this.$http.post(this.$api.devicemonitorboxlinefrom, param)
           if (res.data.resultCode == 10000) {
             this.getLineData()
-            this.$config.treeData=[]
+            this.$config.treeData = []
           } else {
             this.$message.error(res.data.resultMsg)
           }

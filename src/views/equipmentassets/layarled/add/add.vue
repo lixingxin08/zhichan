@@ -113,7 +113,7 @@
           this.$message.warning('请填写发布屏编号')
           return
         }
-        if (!this.$utils.vify_cn30(this.config.deviceName)) {
+        if (!this.$utils.vify_cn30(this.config.deviceCode)) {
           this.$message.warning('发布屏编号请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
           return
         }

@@ -54,12 +54,12 @@
 
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">通讯模组号(IMEI):</div>
-        <a-input class="edit_item_input" v-model="config.imei" :maxLength='15' placeholder='15位，数字' @change='imeiChange'/>
+        <a-input class="edit_item_input" v-model="config.imei" :maxLength='15' placeholder='15位，数字' @change='imeiChange' />
       </div>
       <div class="flexrow flexac edit_item_ko_first">
         <div class="edit_item_title_ko_first">物联数据卡(ICCID):</div>
 
-        <a-input class="edit_item_input" v-model="config.iccid" :maxLength='20' placeholder='20位，数字' @change='iccidChange'/>
+        <a-input class="edit_item_input" v-model="config.iccid" :maxLength='20' placeholder='20位，数字' @change='iccidChange' />
 
       </div>
 
@@ -83,8 +83,8 @@
   export default {
     data() {
       return {
-       lineConfig: {}, //线路
-       lightConfig: {}, //灯杆
+        lineConfig: {}, //线路
+        lightConfig: {}, //灯杆
         deviceId: '', //设备id
         modelList: [], //型号List
         lanternsList: [], //灯具list
@@ -92,7 +92,7 @@
         config: { //设备详情
           modelId: '',
           remark: '',
-          lampId:'',
+          lampId: '',
           statusCode: -1
         }
       }
@@ -125,7 +125,7 @@
           this.$message.warning('请填写控制器名称')
           return
         }
-        if (!this.$utils.vify_cn30(this.config.deviceName)) {
+        if (!this.$utils.vify_cn30(this.config.deviceCode)) {
           this.$message.warning('控制器编号请输入30字以内，中文汉字、英文字母、数字、英文下划线、中英文小括号')
           return
         }
@@ -133,7 +133,7 @@
           this.$message.warning('请填写控制器编号')
           return
         }
-        if (!this.config.deviceCode) {
+        if (!this.config.lampId) {
           this.$message.warning('请选择控制的灯具')
           return
         }
@@ -142,12 +142,14 @@
           return
         }
         this.config.poleId = this.lightConfig.id
-		this.config.imei=parseInt(this.config.imei)
-		this.config.iccid-parseInt(this.config.iccid)
+        if (this.config.imei)
+          this.config.imei = parseInt(this.config.imei)
+        if (this.config.iccid)
+          this.config.iccid = parseInt(this.config.iccid)
         let res = await this.$http.post(this.$api.devicepolecontrollerform, this.config)
         if (res.data.resultCode == 10000) {
           this.$message.success(res.data.resultMsg)
-            this.$router.push('/kontroler')
+          this.$router.push('/kontroler')
         } else {
           this.$message.error(res.data.resultMsg)
         }
@@ -201,7 +203,7 @@
           this.config = { //设备详情
             modelId: '',
             remark: '',
-            lampId:'',
+            lampId: '',
             statusCode: -1
           }
         }
@@ -210,19 +212,19 @@
       modelSelectChange(e) {
         this.config.modelId = e
       },
-	  imeiChange(e) {
-	    this.config.imei = this.config.imei.replace(/[^0-9]/ig, "")
-	  },
-	  iccidChange(e) {
-	     this.config.iccid = this.config.iccid.replace(/[^0-9]/ig, "")
-	  },
+      imeiChange(e) {
+        this.config.imei = this.config.imei.replace(/[^0-9]/ig, "")
+      },
+      iccidChange(e) {
+        this.config.iccid = this.config.iccid.replace(/[^0-9]/ig, "")
+      },
       /* 状态选择*/
       stateSelectChange(e) {
         this.config.statusCode = e
       },
       /* 控制灯具选择*/
       lanternsSelectChange(e) {
-        this.config.lampId=e
+        this.config.lampId = e
       }
     }
   }
