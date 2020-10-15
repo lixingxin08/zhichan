@@ -4,9 +4,9 @@
       <isnav :iscollapsed="collapsed"></isnav>
       <a-layout class='scroller'>
         <ishead @tocollapsed="getcollapsed"></ishead>
-        <a-layout-content style='margin: 20px;background-color: #FFFFFF;'>
-          <keep-alive :include="isinclude">
-            <router-view v-if="isRouterShow"></router-view>
+        <a-layout-content style="background-color: #FFFFFF;margin: 20px;">
+          <keep-alive :include="isinclude" >
+            <router-view style="background-color: #FFFFFF;margin-bottom: 20px;"></router-view>
           </keep-alive>
         </a-layout-content>
       </a-layout>

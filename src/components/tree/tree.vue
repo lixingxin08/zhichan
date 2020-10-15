@@ -75,7 +75,7 @@
   .istree {
  width: auto;
  text-align: left;
- height: 85vh;
+ height: 100%;
  overflow-x: scroll;
  -webkit-overflow-scrolling: touch;
  overflow-scrolling: touch;

@@ -96,7 +96,7 @@ axios.interceptors.request.use(
     // 每次发送请求之前判断vuex中是否存在token
     let token = ""
     if (window.location.host.indexOf("localhost") >= 0) {
-      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNjcwODcyOTQxLCJ0b2tlbklkIjoiNDMzMjFlYTU1NzI5NDBiYWIxZjVkNmQwNDAwMjgxYWEiLCJ1c2VySWQiOiI0YjdmYmMyYWFkOTI0ZWM3YWQ3OTYxOTIxNmIzNmVhYyJ9.6ynKH-NeOnpjIMVv-92tqOz7wHF1HVFHpQAvLDow3Aw"
+      token ="eyJhbGciOiJIUzI1NiIsIlR5cGUiOiJKd3QiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmVzIjoxNjAyNjgxMjUxMTY0LCJ0b2tlbklkIjoiNDIyNTAzYmU0ODJmNDBlZTg3ODE1NjJhNWE4ODE0OTgiLCJ1c2VySWQiOiI0YjdmYmMyYWFkOTI0ZWM3YWQ3OTYxOTIxNmIzNmVhYyJ9.Lkq4cXwdY0vxD5EBmhNXbXZJ-dyDZl0vTg4ls7uxRp8"
 
     } else {
       if(localStorage.getItem('asset'))
