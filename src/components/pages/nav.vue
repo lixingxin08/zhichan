@@ -96,7 +96,7 @@
         let isurl2 = isurl[1].split('/')
         if (localStorage.getItem("asset")) {
           let navlist = JSON.parse(localStorage.getItem("asset")).navlist
-          navlist = navlist.filter(item => item.menuType <= 3000)
+          navlist=navlist.filter(item=>item.menuType<=3000)
           for (let i = 0; i < navlist.length; i++) {
             if (navlist[i].linkURL == isurl2[0]) {
               this.selectedKeys = navlist[i].menuName
@@ -149,9 +149,9 @@
     margin-top: 5px;
     font-size: 15px;
     font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+ overflow: hidden;
+ 	text-overflow:ellipsis;
+ 	white-space: nowrap;
 
   }
 
